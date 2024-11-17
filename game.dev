@@ -1,17 +1,17 @@
 ﻿[Project]
-filename=GameProject-S3.dev
-name=GameProject-S3
+filename=game.dev
+name=games
 Type=1
 Ver=2
 ObjFiles=
-Includes="C:\Users\MRZUBAIRY\OneDrive\NED\DSAA\DSAA Project\dsa project\dsa project\SDL2\x86_64-w64-mingw32\include"
-Libs="C:\Users\MRZUBAIRY\OneDrive\NED\DSAA\DSAA Project\dsa project\dsa project\SDL2\x86_64-w64-mingw32\lib"
+Includes=C:\Users\rzuba\OneDrive\Documents\c\SDL_Window\SDL_Window\SDL2-2.0.16\x86_64-w64-mingw32\include
+Libs=C:\Users\rzuba\OneDrive\Documents\c\SDL_Window\SDL_Window\SDL2-2.0.16\x86_64-w64-mingw32\lib
 PrivateResource=
 ResourceIncludes=
 MakeIncludes=
 Compiler=
 CppCompiler=
-Linker=SDL2_ttf.dll_@@_SDL2_mixer.dll_@@_SDL2_image.dll_@@_SDL2.dll_@@_
+Linker=assets/dll/SDL2.dll_@@_assets/dll/SDL2_image.dll_@@_assets/dll/SDL2_mixer.dll_@@_assets/dll/SDL2_ttf.dll_@@_
 IsCpp=1
 Icon=
 ExeOutput=
@@ -19,7 +19,7 @@ ObjectOutput=
 LogOutput=
 LogOutputEnabled=0
 OverrideOutput=0
-OverrideOutputName=GameProject-S3.exe
+OverrideOutputName=game.exe
 HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
@@ -28,8 +28,8 @@ Folders=
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=3
-CompilerSettings=0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;8;0;0;0
-UnitCount=16
+CompilerSettings=0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;1;0;0;0;8;0;0;0
+UnitCount=7
 
 [VersionInfo]
 Major=1
@@ -51,17 +51,7 @@ AutoIncBuildNr=0
 SyncProduct=1
 
 [Unit3]
-FileName=maze.cpp
-CompileCpp=1
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=$(CPP) -c Maze1.cpp -o Maze1.o $(CXXFLAGS)
-
-[Unit4]
-FileName=maze.h
+FileName=src\basescreen.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -70,18 +60,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit1]
-FileName=games.cpp
-CompileCpp=1
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=$(CPP) -c main2.cpp -o main2.o $(CXXFLAGS)
-
-[Unit5]
-FileName=zombie.h
+[Unit4]
+FileName=src\games.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -91,7 +71,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit7]
-FileName=loose.h
+FileName=src\button.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -181,17 +161,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit2]
-FileName=zombie.cpp
-CompileCpp=1
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=$(CPP) -c ZOMBIE.cpp -o ZOMBIE.o $(CXXFLAGS)
-
-[Unit6]
-FileName=loose.cpp
+FileName=src\menu.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -202,6 +172,36 @@ BuildCmd=
 
 [Unit16]
 FileName=mines.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit1]
+FileName=src\menu.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit5]
+FileName=src\basescreen.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit6]
+FileName=src\button.cpp
 CompileCpp=1
 Folder=
 Compile=1

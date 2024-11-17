@@ -21,7 +21,7 @@ class Win : public BaseScreen {
 		SDL_Texture* bg1;
 		int bg1X, bg1Y, gx;
 		Animation girlAnimation;
-	
+
 
 	public:
 		void load(SDL_Renderer* renderer);

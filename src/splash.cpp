@@ -11,7 +11,7 @@
 
 using namespace std;
 void Splash::load(	SDL_Renderer* renderer) {
-
+	this->renderer=renderer;
 // Function prototypes
 	SDL_Surface* surface;
 	surface = IMG_Load("splash.png");
@@ -86,16 +86,20 @@ void Splash::render() {
 	// Render back button
 	SDL_SetRenderDrawColor(renderer, 40, 40, 50, 255);
 	SDL_Rect backButton = {20, 20, 100, 40};
-	DrawRoundedRect(renderer, backButton.x, backButton.y,
-	                backButton.w, backButton.h);
-	renderText(renderer,font, "Back",
-	           35, 25, textColor);
+	DrawRoundedRect(backButton.x, backButton.y, backButton.w, backButton.h);
+	renderText(font, "Back", 35, 25, textColor);
 	SDL_RenderPresent(renderer);
 
 
 }
-void Splash::renderText(TTF_Font* font, const char* text,
-                        int x, int y, SDL_Color color) {
+// Helper function to draw rounded rectangle
+void Splash::DrawRoundedRect( int x, int y, int w, int h) {
+	// Draw the middle rectangle
+	SDL_Rect rect = {x, y, w, h};
+	SDL_RenderFillRect(renderer, &rect);
+}
+
+void Splash::renderText(TTF_Font* font, const char* text, int x, int y, SDL_Color color) {
 	SDL_Surface* surface = TTF_RenderText_Blended(font, text, color);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 
@@ -105,12 +109,12 @@ void Splash::renderText(TTF_Font* font, const char* text,
 	SDL_FreeSurface(surface);
 	SDL_DestroyTexture(texture);
 }
-	void Splash::cleanUp() {
+void Splash::cleanUp() {
 
-		// Clean up resources
-		SDL_DestroyTexture(bg1);
+	// Clean up resources
+	SDL_DestroyTexture(bg1);
 //    SDL_DestroyTexture(bg2);
 //	Mix_FreeMusic(music);
-		Mix_CloseAudio();
+	Mix_CloseAudio();
 //	return 0;
-	}
+}

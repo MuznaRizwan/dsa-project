@@ -79,7 +79,7 @@ void Win::handleEvents() {
 
 void Win::render() {
 
-	girlAnimation.update();
+//	girlAnimation.update();
 
 	// Clear screen
 	SDL_RenderClear(renderer);
@@ -91,7 +91,7 @@ void Win::render() {
 	//SDL_RenderCopy(renderer, bg2, NULL, &bgRect2);
 
 	// Render girl animation
-	girlAnimation.render(renderer, gx /*(SCREEN_WIDTH - 100) / 2*/, SCREEN_HEIGHT - 200);
+//	girlAnimation.render(renderer, gx /*(SCREEN_WIDTH - 100) / 2*/, SCREEN_HEIGHT - 200);
 
 	// Render text
 	SDL_Color white = { 255, 255, 255 };
@@ -122,7 +122,7 @@ void Win::renderText(TTF_Font* font, const char* text,
 void Win::cleanUp() {
 
 	// Clean up resources
-	girlAnimation.cleanUp();
+//	girlAnimation.cleanUp();
 	SDL_DestroyTexture(bg1);
 //    SDL_DestroyTexture(bg2);
 //	Mix_FreeMusic(music);

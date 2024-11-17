@@ -55,7 +55,7 @@ struct GameState {
 	int selectedGame;
 	GameScreen previousScreen;
 	int hoveredGame;
-	string backgrounds[8] = {"maze.png","minesweeper.png","zombie.png","menu.png","loose.png","win.png","credits.png"};
+	string backgrounds[8] = {"assets/images/maze.png","assets/images/minesweeper.png","assets/images/zombie.png","assets/images/menu.png","assets/images/loose.png","assets/images/win.png","assets/images/credits.png"};
 	SDL_Texture* creditsScreenTexture;
 	SDL_Texture* menuScreenTexture;
 //	SDL_Texture* looseScreenTexture;
@@ -64,8 +64,8 @@ struct GameState {
 //	SDL_Texture* zombieScreenTexture;
 //	SDL_Texture* mazeScreenTexture;
 	SDL_Texture* minesweeperScreenTexture;
-    BaseScreen* cScreen;
-    //Loose* looseScreen = new ;
+	BaseScreen* cScreen;
+	//Loose* looseScreen = new ;
 };
 
 // Helper function to draw rounded rectangle
@@ -102,7 +102,7 @@ bool initGame(GameState* game) {
 	                                    SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 	// Load font
-	game->font = TTF_OpenFont("arial.ttf", 24);
+	game->font = TTF_OpenFont("assets/font/arial.ttf", 24);
 	if (!game->font) {
 		printf("Font loading failed: %s\n", TTF_GetError());
 		return false;
@@ -110,7 +110,7 @@ bool initGame(GameState* game) {
 
 	// Initialize games array
 	const char* gameNames[GAME_COUNT] = {"Mines Sweeper", "Sugar Rush", "Zombies World"};
-	const char* gameImages[GAME_COUNT] = {"icon1.png", "icon2.png", "icon3.png"};
+	const char* gameImages[GAME_COUNT] = {"assets/images/icon1.png", "assets/images/icon2.png", "assets/images/icon3.png"};
 
 	for (int i = 0; i < GAME_COUNT; i++) {
 		SDL_Surface* surface = IMG_Load(gameImages[i]);
@@ -133,7 +133,7 @@ bool initGame(GameState* game) {
 //	game->splashScreenTexture = SDL_CreateTextureFromSurface(game->renderer, surface);
 //	SDL_FreeSurface(surface);
 
-	surface = IMG_Load("menu.png");
+	surface = IMG_Load("assets/images/menu.png");
 	if (!surface) {
 		printf("Failed to load image %s: %s\n", "menu.png", IMG_GetError());
 		return false;
@@ -142,7 +142,7 @@ bool initGame(GameState* game) {
 	SDL_FreeSurface(surface);
 
 
-	surface = IMG_Load("overlay_logos.png");
+	surface = IMG_Load("assets/images/overlay_logos.png");
 	if (!surface) {
 		printf("Failed to load image %s: %s\n", "overlay_logos.png", IMG_GetError());
 		return false;
@@ -158,7 +158,7 @@ bool initGame(GameState* game) {
 //	game->mazeScreenTexture = SDL_CreateTextureFromSurface(game->renderer, surface);
 //	SDL_FreeSurface(surface);
 
-	surface = IMG_Load("minesweeper.png");
+	surface = IMG_Load("assets/images/minesweeper.png");
 	if (!surface) {
 		printf("Failed to load image %s: %s\n", "minesweeper.png", IMG_GetError());
 		return false;
@@ -188,7 +188,7 @@ bool initGame(GameState* game) {
 //		return false;
 //	}
 
-	surface = IMG_Load("credits.png");
+	surface = IMG_Load("assets/images/credits.png");
 	if (!surface) {
 		printf("Failed to load image %s: %s\n", "credits.png", IMG_GetError());
 		return false;
@@ -198,9 +198,9 @@ bool initGame(GameState* game) {
 
 
 	// Load audio
-	game->bgMusic = Mix_LoadMUS("background_music.mp3");
-	game->hoverSound = Mix_LoadWAV("hover.wav");
-	game->selectSound = Mix_LoadWAV("select.wav");
+	game->bgMusic = Mix_LoadMUS("assets/audio/background_music.mp3");
+	game->hoverSound = Mix_LoadWAV("assets/audio/hover.wav");
+	game->selectSound = Mix_LoadWAV("assets/audio/select.wav");
 
 	game->previousScreen = SPLASH_SCREEN;
 	game->currentScreen = MENU_SCREEN;
@@ -230,10 +230,10 @@ void cleanupGame(GameState* game) {
 void handleEvents(GameState* game, bool* quit) {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
-if(game->cScreen!=nullptr && game->currentScreen==game->previousScreen){
-	game->cScreen->handleEvents(/*game,quit,*/event);
-}
-			if (event.type == SDL_QUIT) {
+		if(game->cScreen!=nullptr && game->currentScreen==game->previousScreen) {
+			game->cScreen->handleEvents(/*game,quit,*/event);
+		}
+		if (event.type == SDL_QUIT) {
 			*quit = true;
 		} /*else if (event.type == SDL_MOUSEMOTION && game->currentScreen == MENU_SCREEN) {
 			int mouseX, mouseY;
@@ -364,145 +364,145 @@ void renderText(SDL_Renderer* renderer, TTF_Font* font, const char* text,
 void renderMain(GameState* game) {
 	SDL_SetRenderDrawColor(game->renderer, 20, 20, 30, 255);
 	SDL_RenderClear(game->renderer);
-if(game->cScreen!=nullptr && game->currentScreen==game->previousScreen){
-game->cScreen->render();
-}
-if(game->currentScreen!=game->previousScreen){
-    game->cScreen = new Menu();
+	if(game->cScreen!=nullptr && game->currentScreen==game->previousScreen) {
+		game->cScreen->render();
+	}
+	if(game->currentScreen!=game->previousScreen) {
+		game->cScreen = new Menu();
 
-game->cScreen->load(game->renderer);
-game->previousScreen=game->currentScreen;
-}
-/*	} else if (game->currentScreen == MENU_SCREEN) {
-		// Render game MENUs as rounded rectangles on the left
-		for (int i = 0; i < GAME_COUNT; i++) {
-			SDL_Rect gameRect = {306, 370, 400, 200};
+		game->cScreen->load(game->renderer);
+		game->previousScreen=game->currentScreen;
+	}
+	/*	} else if (game->currentScreen == MENU_SCREEN) {
+			// Render game MENUs as rounded rectangles on the left
+			for (int i = 0; i < GAME_COUNT; i++) {
+				SDL_Rect gameRect = {306, 370, 400, 200};
 
-			// Draw highlight for hovered/selected game
-			if (i == game->hoveredGame) {
-				SDL_SetRenderDrawColor(game->renderer, 60, 60, 80, 255);
-				DrawRoundedRect(game->renderer, gameRect.x - 5, gameRect.y - 5,
-				                gameRect.w + 10, gameRect.h + 10);
+				// Draw highlight for hovered/selected game
+				if (i == game->hoveredGame) {
+					SDL_SetRenderDrawColor(game->renderer, 60, 60, 80, 255);
+					DrawRoundedRect(game->renderer, gameRect.x - 5, gameRect.y - 5,
+					                gameRect.w + 10, gameRect.h + 10);
+				}
+
+				// Draw game thumbnail
+				SDL_SetRenderDrawColor(game->renderer, 40, 40, 50, 255);
+				DrawRoundedRect(game->renderer, gameRect.x, gameRect.y,
+				                gameRect.w, gameRect.h);
+				SDL_RenderCopy(game->renderer, game->games[i].texture, NULL, &gameRect);
 			}
 
-			// Draw game thumbnail
-			SDL_SetRenderDrawColor(game->renderer, 40, 40, 50, 255);
-			DrawRoundedRect(game->renderer, gameRect.x, gameRect.y,
-			                gameRect.w, gameRect.h);
-			SDL_RenderCopy(game->renderer, game->games[i].texture, NULL, &gameRect);
-		}
+			// Show selected game name on the right
+			if (game->hoveredGame != -1) {
+				SDL_Color textColor = {255, 255, 255, 255};
+				renderText(game->renderer, game->font, game->games[game->hoveredGame].name,
+				           500, WINDOW_HEIGHT/2, textColor);
 
-		// Show selected game name on the right
-		if (game->hoveredGame != -1) {
+			}
+			SDL_RenderPresent(game->renderer);
+		}
+	//    else if (game->currentScreen == DETAIL_SCREEN) {
+	//        // Render full-screen game image
+	//        SDL_Rect fullRect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
+	//        SDL_RenderCopy(game->renderer, game->games[game->selectedGame].texture,
+	//                      NULL, &fullRect);
+	//
+	//        // Render game name in bottom right
+	//        SDL_Color textColor = {255, 255, 255, 255};
+	//        renderText(game->renderer, game->font, game->games[game->selectedGame].name,
+	//                  WINDOW_WIDTH - 300, WINDOW_HEIGHT - 50, textColor);
+	//
+	//        // Render back button
+	//        SDL_SetRenderDrawColor(game->renderer, 40, 40, 50, 255);
+	//        SDL_Rect backButton = {20, 20, 100, 40};
+	//        DrawRoundedRect(game->renderer, backButton.x, backButton.y,
+	//                       backButton.w, backButton.h, 10);
+	//        renderText(game->renderer, game->font, "Back",
+	//                  35, 25, textColor);
+	//    }
+		else if (game->currentScreen == CREDITS_SCREEN) {
+			// Render full-screen game image
 			SDL_Color textColor = {255, 255, 255, 255};
-			renderText(game->renderer, game->font, game->games[game->hoveredGame].name,
-			           500, WINDOW_HEIGHT/2, textColor);
 
+			SDL_Rect fullRect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
+			SDL_RenderCopy(game->renderer, game->creditsScreenTexture,
+			               NULL, &fullRect);
+			// Render back button
+			SDL_SetRenderDrawColor(game->renderer, 40, 40, 50, 255);
+			SDL_Rect backButton = {20, 20, 100, 40};
+			DrawRoundedRect(game->renderer, backButton.x, backButton.y,
+			                backButton.w, backButton.h);
+			renderText(game->renderer, game->font, "Back",
+			           35, 25, textColor);
+			SDL_RenderPresent(game->renderer);
+		} else if (game->currentScreen == LOOSE_SCREEN) {
+			// Render full-screen game image
+	//		SDL_Color textColor = {255, 255, 255, 255};
+	//
+	//		SDL_Rect fullRect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
+	//		SDL_RenderCopy(game->renderer, game->looseScreenTexture,
+	//		               NULL, &fullRect);
+	//		// Render back button
+	//		SDL_SetRenderDrawColor(game->renderer, 40, 40, 50, 255);
+	//		SDL_Rect backButton = {20, 20, 100, 40};
+	//		DrawRoundedRect(game->renderer, backButton.x, backButton.y,
+	//		                backButton.w, backButton.h);
+	//		renderText(game->renderer, game->font, "Back",
+	//		           35, 25, textColor);
+	//		SDL_RenderPresent(game->renderer);
+			game->looseScreen->render();
+		} else if (game->currentScreen == WIN_SCREEN) {
+			// Render full-screen game image
+	//		SDL_Color textColor = {255, 255, 255, 255};
+	//
+	//		SDL_Rect fullRect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
+	//		SDL_RenderCopy(game->renderer, game->winScreenTexture,
+	//		               NULL, &fullRect);
+	//		// Render back button
+	//		SDL_SetRenderDrawColor(game->renderer, 40, 40, 50, 255);
+	//		SDL_Rect backButton = {20, 20, 100, 40};
+	//		DrawRoundedRect(game->renderer, backButton.x, backButton.y,
+	//		                backButton.w, backButton.h);
+	//		renderText(game->renderer, game->font, "Back",
+	//		           35, 25, textColor);
+	//		SDL_RenderPresent(game->renderer);
+			game->winScreen->render();
 		}
-		SDL_RenderPresent(game->renderer);
-	}
-//    else if (game->currentScreen == DETAIL_SCREEN) {
-//        // Render full-screen game image
-//        SDL_Rect fullRect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
-//        SDL_RenderCopy(game->renderer, game->games[game->selectedGame].texture,
-//                      NULL, &fullRect);
-//
-//        // Render game name in bottom right
-//        SDL_Color textColor = {255, 255, 255, 255};
-//        renderText(game->renderer, game->font, game->games[game->selectedGame].name,
-//                  WINDOW_WIDTH - 300, WINDOW_HEIGHT - 50, textColor);
-//
-//        // Render back button
-//        SDL_SetRenderDrawColor(game->renderer, 40, 40, 50, 255);
-//        SDL_Rect backButton = {20, 20, 100, 40};
-//        DrawRoundedRect(game->renderer, backButton.x, backButton.y,
-//                       backButton.w, backButton.h, 10);
-//        renderText(game->renderer, game->font, "Back",
-//                  35, 25, textColor);
-//    }
-	else if (game->currentScreen == CREDITS_SCREEN) {
-		// Render full-screen game image
-		SDL_Color textColor = {255, 255, 255, 255};
 
-		SDL_Rect fullRect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
-		SDL_RenderCopy(game->renderer, game->creditsScreenTexture,
-		               NULL, &fullRect);
-		// Render back button
-		SDL_SetRenderDrawColor(game->renderer, 40, 40, 50, 255);
-		SDL_Rect backButton = {20, 20, 100, 40};
-		DrawRoundedRect(game->renderer, backButton.x, backButton.y,
-		                backButton.w, backButton.h);
-		renderText(game->renderer, game->font, "Back",
-		           35, 25, textColor);
-		SDL_RenderPresent(game->renderer);
-	} else if (game->currentScreen == LOOSE_SCREEN) {
-		// Render full-screen game image
-//		SDL_Color textColor = {255, 255, 255, 255};
-//
-//		SDL_Rect fullRect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
-//		SDL_RenderCopy(game->renderer, game->looseScreenTexture,
-//		               NULL, &fullRect);
-//		// Render back button
-//		SDL_SetRenderDrawColor(game->renderer, 40, 40, 50, 255);
-//		SDL_Rect backButton = {20, 20, 100, 40};
-//		DrawRoundedRect(game->renderer, backButton.x, backButton.y,
-//		                backButton.w, backButton.h);
-//		renderText(game->renderer, game->font, "Back",
-//		           35, 25, textColor);
-//		SDL_RenderPresent(game->renderer);
-		game->looseScreen->render();
-	} else if (game->currentScreen == WIN_SCREEN) {
-		// Render full-screen game image
-//		SDL_Color textColor = {255, 255, 255, 255};
-//
-//		SDL_Rect fullRect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
-//		SDL_RenderCopy(game->renderer, game->winScreenTexture,
-//		               NULL, &fullRect);
-//		// Render back button
-//		SDL_SetRenderDrawColor(game->renderer, 40, 40, 50, 255);
-//		SDL_Rect backButton = {20, 20, 100, 40};
-//		DrawRoundedRect(game->renderer, backButton.x, backButton.y,
-//		                backButton.w, backButton.h);
-//		renderText(game->renderer, game->font, "Back",
-//		           35, 25, textColor);
-//		SDL_RenderPresent(game->renderer);
-		game->winScreen->render();
-	}
+	//    switch (game->currentScreen) {
+	//        case MENU_SCREEN: {
+	//            // Render background and buttons for the MENU screen
+	////            SDL_RenderCopy(game->renderer, game->backgrounds[MENU_SCREEN], NULL, NULL);
+	//
+	//            // Render MENU options (could be car images or game buttons)
+	//            SDL_Rect option1 = {50, 100, 700, 100};
+	//            SDL_Rect option2 = {50, 250, 700, 100};
+	//
+	//            SDL_SetRenderDrawColor(game->renderer, 100, 100, 200, 255);
+	//            SDL_RenderFillRect(game->renderer, &option1);  // Button for Zombie Sweeper
+	//            SDL_RenderFillRect(game->renderer, &option2);  // Button for Maze Game
+	//            break;
+	//        }
 
-//    switch (game->currentScreen) {
-//        case MENU_SCREEN: {
-//            // Render background and buttons for the MENU screen
-////            SDL_RenderCopy(game->renderer, game->backgrounds[MENU_SCREEN], NULL, NULL);
-//
-//            // Render MENU options (could be car images or game buttons)
-//            SDL_Rect option1 = {50, 100, 700, 100};
-//            SDL_Rect option2 = {50, 250, 700, 100};
-//
-//            SDL_SetRenderDrawColor(game->renderer, 100, 100, 200, 255);
-//            SDL_RenderFillRect(game->renderer, &option1);  // Button for Zombie Sweeper
-//            SDL_RenderFillRect(game->renderer, &option2);  // Button for Maze Game
-//            break;
-//        }
-
-	else if(game->currentScreen == ZOMBIE_SCREEN) {
-		// Call the zombie game function or code here
-		zombieMain();
-		game->currentScreen = MENU_SCREEN;
-	}
+		else if(game->currentScreen == ZOMBIE_SCREEN) {
+			// Call the zombie game function or code here
+			zombieMain();
+			game->currentScreen = MENU_SCREEN;
+		}
 
 
-	else if(game->currentScreen == MAZE_SCREEN) {
-		// Call the maze game function or code here
-		mazeMain();
-		game->currentScreen = MENU_SCREEN;
-//	} else if(game->currentScreen == MINESWEEPER_SCREEN) {
-//		// Call the maze game function or code here
-//		mineSweeperMain();
-//		game->currentScreen = MENU_SCREEN;
-	} else {
-		// Call the maze game function or code here
-		game->currentScreen = MENU_SCREEN;
-	}*/
+		else if(game->currentScreen == MAZE_SCREEN) {
+			// Call the maze game function or code here
+			mazeMain();
+			game->currentScreen = MENU_SCREEN;
+	//	} else if(game->currentScreen == MINESWEEPER_SCREEN) {
+	//		// Call the maze game function or code here
+	//		mineSweeperMain();
+	//		game->currentScreen = MENU_SCREEN;
+		} else {
+			// Call the maze game function or code here
+			game->currentScreen = MENU_SCREEN;
+		}*/
 }
 
 
@@ -515,6 +515,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	while (!quit) {
+		SDL_PumpEvents(); // Update the event state
 		handleEvents(&game, &quit);
 		renderMain(&game);
 	}

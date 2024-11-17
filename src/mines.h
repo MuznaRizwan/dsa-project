@@ -17,7 +17,7 @@ class Mines : public BaseScreen {
 		SDL_Renderer* renderer;
 		SDL_Texture* bg1;
 		int bg1X, bg1Y, gx;
-			public:
+	public:
 		void load(SDL_Renderer* renderer);
 		void handleEvents(SDL_Event event);
 		void render();

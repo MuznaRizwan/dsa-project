@@ -1,50 +1,10 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "menu.h"
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
-#include <vector>
+#include "menu.h"
 
 using namespace std;
-
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
-
-// Class to represent a button
-class Button {
-	public:
-		SDL_Rect rect;//SDL_Rect=data type and rect is a variable for drawing rectangle later in the program
-		string label;//variable of type string which stores the name of assets
-		SDL_Color color;//stores color of rectangle of type SDL_Color
-
-		Button(int x, int y, int width, int height,  const char* text, const string& label,  SDL_Color color)
-		: label(label), color(color) { //Button is a parametrized constructor with 7 parameters being passed and a member initialization list which initialises label and color
-			rect = { x, y, width, height };//rect is a structure of the constructor that has 4 variables which cannot be initialised in the member nitialisation list
-		}
-		Button() = default;//default constructor
-
-		void render(SDL_Renderer* renderer, TTF_Font* font) {//render is a function of type void
-			// Draw button background
-			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);//renderDrawColor draws renderer
-			SDL_RenderFillRect(renderer, &rect);//color fill
-
-			// Render label
-			SDL_Color textColor = { 255, 255, 255 }; // White text
-			rendererText(renderer, font, label, rect.x + (rect.w - getTextWidth(font, label)) / 2, rect.y + (rect.h - 20) / 2, textColor);
-		}
-		bool isClicked(int x, int y) const;//function of type bool
-		bool isClicked(int mouseX, int mouseY) {//function of
-			return mouseX >= rect.x && mouseX <= rect.x + rect.w && mouseY >= rect.y && mouseY <= rect.y + rect.h;
-		}
-};
-void Menu::renderText(TTF_Font* font, const char* text, SDL_Color color, int x, int y) {
-	SDL_Surface* surface = TTF_RenderText_Solid(font, text, color);
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_Rect destRect = { x, y, surface->w, surface->h };
-	SDL_RenderCopy(renderer, texture, nullptr, &destRect);
-	SDL_FreeSurface(surface);
-	SDL_DestroyTexture(texture);
-}
 
 // Function prototypes
 //bool init(SDL_Window*& window, SDL_Renderer*& renderer);
@@ -57,35 +17,68 @@ void Menu::load(SDL_Renderer* renderer) {
 	this->renderer = renderer;
 
 	// Load font
-	TTF_Font* font = TTF_OpenFont("arial.ttf", 28); // Replace with your font file
+	font = TTF_OpenFont("assets/font/arial.ttf", 28); // Replace with your font file
 	if (!font) {
 		cerr << "Failed to load font: " << TTF_GetError() << endl;
-		close(window, renderer, font);
-		return -1;
 	}
 
 	SDL_Color buttonColor = { 255, 0, 0, 255 }; // Red
-	vector<Button> buttons;
-	buttons.emplace_back(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 25, 100, 50, "Play", buttonColor);
-	buttons.emplace_back(SCREEN_WIDTH - 100, 10, 80, 30, "Credits", { 0, 255, 0, 255 }); // Green
-	buttons.emplace_back(SCREEN_WIDTH - 60, 50, 80, 30, "Menu", { 0, 0, 255, 255 }); // Blue
+
+//	Button b(0,0,100,30,"Hello World",(SDL_Color){ 0, 255, 0, 255 });
+//	buttons.push_back(b);
+//	buttons.push_back(make_shared<Button>(0,0,100,30,"Hello World",(SDL_Color){ 0, 255, 0, 255 }));
+//	buttons[0] = b;
+//	buttons[1] = b;
+//	buttons[2] = b;
+	/*{			}
+	Button(0,  0,100,50,"B-001",(SDL_Color){ 0, 255, 0, 255 }),
+	Button(0,100,100,50,"B-002",(SDL_Color){ 0, 255, 0, 255 }),
+	Button(0,200,100,50,"B-003",(SDL_Color){ 0, 255, 0, 255 })
+	};*/
+
+//	buttons.emplace_back(b);
+//	buttons[0] = b;
+//	buttons.emplace_back(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 25, 100, 50, "Play", buttonColor);
+//	buttons.emplace_back(SCREEN_WIDTH - 100, 10, 80, 30, "Credits", (SDL_Color){ 0, 255, 0, 255 }); // Green
+//	buttons.emplace_back(SCREEN_WIDTH - 60, 50, 80, 30, "Menu", (SDL_Color){ 0, 0, 255, 255 }); // Blue
+
+	Button b(0,0,90,50,"Game-0",(SDL_Color) {
+		0, 255, 0, 255
+	});
+
+	int i=0;
+	string bLabels[3] = {"Play","Credits","Menu"};
+	for (auto& button : buttons) {
+		b.rect.x+=100;
+		b.label = bLabels[i++];
+		button = Button(b);
+	}
 }
-void Menu::handleEvent(SDL_Event event) {
+
+void Menu::handleEvents(SDL_Event event) {
 	bool running = true;
 	if (event.type == SDL_QUIT) {
 		running = false;
 	} else if (event.type == SDL_MOUSEBUTTONDOWN) {
-		int mouseX, mouseY;
+		int mouseX=0, mouseY=0;
 		SDL_GetMouseState(&mouseX, &mouseY);
-		handleButtonClicks(buttons, mouseX, mouseY);
+		handleButtonClicks(/*buttons,*/ mouseX, mouseY);
 	}
 }
+
 void Menu::render() {
 	// Clear the screen
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black background
 	SDL_RenderClear(renderer);
 
 	// Render buttons
+//	for (auto& button : buttons) {
+//		button.render(renderer, font);
+//	}
+
+//	Button b(0,0,100,30,"Hello World",(SDL_Color){ 0, 255, 0, 255 });
+//	b.render(renderer, font);
+
 	for (auto& button : buttons) {
 		button.render(renderer, font);
 	}
@@ -115,12 +108,15 @@ int Menu::getTextWidth(TTF_Font* font, const char* text) {
 	return width;
 }
 
-
-void Menu::handleButtonClicks(const vector<Button>& buttons, int mouseX, int mouseY) {
-	for (const auto& button : buttons) {
+//void Menu::handleButtonClicks(const vector<Button>& buttons, int mouseX, int mouseY) {
+//void Menu::handleButtonClicks(vector<Button>& buttons, int mouseX, int mouseY) {
+void Menu::handleButtonClicks(/*Button buttons[],*/ int mouseX, int mouseY) {
+//	for (const auto& button : buttons) {
+	for (auto& button : buttons) {
 		if (button.isClicked(mouseX, mouseY)) {
+			cout << button.label << " button clicked!" << endl;
 			if (button.label == "Play") {
-				cout << "Play button clicked!" << endl;
+				cout << "Play" << "Play button clicked!" << endl;
 				// Implement game start logic here
 			} else if (button.label == "Credits") {
 				cout << "Credits button clicked!" << endl;

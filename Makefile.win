@@ -1,0 +1,58 @@
+# Project: games
+# Makefile created by Embarcadero Dev-C++ 6.3
+
+CPP      = g++.exe -D__DEBUG__
+CC       = gcc.exe -D__DEBUG__
+WINDRES  = windres.exe
+OBJ      = src/menu.o src/games.o src/basescreen.o src/button.o src/splash.o src/loose.o src/win.o src/maze.o src/mines.o src/zombie.o src/animation.o
+LINKOBJ  = src/menu.o src/games.o src/basescreen.o src/button.o src/splash.o src/loose.o src/win.o src/maze.o src/mines.o src/zombie.o src/animation.o
+LIBS     = -L"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/lib32" -static-libgcc -L"C:/Users/rzuba/OneDrive/Documents/c/SDL_Window/SDL_Window/SDL2-2.0.16/x86_64-w64-mingw32/lib" assets/dll/SDL2.dll assets/dll/SDL2_image.dll assets/dll/SDL2_mixer.dll assets/dll/SDL2_ttf.dll -m32 -g3
+INCS     = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"C:/Users/rzuba/OneDrive/Documents/c/SDL_Window/SDL_Window/SDL2-2.0.16/x86_64-w64-mingw32/include"
+CXXINCS  = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/c++" -I"C:/Users/rzuba/OneDrive/Documents/c/SDL_Window/SDL_Window/SDL2-2.0.16/x86_64-w64-mingw32/include"
+BIN      = game.exe
+CXXFLAGS = $(CXXINCS) -m32 -g3
+CFLAGS   = $(INCS) -m32 -g3
+DEL      = C:\Program Files (x86)\Embarcadero\Dev-Cpp\DevCpp.exe INTERNAL_DEL
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${DEL} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+src/menu.o: src/menu.cpp
+	$(CPP) -c src/menu.cpp -o src/menu.o $(CXXFLAGS)
+
+src/games.o: src/games.cpp
+	$(CPP) -c src/games.cpp -o src/games.o $(CXXFLAGS)
+
+src/basescreen.o: src/basescreen.cpp
+	$(CPP) -c src/basescreen.cpp -o src/basescreen.o $(CXXFLAGS)
+
+src/button.o: src/button.cpp
+	$(CPP) -c src/button.cpp -o src/button.o $(CXXFLAGS)
+
+src/splash.o: src/splash.cpp
+	$(CPP) -c src/splash.cpp -o src/splash.o $(CXXFLAGS)
+
+src/loose.o: src/loose.cpp
+	$(CPP) -c src/loose.cpp -o src/loose.o $(CXXFLAGS)
+
+src/win.o: src/win.cpp
+	$(CPP) -c src/win.cpp -o src/win.o $(CXXFLAGS)
+
+src/maze.o: src/maze.cpp
+	$(CPP) -c src/maze.cpp -o src/maze.o $(CXXFLAGS)
+
+src/mines.o: src/mines.cpp
+	$(CPP) -c src/mines.cpp -o src/mines.o $(CXXFLAGS)
+
+src/zombie.o: src/zombie.cpp
+	$(CPP) -c src/zombie.cpp -o src/zombie.o $(CXXFLAGS)
+
+src/animation.o: src/animation.cpp
+	$(CPP) -c src/animation.cpp -o src/animation.o $(CXXFLAGS)

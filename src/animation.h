@@ -26,6 +26,7 @@ class Animation {
 
 		Animation();
 
+		void load();
 		void update();
 		void render(SDL_Renderer* renderer, int x, int y);
 		void cleanUp();

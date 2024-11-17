@@ -1,8 +1,12 @@
 #ifndef MENU_H
 #define MENU_H
 #include <string>
+#include <iostream>
+#include <vector>
+#include <memory>
 #include <SDL2/SDL_ttf.h>
 #include "basescreen.h"
+#include "button.h"
 
 using namespace std;
 
@@ -18,14 +22,24 @@ class Menu : public BaseScreen {
 		SDL_Renderer* renderer;
 		SDL_Texture* bg1;
 		int bg1X, bg1Y, gx;
+		// const vector<Button>& buttons;
+//		vector<Button>& buttons;
+//		vector<shared_ptr<Button>> buttons;
+		Button buttons[3] = { Button(), Button(), Button() };
+
+//		std::array<Button, 3> buttons;
+		TTF_Font* font;
 
 	public:
-		void load(SDL_Renderer* renderer);
-		void handleEvents(SDL_Event event);
-		void render();
-		void renderText(TTF_Font* font, const char* text,
-		                int x, int y, SDL_Color color);
-		void cleanUp();
+		void load(SDL_Renderer* renderer) override ;
+		void handleEvents(SDL_Event event) override ;
+		void render() override ;
+		void renderText(TTF_Font* font, const string& text, int x, int y, SDL_Color color);
+		void cleanUp() override ;
+//		void handleButtonClicks(const vector<Button>& buttons, int mouseX, int mouseY);
+//		void handleButtonClicks(vector<Button>& buttons, int mouseX, int mouseY);
+		void handleButtonClicks(/*Button buttons[],*/ int mouseX, int mouseY);
+		int getTextWidth(TTF_Font* font, const char* text);
 };
 
 #endif

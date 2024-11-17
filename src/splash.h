@@ -30,8 +30,8 @@ class Splash : public BaseScreen {
 		void load(SDL_Renderer* renderer);
 		void handleEvents(SDL_Event event);
 		void render();
-		void renderText(TTF_Font* font, const char* text,
-		                int x, int y, SDL_Color color);
+		void renderText(TTF_Font* font, const char* text, int x, int y, SDL_Color color);
+		void DrawRoundedRect( int x, int y, int w, int h);
 		void cleanUp();
 };
 

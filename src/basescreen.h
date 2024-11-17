@@ -1,10 +1,18 @@
 #ifndef BASE_H
 #define BASE_H
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
+#include <stdio.h>
+#include <string>
+
 class BaseScreen {
 	public:
-		handleEvents(SDL_Event event); //-keymouse keypress
-		cleanUp();//-clean free surfaces
-		load(SDL_Renderer* renderer);//-load the textures, font
-		render();//-screen draw
+		virtual void handleEvents(SDL_Event event) = 0; //-keymouse keypress
+		virtual void cleanUp() = 0; //-clean free surfaces
+		virtual void load(SDL_Renderer* renderer) = 0; //-load the textures, font
+		virtual void render() = 0; //-screen draw
 };
 #endif
