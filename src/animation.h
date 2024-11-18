@@ -16,9 +16,9 @@ using namespace std;
 class Animation {
 
 	public:
-		string background="animation.png";
-		string asset1="playb.png";
-		string asset2="creditsb.png";
+		string background="assets/images/animation.png";
+		string asset1="assets/images/playb.png";
+		string asset2="assets/images/creditsb.png";
 		vector<SDL_Texture*> frames = {};
 		int currentFrame;
 		Uint32 lastFrameTime;

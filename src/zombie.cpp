@@ -116,7 +116,7 @@ int zombieMain() {
 	SDL_Window* window = SDL_CreateWindow("Zombie Shooter", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-	font = TTF_OpenFont("arial.ttf", 28);
+	font = TTF_OpenFont("assets/font/arial.ttf", 28);
 	if (!font) {
 		printf("Failed to load font! TTF_Error: %s", TTF_GetError());
 		return -1;

@@ -100,16 +100,16 @@ class Game {
 				return false;
 			}
 
-			backgroundTexture = loadTexture("bg1.png");
-			floorTexture = loadTexture("floor.png");
-			roofTexture = loadTexture("bg1t.png");
-			backgroundTexture2 = loadTexture("bg2t.png");  // Additional background 1
-			backgroundTexture3 = loadTexture("bg2.png");  // Additional background 2
-			backgroundTexture4 = loadTexture("gummy-bear.png");
-			cellTexture = loadTexture("cell.png");
-			playerTexture = loadTexture("flag3.png");
-			sunTexture = loadTexture("flag.png");  // Sun texture
-			lollipopTexture = loadTexture("bomb.png");  // Lollipop texture
+			backgroundTexture = loadTexture("assets/images/bg1.png");
+			floorTexture = loadTexture("assets/images/floor.png");
+			roofTexture = loadTexture("assets/images/bg1t.png");
+			backgroundTexture2 = loadTexture("assets/images/bg2t.png");  // Additional background 1
+			backgroundTexture3 = loadTexture("assets/images/bg2.png");  // Additional background 2
+			backgroundTexture4 = loadTexture("assets/images/gummy-bear.png");
+			cellTexture = loadTexture("assets/images/cell.png");
+			playerTexture = loadTexture("assets/images/flag3.png");
+			sunTexture = loadTexture("assets/images/flag.png");  // Sun texture
+			lollipopTexture = loadTexture("assets/images/bomb.png");  // Lollipop texture
 
 			if (!cellTexture || !playerTexture || !backgroundTexture || !backgroundTexture2 || !backgroundTexture3 || !backgroundTexture4 || !sunTexture || !lollipopTexture || !floorTexture || !roofTexture) {
 				return false;
@@ -119,7 +119,7 @@ class Game {
 				std::cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << std::endl;
 				return false;
 			}
-			moveSound = Mix_LoadWAV("move.wav");
+			moveSound = Mix_LoadWAV("assets/audio/move.wav");
 			if (!moveSound) {
 				std::cout << "Failed to load movement sound! SDL_mixer Error: " << Mix_GetError() << std::endl;
 				return false;

@@ -14,24 +14,24 @@ void Splash::load(	SDL_Renderer* renderer) {
 	this->renderer=renderer;
 // Function prototypes
 	SDL_Surface* surface;
-	surface = IMG_Load("splash.png");
+	surface = IMG_Load("assets/images/splash.png");
 
 	if (!surface) {
-		printf("Failed to load image %s: %s\n", "splash.png", IMG_GetError());
+		printf("Failed to load image %s: %s\n", "assets/images/splash.png", IMG_GetError());
 	}
 	SDL_Texture* splashScreenTexture = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 
 	// Initialize SDL_mixer
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-	Mix_Music* music = Mix_LoadMUS("background_music.mp3"); // Replace with your music file
+	Mix_Music* music = Mix_LoadMUS("assets/audio/background_music.mp3"); // Replace with your music file
 	Mix_PlayMusic(music, -1); // Loop the music
 
 	// Load background images
-	SDL_Texture* bg1 = IMG_LoadTexture(renderer, "splash.png"); // Replace with your image file
+	SDL_Texture* bg1 = IMG_LoadTexture(renderer, "assets/images/splash.png"); // Replace with your image file
 	//SDL_Texture* bg2 = IMG_LoadTexture(renderer, "background1.png");
 
-	TTF_Font* font = TTF_OpenFont("arial.ttf", 24);
+	TTF_Font* font = TTF_OpenFont("assets/font/arial.ttf", 24);
 	if (!font) {
 		printf("Font loading failed: %s\n", TTF_GetError());
 		return;

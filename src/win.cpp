@@ -25,15 +25,15 @@ void Win::load(SDL_Renderer* renderer) {
 
 	// Initialize SDL_mixer
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-	Mix_Music* music = Mix_LoadMUS("background_music.mp3"); // Replace with your music file
+	Mix_Music* music = Mix_LoadMUS("assets/audio/background_music.mp3"); // Replace with your music file
 	Mix_PlayMusic(music, -1); // Loop the music
 
 	// Load background images
-	SDL_Texture* bg1 = IMG_LoadTexture(renderer, "win.png"); // Replace with your image file
+	SDL_Texture* bg1 = IMG_LoadTexture(renderer, "assets/images/win.png"); // Replace with your image file
 	//SDL_Texture* bg2 = IMG_LoadTexture(renderer, "background1.png");
 
 	// Load girl animation frames
-	girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png")); // Replace with your images
+	girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "assets/images/girlchar.png")); // Replace with your images
 
 
 }
@@ -95,7 +95,7 @@ void Win::render() {
 
 	// Render text
 	SDL_Color white = { 255, 255, 255 };
-	TTF_Font* font = TTF_OpenFont("arial.ttf", 24);
+	TTF_Font* font = TTF_OpenFont("assets/font/arial.ttf", 24);
 	if (!font) {
 		printf("Font loading failed: %s\n", TTF_GetError());
 		return;

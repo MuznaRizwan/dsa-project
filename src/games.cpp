@@ -91,7 +91,7 @@ bool initGame(GameState* game) {
 		return false;
 	}
 
-	game->window = SDL_CreateWindow("Game MENU",
+	game->window = SDL_CreateWindow("Tiny Triad",
 	                                SDL_WINDOWPOS_UNDEFINED,
 	                                SDL_WINDOWPOS_UNDEFINED,
 	                                WINDOW_WIDTH,
@@ -135,7 +135,7 @@ bool initGame(GameState* game) {
 
 	surface = IMG_Load("assets/images/menu.png");
 	if (!surface) {
-		printf("Failed to load image %s: %s\n", "menu.png", IMG_GetError());
+		printf("Failed to load image %s: %s\n", "assets/images/menu.png", IMG_GetError());
 		return false;
 	}
 	game->menuScreenTexture = SDL_CreateTextureFromSurface(game->renderer, surface);
@@ -144,7 +144,7 @@ bool initGame(GameState* game) {
 
 	surface = IMG_Load("assets/images/overlay_logos.png");
 	if (!surface) {
-		printf("Failed to load image %s: %s\n", "overlay_logos.png", IMG_GetError());
+		printf("Failed to load image %s: %s\n", "assets/images/overlay_logos.png", IMG_GetError());
 		return false;
 	}
 	game->menuScreenTexture = SDL_CreateTextureFromSurface(game->renderer, surface);
@@ -160,7 +160,7 @@ bool initGame(GameState* game) {
 
 	surface = IMG_Load("assets/images/minesweeper.png");
 	if (!surface) {
-		printf("Failed to load image %s: %s\n", "minesweeper.png", IMG_GetError());
+		printf("Failed to load image %s: %s\n", "assets/images/minesweeper.png", IMG_GetError());
 		return false;
 	}
 	game->minesweeperScreenTexture = SDL_CreateTextureFromSurface(game->renderer, surface);
@@ -190,7 +190,7 @@ bool initGame(GameState* game) {
 
 	surface = IMG_Load("assets/images/credits.png");
 	if (!surface) {
-		printf("Failed to load image %s: %s\n", "credits.png", IMG_GetError());
+		printf("Failed to load image %s: %s\n", "assets/images/credits.png", IMG_GetError());
 		return false;
 	}
 	game->creditsScreenTexture = SDL_CreateTextureFromSurface(game->renderer, surface);

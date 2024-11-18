@@ -24,9 +24,9 @@ class Splash : public BaseScreen {
 
 	public:
 
-		string background="splash.png";
-		string asset1="playb.png";
-		string asset2="creditsb.png";
+		string background="assets/images/splash.png";
+		string asset1="assets/images/playb.png";
+		string asset2="assets/images/creditsb.png";
 		void load(SDL_Renderer* renderer);
 		void handleEvents(SDL_Event event);
 		void render();

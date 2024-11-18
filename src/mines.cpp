@@ -51,19 +51,19 @@ int minemain(int argc, char* argv[]) {
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	// Load images
-	SDL_Texture* hiddenTexture = IMG_LoadTexture(renderer, "hidden.png");
-	SDL_Texture* revealedTexture = IMG_LoadTexture(renderer, "revealed.png");
-	SDL_Texture* flagTexture = IMG_LoadTexture(renderer, "flag.png");
-	SDL_Texture* mineTexture = IMG_LoadTexture(renderer, "mine.png");
-	SDL_Texture* shovelButton = IMG_LoadTexture(renderer, "shovel_button.png");
-	SDL_Texture* flagButton = IMG_LoadTexture(renderer, "flag_button.png");
+	SDL_Texture* hiddenTexture = IMG_LoadTexture(renderer, "assets/images/hidden.png");
+	SDL_Texture* revealedTexture = IMG_LoadTexture(renderer, "assets/images/revealed.png");
+	SDL_Texture* flagTexture = IMG_LoadTexture(renderer, "assets/images/flag.png");
+	SDL_Texture* mineTexture = IMG_LoadTexture(renderer, "assets/images/mine.png");
+	SDL_Texture* shovelButton = IMG_LoadTexture(renderer, "assets/images/shovel_button.png");
+	SDL_Texture* flagButton = IMG_LoadTexture(renderer, "assets/images/flag_button.png");
 
 	// Load font for rendering text
-	TTF_Font* font = TTF_OpenFont("Tiny5.ttf", 24);  // Adjust font size if necessary
+	TTF_Font* font = TTF_OpenFont("assets/font/Tiny5.ttf", 24);  // Adjust font size if necessary
 	SDL_Color textColor = {0, 0, 0}; // Black color for score
 
 	// Load sound
-	Mix_Chunk* clickSound = Mix_LoadWAV("move.wav");
+	Mix_Chunk* clickSound = Mix_LoadWAV("assets/audio/move.wav");
 
 	initGame();
 
