@@ -7,6 +7,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include "basescreen.h"
+#include "enums.h"
 
 using namespace std;
 
@@ -57,6 +58,14 @@ struct GameState {
 	SDL_Texture* minesweeperScreenTexture;
 	BaseScreen* cScreen;
 	//Loose* looseScreen = new ;
+};
+
+struct Globals {
+	const int SCREEN_WIDTH = 800;
+	const int SCREEN_HEIGHT = 500;
+	bool screenLoaded = false;
+	bool soundOn = true;
+	Screens currentScreen = SPLASH;
 };
 
 #endif

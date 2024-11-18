@@ -7,153 +7,50 @@
 #include <string>
 #include <list>
 #include <cstdio>  // For debugging
+#include "zombie.h"
 
-const int SCREEN_WIDTH = 900;
-const int SCREEN_HEIGHT = 500;
-const int PLAYER_WIDTH = 50;
-const int PLAYER_HEIGHT = 50;
-const int ZOMBIE_WIDTH = 40;
-const int ZOMBIE_HEIGHT = 40;
-const int BOSS_WIDTH = 80;
-const int BOSS_HEIGHT = 80;
-const int PLAYER_MOVE_SPEED = 5;
-const int BULLET_COOLDOWN_TIME = 500;
-const int MOVEMENT_INTERVAL = 16;
-const int BOSS_MOVE_SPEED = 3;
-const int BOSS_SHOOT_INTERVAL = 1000;
-const int BOSS_HEALTH = 10;
-const int BOSS_MOVE_COOLDOWN = 200;
-const Uint32 LEVEL_TRANSITION_DELAY = 2000;
-
-enum GameState { PLAYING, PAUSED, GAME_OVER, WIN };
-enum ZombieType { SLOW, FAST };  // Define zombie types
-
-struct Bullet {
-	int x, y, strength;
-	int speedX, speedY;
-
-	Bullet(int _x, int _y, int _speedX, int _speedY)
-		: x(_x), y(_y), speedX(_speedX), speedY(_speedY) {}
-};
-
-struct Zombie {
-	int x, y;
-	Uint32 nextMoveTime;
-	Uint32 moveInterval;
-	ZombieType type;  // Add a type to distinguish between fast and slow zombies
-
-	Zombie(int _x, int _y, Uint32 _moveInterval, ZombieType _type)
-		: x(_x), y(_y), moveInterval(_moveInterval), type(_type) {
-		nextMoveTime = SDL_GetTicks();
-	}
-
-	bool operator<(const Zombie& other) const {
-		return nextMoveTime > other.nextMoveTime;
-	}
-};
-
-struct Boss {
-	int x, y, health;
-	Uint32 lastShotTime;
-	Uint32 lastMoveTime; // Tracks the cooldown between movements
-	Uint32 lastDirectionChangeTime; // Tracks when to change direction
-	bool movingDown; // Track the current movement direction (true = down, false = up)
-
-	Boss(int _x, int _y, int _health)
-		: x(_x), y(_y), health(_health), lastShotTime(SDL_GetTicks()),
-		  lastMoveTime(SDL_GetTicks()), lastDirectionChangeTime(SDL_GetTicks()),
-		  movingDown(true) {}
-};
-
-SDL_Renderer* renderer;
-TTF_Font* font;
-
-std::list<Bullet> bullets;
-std::list<Bullet> bossBullets;
-std::priority_queue<Zombie> zombies;  // Priority queue for zombie movement
-Boss* boss = nullptr;
-
-Uint32 levelTransitionStartTime = 0;
-bool waitingForNextLevel = false;
-GameState gameState = PLAYING;
-int playerX = 50, playerY = SCREEN_HEIGHT / 2, playerHealth = 5;
-int bulletCooldown = 0;
-bool isPaused = false;
-Uint32 lastMovementTime = 0;
-int currentLevel = 1;
-int currentWave = 1;
-int totalWavesInLevel = 2;
-bool bossWave = false;
-int playerBulletCount = 10; // Initial bullet count
-int maxBullets = 20; // Maximum bullets player can have
-std::list<SDL_Rect> bulletDrops; // List to store bullet drop positions
-const int BULLET_DROP_RESPAWN_TIME = 3000; // 3 seconds
-Uint32 lastBulletDropSpawnTime = 0; // To control bullet drop spawn interval
-
-void handleInput();
-void movePlayer();
-void moveZombies();
-void moveBullets();
-void moveBoss();
-void moveBossBullets();
-void checkCollisions();
-void renderGame();
-void spawnZombiesForWave();
-void spawnBoss();
-void nextWave();
-void nextLevel();
-void gameOver();
-void renderPauseScreen();
-void bossShoot();
-void spawnBulletDrop();
-
-int zombieMain() {
+int Zombie::zMain() {
 	srand(static_cast<unsigned int>(time(0)));
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) return -1;
 	if (TTF_Init() == -1) return -1;
 
-	SDL_Window* window = SDL_CreateWindow("Zombie Shooter", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-	font = TTF_OpenFont("assets/font/arial.ttf", 28);
+	font = TTF_OpenFont("assets/font/path_to_font.ttf", 28);
 	if (!font) {
 		printf("Failed to load font! TTF_Error: %s", TTF_GetError());
 		return -1;
 	}
+	// Initialize the textures
+	playButtonTexture = loadTexture("pause.png");
+	pauseButtonTexture = loadTexture("pause.png");
+	quitButtonTexture = loadTexture("quit.png");
+	soundButtonTexture = loadTexture("sound.png");
+	musicButtonTexture = loadTexture("music.png");
+	blackTexture = loadTexture("black screen.png");
+
+
+	if (IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG != IMG_INIT_PNG) {
+		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+		return -1;
+	}
+
 
 	spawnZombiesForWave();
-
-	bool quit = false;
-	SDL_Event e;
 
 	while (!quit) {
 		Uint32 currentTime = SDL_GetTicks();
 
-		// Spawn a bullet drop every few seconds
-		if (currentTime - lastBulletDropSpawnTime >= BULLET_DROP_RESPAWN_TIME) {
-			spawnBulletDrop();
-			lastBulletDropSpawnTime = currentTime;
-		}
+		renderGame();
 
-		while (SDL_PollEvent(&e) != 0) {
-			if (e.type == SDL_QUIT) quit = true;
-
-			// Check for SDL_KEYDOWN event for toggling pause with 'P'
-			if (e.type == SDL_KEYDOWN) {
-				if (e.key.keysym.sym == SDLK_p) {
-					// Toggle gameState between PLAYING and PAUSED
-					gameState = (gameState == PLAYING) ? PAUSED : PLAYING;
-				} else if (e.key.keysym.sym == SDLK_q) {
-					quit = true;
-				}
+		if (zombieGameState != PAUSED) {
+			if (currentTime - lastBulletDropSpawnTime >= BULLET_DROP_RESPAWN_TIME) {
+				spawnBulletDrop();
+				lastBulletDropSpawnTime = currentTime;
 			}
 		}
+		handleInput();  // Centralized input handling
 
-		if (gameState == PLAYING) {
-			handleInput();
-			Uint32 currentTime = SDL_GetTicks();
-
+		if (zombieGameState == PLAYING) {
 			if (waitingForNextLevel && currentTime - levelTransitionStartTime >= LEVEL_TRANSITION_DELAY) {
 				nextLevel();
 				waitingForNextLevel = false;
@@ -161,7 +58,6 @@ int zombieMain() {
 
 			if (!waitingForNextLevel) {
 				if (currentTime - lastMovementTime > MOVEMENT_INTERVAL) {
-					movePlayer();
 					moveBullets();
 					moveBossBullets();
 					lastMovementTime = currentTime;
@@ -170,59 +66,97 @@ int zombieMain() {
 				moveZombies();
 				if (boss) moveBoss();
 				checkCollisions();
-				renderGame();
 
 				if (zombies.empty() && !bossWave) {
 					nextWave();
 				}
 			}
-		} else if (gameState == PAUSED) {
+		} else if (zombieGameState == PAUSED) {
 			renderPauseScreen();
-		} else if (gameState == GAME_OVER) {
+			handleInput();
+		} else if (zombieGameState == GAME_OVER) {
 			gameOver();
 		}
 	}
 
 	TTF_CloseFont(font);
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	TTF_Quit();
-	SDL_Quit();
+//	SDL_DestroyRenderer(renderer);
+//	SDL_DestroyWindow(window);
+//	TTF_Quit();
+//	SDL_Quit();
 	return 0;
 }
 
-void handleInput() {
-	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+void Zombie::handleInput() {
+	SDL_Event e;
+	while (SDL_PollEvent(&e) != 0) {
+		if (e.type == SDL_QUIT) {
+			quit = true;
+		}
 
-	if (currentKeyStates[SDL_SCANCODE_SPACE] && playerBulletCount > 0) {
-		if (bulletCooldown == 0) {
-			bullets.push_back(Bullet(playerX + PLAYER_WIDTH, playerY + PLAYER_HEIGHT / 2, 10, 0));
-			bulletCooldown = BULLET_COOLDOWN_TIME;
-			playerBulletCount--; // Decrease bullet count
+		if (e.type == SDL_KEYDOWN) {
+			switch (e.key.keysym.sym) {
+				case SDLK_p:
+					if (zombieGameState == PLAYING)
+						zombieGameState = PAUSED;
+					else {
+						zombieGameState = PLAYING;
+					}
+					break;
+				case SDLK_q:
+					quit = true;
+					break;
+				case SDLK_SPACE:
+					if (zombieGameState == PLAYING) {
+						if (playerBulletCount > 0 && bulletCooldown == 0) {
+							bullets.push_back(Bullet(playerX + PLAYER_WIDTH, playerY + PLAYER_HEIGHT / 2, 10, 0));
+							bulletCooldown = BULLET_COOLDOWN_TIME;
+							playerBulletCount--; // Decrease bullet count
+						}
+					}
+					break;
+				case SDLK_UP:
+				case SDLK_DOWN:
+					if (zombieGameState == PLAYING) {
+						movePlayer();
+						break;
+					}
+			}
+		}
+
+		if (e.type == SDL_MOUSEBUTTONDOWN) {
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+			SDL_Point mousePoint = {x, y};
+			if (SDL_PointInRect(&mousePoint, &playRect)) {
+				zombieGameState = PLAYING;
+			} else	if (SDL_PointInRect(&mousePoint, &pauseRect)) {
+				zombieGameState = PAUSED;
+			} else	if (SDL_PointInRect(&mousePoint, &musicRect)) {
+
+			} else	if (SDL_PointInRect(&mousePoint, &soundRect)) {
+
+			} else	if (SDL_PointInRect(&mousePoint, &quitRect)) {
+				zombieGameState = GAME_OVER;
+			}
 		}
 	}
 
 	if (bulletCooldown > 0) bulletCooldown--;
 }
 
-void spawnBulletDrop() {
-	int dropY = rand() % (SCREEN_HEIGHT - 20); // Random x position within screen bounds
-	SDL_Rect drop = {playerX, dropY, 20, 20}; // Bullet drop size
-	bulletDrops.push_back(drop);
-}
-
-void movePlayer() {
+void Zombie::movePlayer() {
 	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 	int moveAmount = PLAYER_MOVE_SPEED;
 
 	if (currentKeyStates[SDL_SCANCODE_UP]) playerY = std::max(0, playerY - moveAmount);
-	if (currentKeyStates[SDL_SCANCODE_DOWN]) playerY = std::min(SCREEN_HEIGHT - PLAYER_HEIGHT, playerY + moveAmount);
+	if (currentKeyStates[SDL_SCANCODE_DOWN]) playerY = std::min(GAME_HEIGHT - PLAYER_HEIGHT, playerY + moveAmount);
 }
 
-void moveBullets() {
+void Zombie::moveBullets() {
 	for (auto it = bullets.begin(); it != bullets.end();) {
 		it->x += it->speedX;
-		if (it->x > SCREEN_WIDTH) {
+		if (it->x > WINDOW_WIDTH) {
 			it = bullets.erase(it);
 		} else {
 			++it;
@@ -230,8 +164,10 @@ void moveBullets() {
 	}
 }
 
-void moveZombies() {
+void Zombie::moveZombies() {
+
 	Uint32 currentTime = SDL_GetTicks();
+	/*
 	std::priority_queue<Zombie> updatedZombies;
 
 	while (!zombies.empty()) {
@@ -255,37 +191,31 @@ void moveZombies() {
 	}
 
 	zombies = updatedZombies;
+	*/
 }
 
-void moveBoss() {
+void Zombie::moveBoss() {
 	Uint32 currentTime = SDL_GetTicks();
+	if (currentTime >= boss->lastMoveTime + boss->moveInterval) { // Check if it's time for the boss to move
+		int dx = playerX - boss->x;
+		int dy = playerY - boss->y;
+		float distance = sqrt(dx * dx + dy * dy);
+		if (distance > 0) {
+			int moveX = static_cast<int>((dx / distance) * BOSS_MOVE_SPEED); // Calculate the movement on X-axis
+			int moveY = static_cast<int>((dy / distance) * BOSS_MOVE_SPEED); // Calculate the movement on Y-axis
 
-	// Set a random movement duration between 500 and 2000 milliseconds
-	int BOSS_MOVE_DURATION = 500 + (rand() % 1500);  // Random interval between 500 and 2000 ms
-
-	// Change direction if movement duration has passed
-	if (currentTime - boss->lastDirectionChangeTime >= BOSS_MOVE_DURATION) {
-		boss->movingDown = !boss->movingDown; // Toggle direction
-		boss->lastDirectionChangeTime = currentTime; // Reset direction change timer
-	}
-
-	// Only move if cooldown period has passed
-	if (currentTime - boss->lastMoveTime >= BOSS_MOVE_COOLDOWN) {
-		if (boss->movingDown) {
-			boss->y += BOSS_MOVE_SPEED;
-			if (boss->y > SCREEN_HEIGHT - BOSS_HEIGHT) boss->y = SCREEN_HEIGHT - BOSS_HEIGHT;
-		} else {
-			boss->y -= BOSS_MOVE_SPEED;
-			if (boss->y < 0) boss->y = 0;
+			// Update boss's position
+			boss->x += moveX;
+			boss->y += moveY;
+			boss->y = std::max(0, std::min(GAME_HEIGHT - BOSS_HEIGHT, boss->y)); // Prevent moving outside the screen
 		}
-		boss->lastMoveTime = currentTime; // Update last move time
+		boss->lastMoveTime = currentTime; // Update the time of the last move
 	}
 
 	bossShoot(); // Boss shooting remains as before
 }
 
-
-void bossShoot() {
+void Zombie::bossShoot() {
 	Uint32 currentTime = SDL_GetTicks();
 	if (currentTime - boss->lastShotTime >= BOSS_SHOOT_INTERVAL) {
 		int dx = playerX - boss->x;
@@ -300,11 +230,11 @@ void bossShoot() {
 	}
 }
 
-void moveBossBullets() {
+void Zombie::moveBossBullets() {
 	for (auto it = bossBullets.begin(); it != bossBullets.end();) {
 		it->x += it->speedX;
 		it->y += it->speedY;
-		if (it->x > SCREEN_WIDTH || it->y > SCREEN_HEIGHT || it->y < 0) {
+		if (it->x > WINDOW_WIDTH || it->y > GAME_HEIGHT || it->y < 0) {
 			it = bossBullets.erase(it);
 		} else {
 			++it;
@@ -313,37 +243,39 @@ void moveBossBullets() {
 }
 
 // Handle bullet and zombie/boss collisions
-void checkCollisions() {
-	// Check collisions between player bullets and zombies
-	for (auto bulletIt = bullets.begin(); bulletIt != bullets.end();) {
-		bool hit = false;
-		std::priority_queue<Zombie> updatedZombies;
+void Zombie::checkCollisions() {
+	/*
+		// Check collisions between player bullets and zombies
+		for (auto bulletIt = bullets.begin(); bulletIt != bullets.end();) {
+	*/
+	bool hit = false;
+	std::priority_queue<Zombie> updatedZombies;
+	/*
+			// Process zombies individually to check for collisions
+			while (!zombies.empty()) {
+				Zombie z = zombies.top();
+				zombies.pop();
 
-		// Process zombies individually to check for collisions
-		while (!zombies.empty()) {
-			Zombie z = zombies.top();
-			zombies.pop();
+				// Check if the bullet collides with this zombie
+				if (!hit && bulletIt->x >= z.x && bulletIt->x <= z.x + ZOMBIE_WIDTH &&
+				        bulletIt->y >= z.y && bulletIt->y <= z.y + ZOMBIE_HEIGHT) {
+					hit = true; // Mark bullet as hitting a zombie
+				} else {
+					updatedZombies.push(z); // No collision, keep zombie in the queue
+				}
+			}
 
-			// Check if the bullet collides with this zombie
-			if (!hit && bulletIt->x >= z.x && bulletIt->x <= z.x + ZOMBIE_WIDTH &&
-			        bulletIt->y >= z.y && bulletIt->y <= z.y + ZOMBIE_HEIGHT) {
-				hit = true; // Mark bullet as hitting a zombie
+			// Restore zombies back to the priority queue
+			zombies = updatedZombies;
+
+			// Remove the bullet if it hit a zombie
+			if (hit) {
+				bulletIt = bullets.erase(bulletIt);
 			} else {
-				updatedZombies.push(z); // No collision, keep zombie in the queue
+				++bulletIt;
 			}
 		}
-
-		// Restore zombies back to the priority queue
-		zombies = updatedZombies;
-
-		// Remove the bullet if it hit a zombie
-		if (hit) {
-			bulletIt = bullets.erase(bulletIt);
-		} else {
-			++bulletIt;
-		}
-	}
-
+	*/
 	// Check collisions between player bullets and the boss
 	for (auto bulletIt = bullets.begin(); bulletIt != bullets.end();) {
 		if (boss && bulletIt->x >= boss->x && bulletIt->x <= boss->x + BOSS_WIDTH &&
@@ -353,7 +285,7 @@ void checkCollisions() {
 			if (boss->health <= 0) {
 				delete boss; // Remove boss if health is 0 or below
 				boss = nullptr;
-				gameState = WIN; // Win the game if the boss is defeated
+				zombieGameState = WINNING; // Win the game if the boss is defeated
 			}
 			bulletIt = bullets.erase(bulletIt); // Remove bullet after hit
 		} else {
@@ -374,99 +306,115 @@ void checkCollisions() {
 			++it;
 		}
 	}
+
 }
 
 // Render the game screen
-void renderGame() {
-	// Clear the screen with a background color
-	SDL_SetRenderDrawColor(renderer, 0, 100, 100, 100);
-	SDL_RenderClear(renderer);
+void Zombie::renderGame() {
 
-	// Render player
-	SDL_Rect playerRect = {playerX, playerY, PLAYER_WIDTH, PLAYER_HEIGHT};
-	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-	SDL_RenderFillRect(renderer, &playerRect);
+	{
 
-	// Render zombies
-	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-	std::priority_queue<Zombie> tempZombies = zombies;
-	while (!tempZombies.empty()) {
-		Zombie z = tempZombies.top();
-		tempZombies.pop();
-		SDL_Rect zombieRect = {z.x, z.y, ZOMBIE_WIDTH, ZOMBIE_HEIGHT};
-		SDL_RenderFillRect(renderer, &zombieRect);
+		SDL_SetRenderDrawColor(renderer, 0, 100, 100, 100);
+		SDL_RenderClear(renderer);
+		SDL_Rect screenRect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
+
+		// Render player
+		SDL_Rect playerRect = {playerX, playerY, PLAYER_WIDTH, PLAYER_HEIGHT};
+		SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+		SDL_RenderFillRect(renderer, &playerRect);
+
+		// Render zombies
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+		/*
+		std::priority_queue<Zombie> tempZombies = zombies;
+		while (!tempZombies.empty()) {
+			Zombie z = tempZombies.top();
+			tempZombies.pop();
+			SDL_Rect zombieRect = {z.x, z.y, ZOMBIE_WIDTH, ZOMBIE_HEIGHT};
+			SDL_RenderFillRect(renderer, &zombieRect);
+		}
+		*/
+		// Render boss if present
+		if (boss) {
+			SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255); // Purple color for the boss
+			SDL_Rect bossRect = {boss->x, boss->y, BOSS_WIDTH, BOSS_HEIGHT};
+			SDL_RenderFillRect(renderer, &bossRect);
+		}
+
+		// Render player bullets
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		for (const Bullet& bullet : bullets) {
+			SDL_Rect bulletRect = {bullet.x, bullet.y, 10, 10};
+			SDL_RenderFillRect(renderer, &bulletRect);
+		}
+
+		// Render boss bullets
+		SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255); // Yellow color for boss bullets
+		for (const Bullet& bullet : bossBullets) {
+			SDL_Rect bulletRect = {bullet.x, bullet.y, 10, 10};
+			SDL_RenderFillRect(renderer, &bulletRect);
+		}
+
+		// Render level number
+		SDL_Color textColor = {255, 255, 255, 255}; // White color
+		std::string levelText = "Level: " + std::to_string(currentLevel);
+		SDL_Surface* levelSurface = TTF_RenderText_Solid(font, levelText.c_str(), textColor);
+		SDL_Texture* levelTexture = SDL_CreateTextureFromSurface(renderer, levelSurface);
+
+		SDL_Rect levelRect = {10, 450, 0, 0}; // Position at the top-left of the screen
+		SDL_QueryTexture(levelTexture, nullptr, nullptr, &levelRect.w, &levelRect.h);
+		SDL_RenderCopy(renderer, levelTexture, nullptr, &levelRect);
+
+		// Render wave number below the level number
+		std::string waveText = "Wave: " + std::to_string(currentWave);
+		SDL_Surface* waveSurface = TTF_RenderText_Solid(font, waveText.c_str(), textColor);
+		SDL_Texture* waveTexture = SDL_CreateTextureFromSurface(renderer, waveSurface);
+
+		SDL_Rect waveRect = {150, 450, 0, 0}; // Position below the level text
+		SDL_QueryTexture(waveTexture, nullptr, nullptr, &waveRect.w, &waveRect.h);
+		SDL_RenderCopy(renderer, waveTexture, nullptr, &waveRect);
+
+		// Clean up level and wave textures and surfaces
+		SDL_FreeSurface(levelSurface);
+		SDL_DestroyTexture(levelTexture);
+		SDL_FreeSurface(waveSurface);
+		SDL_DestroyTexture(waveTexture);
+
+		// Render bullet drops
+		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Blue color for bullet drops
+		for (const SDL_Rect& drop : bulletDrops) {
+			SDL_RenderFillRect(renderer, &drop);
+		}
+
+		// Render bullet count
+		std::string bulletCountText = "Bullets: " + std::to_string(playerBulletCount);
+		SDL_Surface* bulletSurface = TTF_RenderText_Solid(font, bulletCountText.c_str(), textColor);
+		SDL_Texture* bulletTexture = SDL_CreateTextureFromSurface(renderer, bulletSurface);
+
+		SDL_Rect bulletRect = {WINDOW_WIDTH - 150, 450, 0, 0}; // Top-right of the screen
+		SDL_QueryTexture(bulletTexture, nullptr, nullptr, &bulletRect.w, &bulletRect.h);
+		SDL_RenderCopy(renderer, bulletTexture, nullptr, &bulletRect);
+
+		if(zombieGameState == PAUSED) {
+			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 128);
+			SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+			SDL_RenderFillRect(renderer, &screenRect);
+			SDL_Delay(1);
+		}
+
+		if(zombieGameState != PAUSED) {
+			pauseRect = {425, startY, buttonWidth, buttonHeight};
+			SDL_RenderCopy(renderer, pauseButtonTexture, NULL, &pauseRect);
+		}
+		SDL_FreeSurface(bulletSurface);
+		SDL_DestroyTexture(bulletTexture);
+
+		SDL_RenderPresent(renderer);
 	}
-
-	// Render boss if present
-	if (boss) {
-		SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255); // Purple color for the boss
-		SDL_Rect bossRect = {boss->x, boss->y, BOSS_WIDTH, BOSS_HEIGHT};
-		SDL_RenderFillRect(renderer, &bossRect);
-	}
-
-	// Render player bullets
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	for (const Bullet& bullet : bullets) {
-		SDL_Rect bulletRect = {bullet.x, bullet.y, 10, 10};
-		SDL_RenderFillRect(renderer, &bulletRect);
-	}
-
-	// Render boss bullets
-	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255); // Yellow color for boss bullets
-	for (const Bullet& bullet : bossBullets) {
-		SDL_Rect bulletRect = {bullet.x, bullet.y, 10, 10};
-		SDL_RenderFillRect(renderer, &bulletRect);
-	}
-
-	// Render level number
-	SDL_Color textColor = {255, 255, 255, 255}; // White color
-	std::string levelText = "Level: " + std::to_string(currentLevel);
-	SDL_Surface* levelSurface = TTF_RenderText_Solid(font, levelText.c_str(), textColor);
-	SDL_Texture* levelTexture = SDL_CreateTextureFromSurface(renderer, levelSurface);
-
-	SDL_Rect levelRect = {10, 10, 0, 0}; // Position at the top-left of the screen
-	SDL_QueryTexture(levelTexture, nullptr, nullptr, &levelRect.w, &levelRect.h);
-	SDL_RenderCopy(renderer, levelTexture, nullptr, &levelRect);
-
-	// Render wave number below the level number
-	std::string waveText = "Wave: " + std::to_string(currentWave);
-	SDL_Surface* waveSurface = TTF_RenderText_Solid(font, waveText.c_str(), textColor);
-	SDL_Texture* waveTexture = SDL_CreateTextureFromSurface(renderer, waveSurface);
-
-	SDL_Rect waveRect = {10, levelRect.y + levelRect.h + 5, 0, 0}; // Position below the level text
-	SDL_QueryTexture(waveTexture, nullptr, nullptr, &waveRect.w, &waveRect.h);
-	SDL_RenderCopy(renderer, waveTexture, nullptr, &waveRect);
-
-	// Clean up level and wave textures and surfaces
-	SDL_FreeSurface(levelSurface);
-	SDL_DestroyTexture(levelTexture);
-	SDL_FreeSurface(waveSurface);
-	SDL_DestroyTexture(waveTexture);
-
-	// Render bullet drops
-	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Blue color for bullet drops
-	for (const SDL_Rect& drop : bulletDrops) {
-		SDL_RenderFillRect(renderer, &drop);
-	}
-
-	// Render bullet count
-	std::string bulletCountText = "Bullets: " + std::to_string(playerBulletCount);
-	SDL_Surface* bulletSurface = TTF_RenderText_Solid(font, bulletCountText.c_str(), textColor);
-	SDL_Texture* bulletTexture = SDL_CreateTextureFromSurface(renderer, bulletSurface);
-
-	SDL_Rect bulletRect = {SCREEN_WIDTH - 150, 10, 0, 0}; // Top-right of the screen
-	SDL_QueryTexture(bulletTexture, nullptr, nullptr, &bulletRect.w, &bulletRect.h);
-	SDL_RenderCopy(renderer, bulletTexture, nullptr, &bulletRect);
-
-	SDL_FreeSurface(bulletSurface);
-	SDL_DestroyTexture(bulletTexture);
-
-	SDL_RenderPresent(renderer);
 }
 
 // Spawn zombies for the current wave
-void spawnZombiesForWave() {
-	int spawnX = SCREEN_WIDTH + ZOMBIE_WIDTH;  // Start just off the right side of the screen
+void Zombie::spawnZombiesForWave() {
 	int zombiesAmount = currentWave == 1? 5 : 10;
 
 	for (int i = 0; i < zombiesAmount; ++i) {
@@ -489,18 +437,30 @@ void spawnZombiesForWave() {
 			continue;
 		}
 
-		zombies.push(Zombie(spawnX, rand() % (SCREEN_HEIGHT - ZOMBIE_HEIGHT), moveInterval, type));
+		int x1 = WINDOW_WIDTH/2 + 100;
+		int x2 = WINDOW_WIDTH + ZOMBIE_WIDTH*2;
+		SDL_Delay(5);
+
+		zombies.push(Zombie(x1 + rand() % x2, rand() % (GAME_HEIGHT - ZOMBIE_HEIGHT), moveInterval, type));
 	}
-}
 
+}
 // Spawn the boss for the final wave of level 3
-void spawnBoss() {
-	int spawnX = SCREEN_WIDTH - BOSS_WIDTH; // Right side of the screen
-	int spawnY = rand() % (SCREEN_HEIGHT - BOSS_HEIGHT);
-	boss = new Boss(spawnX, spawnY, BOSS_HEALTH);
+void Zombie::spawnBoss() {
+	int spawnX = WINDOW_WIDTH - BOSS_WIDTH; // Right side of the screen
+	int spawnY = rand() % (GAME_HEIGHT - BOSS_HEIGHT);
+	Uint32 moveInterval = 1000; // Slow movement interval for the boss
+	boss = new Boss(spawnX, spawnY, BOSS_HEALTH, moveInterval);
 }
 
-void nextWave() {
+void Zombie::spawnBulletDrop() {
+	int dropY = rand() % (GAME_HEIGHT - 20); // Random y position within screen bounds
+	SDL_Rect drop = {playerX, dropY, 20, 20}; // Bullet drop size
+	bulletDrops.push_back(drop);
+}
+
+
+void Zombie::nextWave() {
 	currentWave++;
 	if ((currentLevel < 3 && currentWave > totalWavesInLevel) || (currentLevel == 3 && currentWave > 3)) {
 		waitingForNextLevel = true;
@@ -514,7 +474,7 @@ void nextWave() {
 }
 
 // Move to the next level
-void nextLevel() {
+void Zombie::nextLevel() {
 	currentLevel++;
 	currentWave = 1;
 
@@ -523,15 +483,15 @@ void nextLevel() {
 	}
 
 	if (currentLevel > 3) {
-		gameState = WIN;
+		zombieGameState = WINNING;
 	} else {
 		spawnZombiesForWave();
 	}
 }
 
 // Handle game over logic
-void gameOver() {
-	gameState = GAME_OVER;
+void Zombie::gameOver() {
+	zombieGameState = GAME_OVER;
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);  // Black background
 	SDL_RenderClear(renderer);
 
@@ -540,7 +500,7 @@ void gameOver() {
 	SDL_Texture* gameOverTexture = SDL_CreateTextureFromSurface(renderer, gameOverSurface);
 	int textW, textH;
 	SDL_QueryTexture(gameOverTexture, NULL, NULL, &textW, &textH);
-	SDL_Rect textRect = {SCREEN_WIDTH / 2 - textW / 2, SCREEN_HEIGHT / 2 - textH / 2, textW, textH};
+	SDL_Rect textRect = {WINDOW_WIDTH / 2 - textW / 2, GAME_HEIGHT / 2 - textH / 2, textW, textH};
 	SDL_RenderCopy(renderer, gameOverTexture, NULL, &textRect);
 
 	SDL_RenderPresent(renderer);
@@ -550,26 +510,34 @@ void gameOver() {
 }
 
 // Render the pause screen
-void renderPauseScreen() {
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);  // Black background
-	SDL_RenderClear(renderer);
+void Zombie::renderPauseScreen() {
+	playRect = {startX, startY, buttonWidth, buttonHeight};
+	SDL_RenderCopy(renderer, playButtonTexture, NULL, &playRect);
 
-	SDL_Color white = {255, 255, 255};
-	SDL_Surface* pauseSurface = TTF_RenderText_Solid(font, "Paused - Press P to Resume", white);
-	SDL_Texture* pauseTexture = SDL_CreateTextureFromSurface(renderer, pauseSurface);
-	int textW, textH;
-	SDL_QueryTexture(pauseTexture, NULL, NULL, &textW, &textH);
-	SDL_Rect textRect = {SCREEN_WIDTH / 2 - textW / 2, SCREEN_HEIGHT / 2 - textH / 2, textW, textH};
-	SDL_RenderCopy(renderer, pauseTexture, NULL, &textRect);
+	quitRect = {startX + buttonWidth + 10, startY, buttonWidth, buttonHeight};
+	SDL_RenderCopy(renderer, quitButtonTexture, NULL, &quitRect);
+
+	soundRect = {startX + 2 * buttonWidth + 20, startY, buttonWidth, buttonHeight};
+	SDL_RenderCopy(renderer, soundButtonTexture, NULL, &soundRect);
+
+	musicRect = {startX + 3 * buttonWidth + 30, startY, buttonWidth, buttonHeight};
+	SDL_RenderCopy(renderer, musicButtonTexture, NULL, &musicRect);
 
 	SDL_RenderPresent(renderer);
 
-	SDL_FreeSurface(pauseSurface);
-	SDL_DestroyTexture(pauseTexture);
 }
 
-
-
-
-
-
+SDL_Texture* Zombie::loadTexture(const char* path) {
+	SDL_Texture* newTexture = nullptr;
+	SDL_Surface* loadedSurface = IMG_Load(path);
+	if (!loadedSurface) {
+		printf("Unable to load image! SDL_image Error: ", IMG_GetError());
+	} else {
+		newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);  // Create texture from surface
+		SDL_FreeSurface(loadedSurface);  // Free the loaded surface as it's no longer needed
+		if (!newTexture) {
+			printf("Unable to create texture from surface! SDL_Error: ", SDL_GetError());
+		}
+	}
+	return newTexture;
+}
