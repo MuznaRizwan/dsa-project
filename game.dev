@@ -4,7 +4,7 @@ name=games
 Type=1
 Ver=2
 ObjFiles=
-Includes="C:\Users\MRZUBAIRY\OneDrive\NED\DSAA\DSAA Project\dsa project\dsa project\SDL2\x86_64-w64-mingw32\include"
+Includes="C:\Users\MRZUBAIRY\OneDrive\NED\DSAA\DSAA Project\dsa project\dsa project\SDL2\x86_64-w64-mingw32\include";C:\Users\rzuba\OneDrive\Documents\c\SDL_Window\SDL_Window\SDL2-2.0.16\x86_64-w64-mingw32\include
 Libs=C:\Users\rzuba\OneDrive\Documents\c\SDL_Window\SDL_Window\SDL2-2.0.16\x86_64-w64-mingw32\lib;"C:\Users\MRZUBAIRY\OneDrive\NED\DSAA\DSAA Project\dsa project\dsa project\SDL2\x86_64-w64-mingw32\lib"
 PrivateResource=
 ResourceIncludes=
@@ -13,7 +13,7 @@ Compiler=
 CppCompiler=
 Linker=assets/dll/SDL2.dll_@@_assets/dll/SDL2_image.dll_@@_assets/dll/SDL2_mixer.dll_@@_assets/dll/SDL2_ttf.dll_@@_
 IsCpp=1
-Icon=
+Icon=game.ico
 ExeOutput=
 ObjectOutput=
 LogOutput=
@@ -29,7 +29,7 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=3
 CompilerSettings=0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;1;0;0;0;8;0;0;0
-UnitCount=22
+UnitCount=25
 
 [VersionInfo]
 Major=1
@@ -262,6 +262,36 @@ BuildCmd=
 
 [Unit17]
 FileName=src\maze.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit23]
+FileName=src\globals.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit24]
+FileName=src\credits.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit25]
+FileName=src\credits.h
 CompileCpp=1
 Folder=
 Compile=1

@@ -1,5 +1,5 @@
-#ifndef WIN_H
-#define WIN_H
+#ifndef CREDITS_H
+#define CREDITS_H
 
 #include <string>
 #include "basescreen.h"
@@ -7,7 +7,7 @@
 
 using namespace std;
 
-class Win : public BaseScreen {
+class Credits : public BaseScreen {
 	private:
 
 		const int SCREEN_WIDTH = 900;
@@ -22,6 +22,7 @@ class Win : public BaseScreen {
 		SDL_Texture* bg1;
 		int bg1X, bg1Y, gx;
 		Animation girlAnimation;
+
 
 	public:
 		void load(GameState* game);

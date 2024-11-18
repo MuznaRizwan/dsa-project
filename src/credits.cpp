@@ -7,12 +7,12 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
-#include "win.h"
+#include "credits.h"
 #include "animation.h"
 
 using namespace std;
 
-void Win::load(GameState* game) {
+void Credits::load(GameState* game) {
 	this->game = game;
 	this->renderer = game->renderer;
 //	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
@@ -21,6 +21,9 @@ void Win::load(GameState* game) {
 
 //	SDL_Window* window = SDL_CreateWindow("Win Screen", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 //	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+
+	this->renderer=renderer;
 
 	// Initialize SDL_mixer
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
@@ -37,7 +40,7 @@ void Win::load(GameState* game) {
 
 }
 
-void Win::handleEvents(SDL_Event event) {
+void Credits::handleEvents(SDL_Event event) {
 //    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png"));
 //    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png"));
 
@@ -71,7 +74,7 @@ void Win::handleEvents(SDL_Event event) {
 	}
 }
 
-void Win::render() {
+void Credits::render() {
 
 //	girlAnimation.update();
 
@@ -100,7 +103,7 @@ void Win::render() {
 	SDL_RenderPresent(renderer);
 }
 
-void Win::renderText(TTF_Font* font, const char* text,
+void Credits::renderText(TTF_Font* font, const char* text,
                      int x, int y, SDL_Color color) {
 	SDL_Surface* surface = TTF_RenderText_Blended(font, text, color);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -113,7 +116,7 @@ void Win::renderText(TTF_Font* font, const char* text,
 }
 
 
-void Win::cleanUp() {
+void Credits::cleanUp() {
 
 	// Clean up resources
 //	girlAnimation.cleanUp();

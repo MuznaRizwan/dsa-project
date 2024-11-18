@@ -15,6 +15,9 @@
 #include "menu.h"
 #include "basescreen.h"
 #include "splash.h"
+#include "loose.h"
+#include "win.h"
+#include "credits.h"
 #define WINDOW_WIDTH 900
 #define WINDOW_HEIGHT 500
 #define GAME_COUNT 3
@@ -321,8 +324,32 @@ void renderMain(GameState* game) {
 		game->cScreen->render();
 	}
 	if(game->currentScreen!=game->previousScreen) {
-		game->cScreen = new Menu();
-
+		switch (game->currentScreen) {
+			case MAZE_SCREEN:
+				// game->cScreen = new Maze();
+				break;
+			case MINESWEEPER_SCREEN:
+				// game->cScreen = new Mine();
+				break;
+			case ZOMBIE_SCREEN:
+				// game->cScreen = new Zombie();
+				break;
+			case SPLASH_SCREEN:
+				game->cScreen = new Splash();
+				break;
+			case MENU_SCREEN:
+				game->cScreen = new Menu();
+				break;
+			case LOOSE_SCREEN:
+				game->cScreen = new Loose();
+				break;
+			case WIN_SCREEN:
+				game->cScreen = new Win();
+				break;
+			case CREDITS_SCREEN:
+				game->cScreen = new Credits();
+				break;
+		}
 		game->cScreen->load(game);
 		game->previousScreen=game->currentScreen;
 	}

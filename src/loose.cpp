@@ -14,7 +14,7 @@ using namespace std;
 
 void Loose::load(GameState* game) {
 	this->game = game;
-	this->renderer= game->renderer;
+	this->renderer = game->renderer;
 	// Initialize SDL_mixer
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	Mix_Music* music = Mix_LoadMUS("assets/audio/background_music.mp3"); // Replace with your music file
@@ -86,14 +86,14 @@ void Loose::render() {
 
 	// Render text
 	SDL_Color white = { 255, 255, 255 };
-	renderText(renderer, font, "Game Over", SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 50, white);
-	renderText(renderer, font, "Press 'R' to Resume or ESC to Quit", SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2, white);
+	renderText(font, "Game Over", SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 50, white);
+	renderText(font, "Press 'R' to Resume or ESC to Quit", SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2, white);
 
 	// Present the rendered frame
 	SDL_RenderPresent(renderer);
 }
 
-void Loose::renderText(SDL_Renderer* renderer, TTF_Font* font, const char* text,
+void Loose::renderText(TTF_Font* font, const char* text,
                        int x, int y, SDL_Color color) {
 	SDL_Surface* surface = TTF_RenderText_Blended(font, text, color);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -114,8 +114,8 @@ void Loose::cleanUp() {
 //    SDL_DestroyTexture(bg2);
 //	Mix_FreeMusic(music);
 	Mix_CloseAudio();
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	SDL_Quit();
+//	SDL_DestroyRenderer(renderer);
+//	SDL_DestroyWindow(window);
+//	SDL_Quit();
 //	return 0;
 }
