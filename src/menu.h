@@ -20,6 +20,7 @@ class Menu : public BaseScreen {
 		const float G_MOVEMENT_OFFSET = 0.5;
 		const int FRAME_DELAY = 100; // Delay in milliseconds for frame animation
 		SDL_Renderer* renderer;
+		GameState* game;
 		SDL_Texture* bg1;
 		int bg1X, bg1Y, gx;
 		// const vector<Button>& buttons;
@@ -31,7 +32,7 @@ class Menu : public BaseScreen {
 		TTF_Font* font;
 
 	public:
-		void load(SDL_Renderer* renderer) override ;
+		void load(SDL_Renderer* renderer, GameState* game) override ;
 		void handleEvents(SDL_Event event) override ;
 		void render() override ;
 		void renderText(TTF_Font* font, const string& text, int x, int y, SDL_Color color);

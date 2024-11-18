@@ -18,12 +18,13 @@ class Loose : public BaseScreen {
 		TTF_Font* font;
 		SDL_Window* window;
 		SDL_Renderer* renderer;
+		GameState* game;
 		SDL_Texture* bg1;
 		int bg1X, bg1Y, gx;
 		Animation girlAnimation;
 
 	public:
-		void load(SDL_Renderer* renderer);
+		void load(SDL_Renderer* renderer, GameState* game);
 		void handleEvents(SDL_Event event);
 		void render();
 		void renderText(SDL_Renderer* renderer, TTF_Font* font, const char* text,

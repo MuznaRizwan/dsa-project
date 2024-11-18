@@ -13,8 +13,9 @@ using namespace std;
 //void close(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font);
 //void handleButtonClicks(const vector<Button>& buttons, int mouseX, int mouseY);
 
-void Menu::load(SDL_Renderer* renderer) {
+void Menu::load(SDL_Renderer* renderer, GameState* game) {
 	this->renderer = renderer;
+	this->game = game;
 
 	// Load font
 	font = TTF_OpenFont("assets/font/arial.ttf", 28); // Replace with your font file
@@ -117,6 +118,7 @@ void Menu::handleButtonClicks(/*Button buttons[],*/ int mouseX, int mouseY) {
 			cout << button.label << " button clicked!" << endl;
 			if (button.label == "Play") {
 				cout << "Play" << "Play button clicked!" << endl;
+				// HERE YOU HAVE TO CHANGE / SET game->currentScreen = ...
 				// Implement game start logic here
 			} else if (button.label == "Credits") {
 				cout << "Credits button clicked!" << endl;

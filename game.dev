@@ -4,8 +4,8 @@ name=games
 Type=1
 Ver=2
 ObjFiles=
-Includes=C:\Users\rzuba\OneDrive\Documents\c\SDL_Window\SDL_Window\SDL2-2.0.16\x86_64-w64-mingw32\include
-Libs=C:\Users\rzuba\OneDrive\Documents\c\SDL_Window\SDL_Window\SDL2-2.0.16\x86_64-w64-mingw32\lib
+Includes="C:\Users\MRZUBAIRY\OneDrive\NED\DSAA\DSAA Project\dsa project\dsa project\SDL2\x86_64-w64-mingw32\include"
+Libs=C:\Users\rzuba\OneDrive\Documents\c\SDL_Window\SDL_Window\SDL2-2.0.16\x86_64-w64-mingw32\lib;"C:\Users\MRZUBAIRY\OneDrive\NED\DSAA\DSAA Project\dsa project\dsa project\SDL2\x86_64-w64-mingw32\lib"
 PrivateResource=
 ResourceIncludes=
 MakeIncludes=
@@ -29,7 +29,7 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=3
 CompilerSettings=0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;1;0;0;0;8;0;0;0
-UnitCount=7
+UnitCount=22
 
 [VersionInfo]
 Major=1
@@ -81,7 +81,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit8]
-FileName=splash.cpp
+FileName=src\animation.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -91,7 +91,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit9]
-FileName=splash.h
+FileName=src\loose.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -101,7 +101,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit10]
-FileName=basescreen.h
+FileName=src\maze.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -111,7 +111,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit11]
-FileName=animation.h
+FileName=src\mines.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -121,17 +121,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit12]
-FileName=animation.cpp
-CompileCpp=1
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit13]
-FileName=menu.cpp
+FileName=src\splash.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -141,7 +131,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit14]
-FileName=mines.cpp
+FileName=src\zombie.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -151,7 +141,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit15]
-FileName=menu.h
+FileName=src\animation.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -171,7 +161,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit16]
-FileName=mines.h
+FileName=src\loose.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -202,6 +192,76 @@ BuildCmd=
 
 [Unit6]
 FileName=src\button.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit13]
+FileName=src\win.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit18]
+FileName=src\mines.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit19]
+FileName=src\splash.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit20]
+FileName=src\win.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit21]
+FileName=src\zombie.cpp
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit22]
+FileName=src\games.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit17]
+FileName=src\maze.cpp
 CompileCpp=1
 Folder=
 Compile=1

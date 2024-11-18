@@ -7,12 +7,13 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include <string>
+#include "globals.h"
 
 class BaseScreen {
 	public:
 		virtual void handleEvents(SDL_Event event) = 0; //-keymouse keypress
 		virtual void cleanUp() = 0; //-clean free surfaces
-		virtual void load(SDL_Renderer* renderer) = 0; //-load the textures, font
+		virtual void load(SDL_Renderer* renderer, GameState* game) = 0; //-load the textures, font
 		virtual void render() = 0; //-screen draw
 };
 #endif
