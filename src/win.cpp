@@ -12,7 +12,9 @@
 
 using namespace std;
 
-void Win::load(SDL_Renderer* renderer) {
+void Win::load(GameState* game) {
+	this->game = game;
+	this->renderer = game->renderer;
 //	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 
 // Function prototypes

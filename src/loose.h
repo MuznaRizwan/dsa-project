@@ -24,7 +24,7 @@ class Loose : public BaseScreen {
 		Animation girlAnimation;
 
 	public:
-		void load(SDL_Renderer* renderer, GameState* game);
+		void load(GameState* game);
 		void handleEvents(SDL_Event event);
 		void render();
 		void renderText(SDL_Renderer* renderer, TTF_Font* font, const char* text,

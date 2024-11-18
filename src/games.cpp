@@ -323,7 +323,7 @@ void renderMain(GameState* game) {
 	if(game->currentScreen!=game->previousScreen) {
 		game->cScreen = new Menu();
 
-		game->cScreen->load(game->renderer);
+		game->cScreen->load(game);
 		game->previousScreen=game->currentScreen;
 	}
 	/*	} else if (game->currentScreen == MENU_SCREEN) {

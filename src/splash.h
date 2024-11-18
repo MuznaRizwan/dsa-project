@@ -19,6 +19,7 @@ class Splash : public BaseScreen {
 
 		TTF_Font* font;
 		SDL_Renderer* renderer;
+		GameState* game;
 		SDL_Texture* bg1;
 		int bg1X, bg1Y, gx;
 
@@ -27,7 +28,7 @@ class Splash : public BaseScreen {
 		string background="assets/images/splash.png";
 		string asset1="assets/images/playb.png";
 		string asset2="assets/images/creditsb.png";
-		void load(SDL_Renderer* renderer);
+		void load(GameState* game);
 		void handleEvents(SDL_Event event);
 		void render();
 		void renderText(TTF_Font* font, const char* text, int x, int y, SDL_Color color);

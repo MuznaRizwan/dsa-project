@@ -1,6 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
-s
 
+struct GameState;
 
 #endif

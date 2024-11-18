@@ -12,9 +12,9 @@
 
 using namespace std;
 
-void Loose::load(SDL_Renderer* renderer, GameState* game) {
-	this->renderer= renderer;
+void Loose::load(GameState* game) {
 	this->game = game;
+	this->renderer= game->renderer;
 	// Initialize SDL_mixer
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	Mix_Music* music = Mix_LoadMUS("assets/audio/background_music.mp3"); // Replace with your music file

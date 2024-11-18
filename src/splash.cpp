@@ -10,8 +10,9 @@
 #include "splash.h"
 
 using namespace std;
-void Splash::load(	SDL_Renderer* renderer) {
-	this->renderer=renderer;
+void Splash::load(GameState* game) {
+	this->game=game;
+	this->renderer=game->renderer;
 // Function prototypes
 	SDL_Surface* surface;
 	surface = IMG_Load("assets/images/splash.png");

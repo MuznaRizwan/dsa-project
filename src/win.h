@@ -18,13 +18,14 @@ class Win : public BaseScreen {
 		const int FRAME_DELAY = 100; // Delay in milliseconds for frame animation
 		int highScore=0, gameTime=0, candyCollected=0;
 		SDL_Renderer* renderer;
+		GameState* game;
 		SDL_Texture* bg1;
 		int bg1X, bg1Y, gx;
 		Animation girlAnimation;
 
 
 	public:
-		void load(SDL_Renderer* renderer);
+		void load(GameState* game);
 		void handleEvents();
 		void render();
 		void renderText(TTF_Font* font, const char* text,

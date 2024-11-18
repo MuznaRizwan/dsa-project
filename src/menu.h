@@ -32,7 +32,7 @@ class Menu : public BaseScreen {
 		TTF_Font* font;
 
 	public:
-		void load(SDL_Renderer* renderer, GameState* game) override ;
+		void load(GameState* game) override ;
 		void handleEvents(SDL_Event event) override ;
 		void render() override ;
 		void renderText(TTF_Font* font, const string& text, int x, int y, SDL_Color color);

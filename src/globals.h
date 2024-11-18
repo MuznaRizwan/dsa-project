@@ -10,6 +10,8 @@
 
 using namespace std;
 
+class BaseScreen;
+
 enum GameScreen {
 	MAZE_SCREEN,
 	MINESWEEPER_SCREEN,

@@ -15,10 +15,11 @@ class Mines : public BaseScreen {
 		const float G_MOVEMENT_OFFSET = 0.5;
 		const int FRAME_DELAY = 100; // Delay in milliseconds for frame animation
 		SDL_Renderer* renderer;
+		GameState* game;
 		SDL_Texture* bg1;
 		int bg1X, bg1Y, gx;
 	public:
-		void load(SDL_Renderer* renderer);
+		void load(GameState* game);
 		void handleEvents(SDL_Event event);
 		void render();
 		void renderText(TTF_Font* font, const char* text,
