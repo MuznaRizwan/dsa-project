@@ -34,3 +34,4 @@
 /.vscode
 /build
 desktop.ini
+Makefile.win
