@@ -48,7 +48,7 @@ void Menu::load(GameState* game) {
 	});
 
 	int i=0;
-	string bLabels[3] = {"Play","Credits","Menu"};
+	string bLabels[6] = {"Play","Credits","Menu","Maze","Minesweeper","Zombie"};
 	for (auto& button : buttons) {
 		b.rect.x+=100;
 		b.label = bLabels[i++];
@@ -119,7 +119,6 @@ void Menu::handleButtonClicks(/*Button buttons[],*/ int mouseX, int mouseY) {
 			if (button.label == "Play") {
 				cout << "Play" << "Play button clicked!" << endl;
 				// HERE YOU HAVE TO CHANGE / SET game->currentScreen = ...
-				game->currentScreen = MAZE_SCREEN;
 				// Implement game start logic here
 			} else if (button.label == "Credits") {
 				cout << "Credits button clicked!" << endl;
@@ -128,7 +127,18 @@ void Menu::handleButtonClicks(/*Button buttons[],*/ int mouseX, int mouseY) {
 			} else if (button.label == "Menu") {
 				cout << "Menu button clicked!" << endl;
 				// Implement menu logic here
-				game->currentScreen = MENU_SCREEN;
+			} else if (button.label == "Maze") {
+				cout << "Maze button clicked!" << endl;
+				// Implement menu logic here
+				game->currentScreen = MAZE_SCREEN;
+			} else if (button.label == "Minesweeper") {
+				cout << "Minesweeper button clicked!" << endl;
+				// Implement menu logic here
+				game->currentScreen = MINESWEEPER_SCREEN;
+			} else if (button.label == "Zombie") {
+				cout << "Zombie button clicked!" << endl;
+				// Implement menu logic here
+				game->currentScreen = ZOMBIE_SCREEN;
 			}
 		}
 	}

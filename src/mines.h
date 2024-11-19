@@ -25,8 +25,6 @@ const int BUTTON_HEIGHT = 44;
 const int TIMER_BAR_HEIGHT = 40;
 const int LEFT_PANEL_WIDTH = 150;
 const int RIGHT_PANEL_WIDTH = 200;
-const int WINDOW_WIDTH = 1000;
-const int WINDOW_HEIGHT = 500;
 const SDL_Color DARK_BROWN = {101, 67, 33, 255};
 const SDL_Color LIGHT_BROWN = {222, 184, 135, 255};
 const SDL_Color BLACK = {0, 0, 0};
@@ -72,8 +70,10 @@ class Mines : public BaseScreen {
 
 
 // Minesweeper Class
-class Minesweeper {
+class Minesweeper : public BaseScreen {
 	private:
+		const int WINDOW_WIDTH = 1000;
+		const int WINDOW_HEIGHT = 500;
 		std::vector<std::vector<Cell>> grid;
 		std::unordered_set<int> flaggedCells;
 		bool isGameOver;
@@ -117,6 +117,10 @@ class Minesweeper {
 		void renderText(const std::string& text, int x, int y, SDL_Color color, TTF_Font* font, SDL_Renderer* renderer);
 		void toggleFlag(int x, int y);
 
+		void handleEvents(SDL_Event event); //-keymouse keypress
+		void cleanUp(); //-clean free surfaces
+		void load(GameState* game); //-load the textures, font
+		void render(); //-screen draw
 
 
 };

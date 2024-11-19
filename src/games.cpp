@@ -332,7 +332,7 @@ void renderMain(GameState* game) {
 				// game->cScreen = new Mine();
 				break;
 			case ZOMBIE_SCREEN:
-				// game->cScreen = new Zombie();
+				 game->cScreen = new ZombieScreen();
 				break;
 			case SPLASH_SCREEN:
 				game->cScreen = new Splash();

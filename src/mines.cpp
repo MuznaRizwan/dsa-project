@@ -267,6 +267,8 @@ void Minesweeper::handleInput(SDL_Event& e, SDL_Rect& shovelButtonRect, SDL_Rect
 
 // Main function
 int mineMain(int argc, char* argv[]) {
+	const int WINDOW_WIDTH = 1000;
+	const int WINDOW_HEIGHT = 500;
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 	IMG_Init(IMG_INIT_PNG);
 	TTF_Init();

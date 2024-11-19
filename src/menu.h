@@ -26,7 +26,7 @@ class Menu : public BaseScreen {
 		// const vector<Button>& buttons;
 //		vector<Button>& buttons;
 //		vector<shared_ptr<Button>> buttons;
-		Button buttons[3] = { Button(), Button(), Button() };
+		Button buttons[6] = { Button(), Button(), Button(),Button(), Button(), Button() };
 
 //		std::array<Button, 3> buttons;
 		TTF_Font* font;
