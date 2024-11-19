@@ -45,10 +45,9 @@ class Cell {
 		Cell() : state(HIDDEN), content(EMPTY), adjacentMines(0) {}
 };
 
-
-class Mines : public BaseScreen {
+// Minesweeper Class
+class Minesweeper : public BaseScreen {
 	private:
-
 		const int SCREEN_WIDTH = 900;
 		const int SCREEN_HEIGHT = 500;
 //const int BG_SCROLL_SPEED = 2;
@@ -59,19 +58,7 @@ class Mines : public BaseScreen {
 		GameState* game;
 		SDL_Texture* bg1;
 		int bg1X, bg1Y, gx;
-	public:
-		void load(GameState* game);
-		void handleEvents(SDL_Event event);
-		void render();
-		void renderText(TTF_Font* font, const char* text,
-		                int x, int y, SDL_Color color);
-		void cleanUp();
-};
 
-
-// Minesweeper Class
-class Minesweeper : public BaseScreen {
-	private:
 		const int WINDOW_WIDTH = 1000;
 		const int WINDOW_HEIGHT = 500;
 		std::vector<std::vector<Cell>> grid;
@@ -85,14 +72,29 @@ class Minesweeper : public BaseScreen {
 		bool isPaused, isSoundOn, quitGame;
 		const int TIMER_LIMIT = 99;
 		int maxFlags;
+		GameState* game;
+		SDL_Renderer* renderer;
 
-
-
+		SDL_Texture* hiddenTexture;
+		SDL_Texture* revealedTexture;
+		SDL_Texture* flagTexture;
+		SDL_Texture* mineTexture;
+		SDL_Texture* shovelButton;
+		SDL_Texture* flagButton;
+		SDL_Texture* pauseButtonTexture;
+		SDL_Texture* playButtonTexture;
+		SDL_Texture* quitButtonTexture;
+		SDL_Texture* soundButtonTexture;
+		SDL_Texture* soundOffButtonTexture;
+		Mix_Chunk* clickSound;
+		TTF_Font* font;
 	public:
 		Minesweeper() : isGameOver(false), revealedCells(0), currentFlags(0), currentTool(SHOVEL), elapsedTime(0), isPaused(false), isSoundOn(true) {
 			grid.resize(GRID_WIDTH, std::vector<Cell>(GRID_HEIGHT));
 		}
 
+		void renderText(TTF_Font* font, const char* text,
+		                int x, int y, SDL_Color color);
 		bool isPause() {
 			return isPaused;
 		}

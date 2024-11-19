@@ -218,7 +218,7 @@ Compile=1
 Link=1
 Priority=1000
 OverrideBuildCmd=0
-BuildCmd=
+BuildCmd=$(CPP) -c mines.cpp -o mines.o $(CXXFLAGS)
 
 [Unit19]
 FileName=src\splash.cpp
@@ -268,7 +268,7 @@ Compile=1
 Link=1
 Priority=1000
 OverrideBuildCmd=0
-BuildCmd=
+BuildCmd=$(CPP) -c maze.cpp -o maze.o $(CXXFLAGS)
 
 [Unit23]
 FileName=src\globals.h

@@ -326,10 +326,10 @@ void renderMain(GameState* game) {
 	if(game->currentScreen!=game->previousScreen) {
 		switch (game->currentScreen) {
 			case MAZE_SCREEN:
-				// game->cScreen = new Maze();
+				 game->cScreen = new MazeScreen();
 				break;
 			case MINESWEEPER_SCREEN:
-				// game->cScreen = new Mine();
+				 game->cScreen = new Minesweeper();
 				break;
 			case ZOMBIE_SCREEN:
 				 game->cScreen = new ZombieScreen();

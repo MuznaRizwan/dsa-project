@@ -266,60 +266,68 @@ void Minesweeper::handleInput(SDL_Event& e, SDL_Rect& shovelButtonRect, SDL_Rect
 
 
 // Main function
-int mineMain(int argc, char* argv[]) {
+void Minesweeper::load(GameState* game) {
+	this->game = game;
+	this->renderer = game->renderer;
 	const int WINDOW_WIDTH = 1000;
 	const int WINDOW_HEIGHT = 500;
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-	IMG_Init(IMG_INIT_PNG);
-	TTF_Init();
+//	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+//	IMG_Init(IMG_INIT_PNG);
+//	TTF_Init();
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
-	SDL_Window* window = SDL_CreateWindow("Minesweeper", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
-	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+//	SDL_Window* window = SDL_CreateWindow("Minesweeper", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+//	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-	SDL_Texture* hiddenTexture = IMG_LoadTexture(renderer, "hidden.png");
-	SDL_Texture* revealedTexture = IMG_LoadTexture(renderer, "revealed.png");
-	SDL_Texture* flagTexture = IMG_LoadTexture(renderer, "flag_button.png");
-	SDL_Texture* mineTexture = IMG_LoadTexture(renderer, "mine.png");
-	SDL_Texture* shovelButton = IMG_LoadTexture(renderer, "shovel_button.png");
-	SDL_Texture* flagButton = IMG_LoadTexture(renderer, "flag_button.png");
-	SDL_Texture* pauseButtonTexture = IMG_LoadTexture(renderer, "pause.png");
-	SDL_Texture* playButtonTexture = IMG_LoadTexture(renderer, "play_button.png");
-	SDL_Texture* quitButtonTexture = IMG_LoadTexture(renderer, "quit_button.png");
-	SDL_Texture* soundButtonTexture = IMG_LoadTexture(renderer, "sound_button.png");
-	SDL_Texture* soundOffButtonTexture = IMG_LoadTexture(renderer, "volumeoff.png");
+	hiddenTexture = IMG_LoadTexture(renderer, "assets/images/hidden.png");
+	revealedTexture = IMG_LoadTexture(renderer, "assets/images/revealed.png");
+	flagTexture = IMG_LoadTexture(renderer, "assets/images/flag_button.png");
+	mineTexture = IMG_LoadTexture(renderer, "assets/images/mine.png");
+	shovelButton = IMG_LoadTexture(renderer, "assets/images/shovel_button.png");
+	flagButton = IMG_LoadTexture(renderer, "assets/images/flag_button.png");
+	pauseButtonTexture = IMG_LoadTexture(renderer, "assets/images/pause.png");
+	playButtonTexture = IMG_LoadTexture(renderer, "assets/images/play_button.png");
+	quitButtonTexture = IMG_LoadTexture(renderer, "assets/images/quit_button.png");
+	soundButtonTexture = IMG_LoadTexture(renderer, "assets/images/sound_button.png");
+	soundOffButtonTexture = IMG_LoadTexture(renderer, "assets/images/volumeoff.png");
 
 
-	TTF_Font* font = TTF_OpenFont("textN.ttf", 24);
-	Mix_Chunk* clickSound = Mix_LoadWAV("click.wav");
-	Minesweeper game;
-	game.initGame();
+	font = TTF_OpenFont("assets/font/textN.ttf", 24);
+	clickSound = Mix_LoadWAV("assets/audio/click.wav");
+//	Minesweeper minesweeperGame;
+//	minesweeperGame.initGame();
 
+	initGame();
+
+}
+
+void Minesweeper::handleEvents(SDL_Event e) {
+	bool running = true;
 	SDL_Rect shovelButtonRect = {10, 110, BUTTON_WIDTH, BUTTON_HEIGHT};
 	SDL_Rect flagButtonRect = {70, 110, BUTTON_WIDTH, BUTTON_HEIGHT};
 	SDL_Rect pauseButtonRect = {10, 300, BUTTON_WIDTH, BUTTON_HEIGHT};
 	SDL_Rect soundButtonRect = {10, 200, BUTTON_WIDTH, BUTTON_HEIGHT};
 
-	bool running = true;
-	while (running) {
-		SDL_Event e;
-		while (SDL_PollEvent(&e)) {
-			if (e.type == SDL_QUIT) running = false;
-			game.handleInput(e, shovelButtonRect, flagButtonRect, pauseButtonRect,soundButtonRect, clickSound, playButtonTexture, quitButtonTexture);
-		}
+//	while (running) {
+//		SDL_Event e;
+//		while (SDL_PollEvent(&e)) {
+	if (e.type == SDL_QUIT) running = false;
+	handleInput(e, shovelButtonRect, flagButtonRect, pauseButtonRect,soundButtonRect, clickSound, playButtonTexture, quitButtonTexture);
+//		}
+}
+void Minesweeper::render() {
+	updateTimer();
 
-		game.updateTimer();
+	SDL_SetRenderDrawColor(renderer, 196, 164, 132, 255);
+	SDL_RenderClear(renderer);
 
-		SDL_SetRenderDrawColor(renderer, 196, 164, 132, 255);
-		SDL_RenderClear(renderer);
+	renderGrid(renderer, hiddenTexture, revealedTexture, flagTexture, mineTexture, font);
+	renderUI(renderer, font, shovelButton, flagButton, pauseButtonTexture,soundButtonTexture,soundOffButtonTexture,clickSound, playButtonTexture, quitButtonTexture);
 
-		game.renderGrid(renderer, hiddenTexture, revealedTexture, flagTexture, mineTexture, font);
-		game.renderUI(renderer, font, shovelButton, flagButton, pauseButtonTexture,soundButtonTexture,soundOffButtonTexture,clickSound, playButtonTexture, quitButtonTexture);
+	SDL_RenderPresent(renderer);
+}
 
-
-		SDL_RenderPresent(renderer);
-	}
-
+void Minesweeper::cleanUp() {
 	SDL_DestroyTexture(hiddenTexture);
 	SDL_DestroyTexture(revealedTexture);
 	SDL_DestroyTexture(flagTexture);
@@ -332,17 +340,17 @@ int mineMain(int argc, char* argv[]) {
 	SDL_DestroyTexture(soundButtonTexture);
 	SDL_DestroyTexture(soundOffButtonTexture);
 
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
+//	SDL_DestroyRenderer(renderer);
+//	SDL_DestroyWindow(window);
 	TTF_CloseFont(font);
 	Mix_FreeChunk(clickSound);
 
 	Mix_CloseAudio();
-	TTF_Quit();
-	IMG_Quit();
-	SDL_Quit();
+//	TTF_Quit();
+//	IMG_Quit();
+//	SDL_Quit();
 
-	return 0;
+//	return 0;
 }
 
 
