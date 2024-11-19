@@ -199,7 +199,6 @@ class ZombieScreen : public BaseScreen {
 		void moveBoss();
 		void renderPauseScreen();
 		void gameOver();
-		void handleInput(SDL_Event e);
 		void spawnBoss();
 		void movePlayer();
 		void bossShoot();

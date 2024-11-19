@@ -39,46 +39,46 @@ void ZombieScreen::load(GameState* game) {
 void ZombieScreen::render() {
 //
 //	while (!quit) {
-		Uint32 currentTime = SDL_GetTicks();
+	Uint32 currentTime = SDL_GetTicks();
 
-		renderGame();
+	renderGame();
 
-		if (zombieGameState != PAUSED) {
-			if (currentTime - lastBulletDropSpawnTime >= BULLET_DROP_RESPAWN_TIME) {
-				spawnBulletDrop();
-				lastBulletDropSpawnTime = currentTime;
-			}
+	if (zombieGameState != PAUSED) {
+		if (currentTime - lastBulletDropSpawnTime >= BULLET_DROP_RESPAWN_TIME) {
+			spawnBulletDrop();
+			lastBulletDropSpawnTime = currentTime;
 		}
+	}
 
 //		handleInput();  // Centralized input handling
 
-		if (zombieGameState == PLAYING) {
-			if (waitingForNextLevel && currentTime - levelTransitionStartTime >= LEVEL_TRANSITION_DELAY) {
-				nextLevel();
-				waitingForNextLevel = false;
-			}
-
-			if (!waitingForNextLevel) {
-				if (currentTime - lastMovementTime > MOVEMENT_INTERVAL) {
-					moveBullets();
-					moveBossBullets();
-					lastMovementTime = currentTime;
-				}
-
-				moveZombies();
-				if (boss) moveBoss();
-				checkCollisions();
-
-				if (zombies.empty() && !bossWave) {
-					nextWave();
-				}
-			}
-		} else if (zombieGameState == PAUSED) {
-			renderPauseScreen();
-//			handleInput();
-		} else if (zombieGameState == GAME_OVER) {
-   			gameOver();
+	if (zombieGameState == PLAYING) {
+		if (waitingForNextLevel && currentTime - levelTransitionStartTime >= LEVEL_TRANSITION_DELAY) {
+			nextLevel();
+			waitingForNextLevel = false;
 		}
+
+		if (!waitingForNextLevel) {
+			if (currentTime - lastMovementTime > MOVEMENT_INTERVAL) {
+				moveBullets();
+				moveBossBullets();
+				lastMovementTime = currentTime;
+			}
+
+			moveZombies();
+			if (boss) moveBoss();
+			checkCollisions();
+
+			if (zombies.empty() && !bossWave) {
+				nextWave();
+			}
+		}
+	} else if (zombieGameState == PAUSED) {
+		renderPauseScreen();
+//			handleInput();
+	} else if (zombieGameState == GAME_OVER) {
+		gameOver();
+	}
 //	}
 }
 
@@ -92,62 +92,58 @@ void ZombieScreen::cleanUp() {
 }
 
 void ZombieScreen::handleEvents(SDL_Event e) {
-	handleInput(e);
-}
-
-void ZombieScreen::handleInput(SDL_Event e) {
 //	SDL_Event e;
 //	while (SDL_PollEvent(&e) != 0) {
-		if (e.type == SDL_QUIT) {
-			quit = true;
-		}
+	if (e.type == SDL_QUIT) {
+		quit = true;
+	}
 
-		if (e.type == SDL_KEYDOWN) {
-			switch (e.key.keysym.sym) {
-				case SDLK_p:
-					if (zombieGameState == PLAYING)
-						zombieGameState = PAUSED;
-					else {
-						zombieGameState = PLAYING;
+	if (e.type == SDL_KEYDOWN) {
+		switch (e.key.keysym.sym) {
+			case SDLK_p:
+				if (zombieGameState == PLAYING)
+					zombieGameState = PAUSED;
+				else {
+					zombieGameState = PLAYING;
+				}
+				break;
+			case SDLK_q:
+				quit = true;
+				break;
+			case SDLK_SPACE:
+				if (zombieGameState == PLAYING) {
+					if (playerBulletCount > 0 && bulletCooldown == 0) {
+						bullets.push_back(Bullet(playerX + PLAYER_WIDTH, playerY + PLAYER_HEIGHT / 2, 10, 0));
+						bulletCooldown = BULLET_COOLDOWN_TIME;
+						playerBulletCount--; // Decrease bullet count
 					}
+				}
+				break;
+			case SDLK_UP:
+			case SDLK_DOWN:
+				if (zombieGameState == PLAYING) {
+					movePlayer();
 					break;
-				case SDLK_q:
-					quit = true;
-					break;
-				case SDLK_SPACE:
-					if (zombieGameState == PLAYING) {
-						if (playerBulletCount > 0 && bulletCooldown == 0) {
-							bullets.push_back(Bullet(playerX + PLAYER_WIDTH, playerY + PLAYER_HEIGHT / 2, 10, 0));
-							bulletCooldown = BULLET_COOLDOWN_TIME;
-							playerBulletCount--; // Decrease bullet count
-						}
-					}
-					break;
-				case SDLK_UP:
-				case SDLK_DOWN:
-					if (zombieGameState == PLAYING) {
-						movePlayer();
-						break;
-					}
-			}
+				}
 		}
+	}
 
-		if (e.type == SDL_MOUSEBUTTONDOWN) {
-			int x, y;
-			SDL_GetMouseState(&x, &y);
-			SDL_Point mousePoint = {x, y};
-			if (SDL_PointInRect(&mousePoint, &playRect)) {
-				zombieGameState = PLAYING;
-			} else	if (SDL_PointInRect(&mousePoint, &pauseRect)) {
-				zombieGameState = PAUSED;
-			} else	if (SDL_PointInRect(&mousePoint, &musicRect)) {
+	if (e.type == SDL_MOUSEBUTTONDOWN) {
+		int x, y;
+		SDL_GetMouseState(&x, &y);
+		SDL_Point mousePoint = {x, y};
+		if (SDL_PointInRect(&mousePoint, &playRect)) {
+			zombieGameState = PLAYING;
+		} else	if (SDL_PointInRect(&mousePoint, &pauseRect)) {
+			zombieGameState = PAUSED;
+		} else	if (SDL_PointInRect(&mousePoint, &musicRect)) {
 
-			} else	if (SDL_PointInRect(&mousePoint, &soundRect)) {
+		} else	if (SDL_PointInRect(&mousePoint, &soundRect)) {
 
-			} else	if (SDL_PointInRect(&mousePoint, &quitRect)) {
-				zombieGameState = GAME_OVER;
-			}
+		} else	if (SDL_PointInRect(&mousePoint, &quitRect)) {
+			zombieGameState = GAME_OVER;
 		}
+	}
 //	}
 
 	if (bulletCooldown > 0) bulletCooldown--;
@@ -175,7 +171,7 @@ void ZombieScreen::moveBullets() {
 void ZombieScreen::moveZombies() {
 
 	Uint32 currentTime = SDL_GetTicks();
-	/*
+
 	std::priority_queue<Zombie> updatedZombies;
 
 	while (!zombies.empty()) {
@@ -199,7 +195,7 @@ void ZombieScreen::moveZombies() {
 	}
 
 	zombies = updatedZombies;
-	*/
+
 }
 
 void ZombieScreen::moveBoss() {
@@ -252,38 +248,37 @@ void ZombieScreen::moveBossBullets() {
 
 // Handle bullet and zombie/boss collisions
 void ZombieScreen::checkCollisions() {
-	/*
-		// Check collisions between player bullets and zombies
-		for (auto bulletIt = bullets.begin(); bulletIt != bullets.end();) {
-	*/
-	bool hit = false;
-	std::priority_queue<Zombie> updatedZombies;
-	/*
-			// Process zombies individually to check for collisions
-			while (!zombies.empty()) {
-				Zombie z = zombies.top();
-				zombies.pop();
+	// Check collisions between player bullets and zombies
+	for (auto bulletIt = bullets.begin(); bulletIt != bullets.end();) {
+		bool hit = false;
+		std::priority_queue<Zombie> updatedZombies;
 
-				// Check if the bullet collides with this zombie
-				if (!hit && bulletIt->x >= z.x && bulletIt->x <= z.x + ZOMBIE_WIDTH &&
-				        bulletIt->y >= z.y && bulletIt->y <= z.y + ZOMBIE_HEIGHT) {
-					hit = true; // Mark bullet as hitting a zombie
-				} else {
-					updatedZombies.push(z); // No collision, keep zombie in the queue
-				}
-			}
+		// Process zombies individually to check for collisions
+		while (!zombies.empty()) {
+			Zombie z = zombies.top();
+			zombies.pop();
 
-			// Restore zombies back to the priority queue
-			zombies = updatedZombies;
-
-			// Remove the bullet if it hit a zombie
-			if (hit) {
-				bulletIt = bullets.erase(bulletIt);
+			// Check if the bullet collides with this zombie
+			if (!hit && bulletIt->x >= z.x && bulletIt->x <= z.x + ZOMBIE_WIDTH &&
+			        bulletIt->y >= z.y && bulletIt->y <= z.y + ZOMBIE_HEIGHT) {
+				hit = true; // Mark bullet as hitting a zombie
 			} else {
-				++bulletIt;
+				updatedZombies.push(z); // No collision, keep zombie in the queue
 			}
 		}
-	*/
+
+		// Restore zombies back to the priority queue
+		zombies = updatedZombies;
+
+		// Remove the bullet if it hit a zombie
+		if (hit) {
+			bulletIt = bullets.erase(bulletIt);
+		} else {
+			++bulletIt;
+		}
+
+	}
+
 	// Check collisions between player bullets and the boss
 	for (auto bulletIt = bullets.begin(); bulletIt != bullets.end();) {
 		if (boss && bulletIt->x >= boss->x && bulletIt->x <= boss->x + BOSS_WIDTH &&
@@ -333,7 +328,7 @@ void ZombieScreen::renderGame() {
 
 		// Render zombies
 		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-		/*
+
 		std::priority_queue<Zombie> tempZombies = zombies;
 		while (!tempZombies.empty()) {
 			Zombie z = tempZombies.top();
@@ -341,7 +336,7 @@ void ZombieScreen::renderGame() {
 			SDL_Rect zombieRect = {z.x, z.y, ZOMBIE_WIDTH, ZOMBIE_HEIGHT};
 			SDL_RenderFillRect(renderer, &zombieRect);
 		}
-		*/
+
 		// Render boss if present
 		if (boss) {
 			SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255); // Purple color for the boss
@@ -533,22 +528,7 @@ void ZombieScreen::renderPauseScreen() {
 	SDL_RenderPresent(renderer);
 
 }
-/*
-SDL_Texture* Zombie::loadTexture(const char* path) {
-	SDL_Texture* newTexture = nullptr;
-	SDL_Surface* loadedSurface = IMG_Load(path);
-	if (!loadedSurface) {
-		printf("Unable to load image! SDL_image Error: ", IMG_GetError());
-	} else {
-		newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);  // Create texture from surface
-		SDL_FreeSurface(loadedSurface);  // Free the loaded surface as it's no longer needed
-		if (!newTexture) {
-			printf("Unable to create texture from surface! SDL_Error: ", SDL_GetError());
-		}
-	}
-	return newTexture;
-}
-*/
+
 SDL_Texture* ZombieScreen::loadTexture(const char* path) {
 	SDL_Texture* newTexture = nullptr;
 	SDL_Surface* loadedSurface = IMG_Load(path);
