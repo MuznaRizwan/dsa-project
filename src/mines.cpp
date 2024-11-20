@@ -1,17 +1,27 @@
+#include "mines.h"
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
-#include <iostream>
-#include <vector>
-#include <ctime>
-#include <cstdlib>
+#include <SDL2/SDL_ttf.h>
 #include <unordered_set>
-#include "mines.h"
+#include <vector>
 
 void Minesweeper::updateTimer() {
 	if (isPaused || isGameOver) return;
 	elapsedTime = (SDL_GetTicks() - startTime) / 1000;
+}
+
+void Minesweeper::renderText(TTF_Font* font, const char* text, int x, int y, SDL_Color color)
+{
+	SDL_Surface* surface = TTF_RenderText_Solid(font, text, color);
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_Rect destRect = { x, y, surface->w, surface->h };
+	SDL_RenderCopy(renderer, texture, nullptr, &destRect);
+	SDL_FreeSurface(surface);
+	SDL_DestroyTexture(texture);
 }
 
 void Minesweeper::initGame() {
@@ -41,14 +51,15 @@ void Minesweeper::handlePauseInput(SDL_Event& e, SDL_Texture* playButtonTexture,
 		int x = e.button.x;
 		int y = e.button.y;
 
-		SDL_Rect playButtonRect = {300, 200, BUTTON_WIDTH, BUTTON_HEIGHT};
-		SDL_Rect quitButtonRect = {500, 300, BUTTON_WIDTH, BUTTON_HEIGHT};
+		SDL_Rect playButtonRect = { 300, 200, BUTTON_WIDTH, BUTTON_HEIGHT };
+		SDL_Rect quitButtonRect = { 500, 300, BUTTON_WIDTH, BUTTON_HEIGHT };
 
 		if (x >= playButtonRect.x && x <= playButtonRect.x + BUTTON_WIDTH &&
-		        y >= playButtonRect.y && y <= playButtonRect.y + BUTTON_HEIGHT) {
+			y >= playButtonRect.y && y <= playButtonRect.y + BUTTON_HEIGHT) {
 			isPaused = false; // Resume the game
-		} else if (x >= quitButtonRect.x && x <= quitButtonRect.x + BUTTON_WIDTH &&
-		           y >= quitButtonRect.y && y <= quitButtonRect.y + BUTTON_HEIGHT) {
+		}
+		else if (x >= quitButtonRect.x && x <= quitButtonRect.x + BUTTON_WIDTH &&
+			y >= quitButtonRect.y && y <= quitButtonRect.y + BUTTON_HEIGHT) {
 			isGameOver = true; // End the game
 		}
 	}
@@ -58,7 +69,8 @@ void Minesweeper::toggleFlag(int x, int y) {
 	if (grid[x][y].state == HIDDEN && flaggedCells.size() < static_cast<size_t>(maxFlags)) {
 		grid[x][y].state = FLAGGED;
 		flaggedCells.insert(idx);
-	} else if (grid[x][y].state == FLAGGED) {
+	}
+	else if (grid[x][y].state == FLAGGED) {
 		grid[x][y].state = HIDDEN;
 		flaggedCells.erase(idx);
 	}
@@ -96,7 +108,7 @@ void Minesweeper::calculateAdjacentMines() {
 
 void Minesweeper::revealCell(int x, int y) {
 	Cell& cell = grid[x][y];
-	if (isGameOver ||cell.state != HIDDEN) return;
+	if (isGameOver || cell.state != HIDDEN) return;
 
 	cell.state = REVEALED;
 	revealedCells++;
@@ -128,23 +140,24 @@ void Minesweeper::flagCell(int x, int y) {
 	Cell& cell = grid[x][y];
 	if (isGameOver || cell.state == REVEALED) return;
 
-	if (cell.state == HIDDEN && currentFlags<maxFlags) { //&& currentFlags < maxFlags) {
+	if (cell.state == HIDDEN && currentFlags < maxFlags) { //&& currentFlags < maxFlags) {
 		cell.state = FLAGGED;
 		currentFlags++;
 
-	} else if (cell.state == FLAGGED) {
+	}
+	else if (cell.state == FLAGGED) {
 		cell.state = HIDDEN;
 		currentFlags--;
 	}
 }
-void Minesweeper::renderPauseScreen(SDL_Renderer* renderer, SDL_Texture* playButtonTexture,  SDL_Texture* quitButtonTexture) {
+void Minesweeper::renderPauseScreen(SDL_Renderer* renderer, SDL_Texture* playButtonTexture, SDL_Texture* quitButtonTexture) {
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 128);
-	SDL_Rect overlayRect = {0, 0, 1000, 500};
+	SDL_Rect overlayRect = { 0, 0, 1000, 500 };
 	SDL_RenderFillRect(renderer, &overlayRect);
 
-	SDL_Rect playButtonRect = {300, 200, BUTTON_WIDTH, BUTTON_HEIGHT};
-	SDL_Rect quitButtonRect = {300, 300, BUTTON_WIDTH, BUTTON_HEIGHT};
+	SDL_Rect playButtonRect = { 300, 200, BUTTON_WIDTH, BUTTON_HEIGHT };
+	SDL_Rect quitButtonRect = { 300, 300, BUTTON_WIDTH, BUTTON_HEIGHT };
 
 	SDL_RenderCopy(renderer, playButtonTexture, nullptr, &playButtonRect);
 	SDL_RenderCopy(renderer, quitButtonTexture, nullptr, &quitButtonRect);
@@ -160,13 +173,16 @@ void Minesweeper::renderGrid(SDL_Renderer* renderer, SDL_Texture* hiddenTexture,
 			SDL_Rect cellRect = { gridXOffset + x * CELL_SIZE, gridYOffset + y * CELL_SIZE, CELL_SIZE, CELL_SIZE };
 			if (cell.state == HIDDEN) {
 				SDL_RenderCopy(renderer, hiddenTexture, nullptr, &cellRect);
-			} else if (cell.state == FLAGGED) {
+			}
+			else if (cell.state == FLAGGED) {
 				SDL_RenderCopy(renderer, flagTexture, nullptr, &cellRect);
-			} else if (cell.state == REVEALED) {
+			}
+			else if (cell.state == REVEALED) {
 				SDL_RenderCopy(renderer, revealedTexture, nullptr, &cellRect);
 				if (cell.content == MINE) {
 					SDL_RenderCopy(renderer, mineTexture, nullptr, &cellRect);
-				} else if (cell.content == NUMBER) {
+				}
+				else if (cell.content == NUMBER) {
 					//SDL_Color textColor = {0, 0, 0};
 					renderText(std::to_string(grid[x][y].adjacentMines), cellRect.x + 10, cellRect.y + 5, BLACK, font, renderer);
 
@@ -178,27 +194,27 @@ void Minesweeper::renderGrid(SDL_Renderer* renderer, SDL_Texture* hiddenTexture,
 void Minesweeper::renderText(const std::string& text, int x, int y, SDL_Color color, TTF_Font* font, SDL_Renderer* renderer) {
 
 	SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
-	SDL_Texture* texture = SDL_CreateTextureFromSurface( renderer, surface);
-	SDL_Rect textRect = {x, y, surface->w, surface->h};
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_Rect textRect = { x, y, surface->w, surface->h };
 	SDL_RenderCopy(renderer, texture, nullptr, &textRect);
 	SDL_FreeSurface(surface);
 	SDL_DestroyTexture(texture);
 }
-void Minesweeper::renderUI(SDL_Renderer* renderer, TTF_Font* font, SDL_Texture* shovelButton, SDL_Texture* flagButton, SDL_Texture* pauseButtonTexture,SDL_Texture* soundButtonTexture, SDL_Texture* soundOffButtonTexture, Mix_Chunk* clickSound, SDL_Texture* playButtonTexture, SDL_Texture* quitButtonTexture) {
+void Minesweeper::renderUI(SDL_Renderer* renderer, TTF_Font* font, SDL_Texture* shovelButton, SDL_Texture* flagButton, SDL_Texture* pauseButtonTexture, SDL_Texture* soundButtonTexture, SDL_Texture* soundOffButtonTexture, Mix_Chunk* clickSound, SDL_Texture* playButtonTexture, SDL_Texture* quitButtonTexture) {
 
 	int remainingTime = TIMER_LIMIT - (elapsedTime);
 	if (remainingTime <= 0) renderText("Time's over!", 300, 20, BLACK, font, renderer);
 	renderText("Time: " + std::to_string(remainingTime) + "s", 10, 10, BLACK, font, renderer);
 	renderText("Flags: " + std::to_string(currentFlags), 10, 40, BLACK, font, renderer);
 	renderText("Score: " + std::to_string(currentScore), 10, 70, BLACK, font, renderer);
-	if(currentFlags >= maxFlags) {
+	if (currentFlags >= maxFlags) {
 		renderText("FLAG LIMIT EXCEEDED! ", 200, 5, BLACK, font, renderer);
 	}
 
-	SDL_Rect shovelButtonRect = {10, 110, BUTTON_WIDTH, BUTTON_HEIGHT};
-	SDL_Rect flagButtonRect = {70, 110, BUTTON_WIDTH, BUTTON_HEIGHT};
-	SDL_Rect pauseButtonRect = {10, 300, BUTTON_WIDTH, BUTTON_HEIGHT};
-	SDL_Rect soundButtonRect = {10, 200, BUTTON_WIDTH, BUTTON_HEIGHT};
+	SDL_Rect shovelButtonRect = { 10, 110, BUTTON_WIDTH, BUTTON_HEIGHT };
+	SDL_Rect flagButtonRect = { 70, 110, BUTTON_WIDTH, BUTTON_HEIGHT };
+	SDL_Rect pauseButtonRect = { 10, 300, BUTTON_WIDTH, BUTTON_HEIGHT };
+	SDL_Rect soundButtonRect = { 10, 200, BUTTON_WIDTH, BUTTON_HEIGHT };
 
 
 	SDL_RenderCopy(renderer, shovelButton, nullptr, &shovelButtonRect);
@@ -206,42 +222,47 @@ void Minesweeper::renderUI(SDL_Renderer* renderer, TTF_Font* font, SDL_Texture* 
 	SDL_RenderCopy(renderer, pauseButtonTexture, nullptr, &pauseButtonRect);
 	SDL_RenderCopy(renderer, isSoundOn ? soundButtonTexture : soundOffButtonTexture, nullptr, &soundButtonRect);
 
-	SDL_SetRenderDrawColor(renderer,  DARK_BROWN.r, DARK_BROWN.g, DARK_BROWN.b, DARK_BROWN.a); // brown
+	SDL_SetRenderDrawColor(renderer, DARK_BROWN.r, DARK_BROWN.g, DARK_BROWN.b, DARK_BROWN.a); // brown
 	if (currentTool == SHOVEL) {
 		SDL_RenderDrawRect(renderer, &shovelButtonRect);
-	} else if (currentTool == FLAG) {
+	}
+	else if (currentTool == FLAG) {
 		SDL_RenderDrawRect(renderer, &flagButtonRect);
 	}
 
-	if(isPause()) {
+	if (isPause()) {
 		renderPauseScreen(renderer, playButtonTexture, quitButtonTexture);    //SDL_SetRenderDrawColor(renderer,BLACK); // Reset to black
 	}
 
 }
 
 void Minesweeper::handleInput(SDL_Event& e, SDL_Rect& shovelButtonRect, SDL_Rect& flagButtonRect, SDL_Rect& pauseButtonRect,
-                              SDL_Rect& soundButtonRect, Mix_Chunk* clickSound, SDL_Texture* playButtonTexture, SDL_Texture* quitButtonTexture) {
+	SDL_Rect& soundButtonRect, Mix_Chunk* clickSound, SDL_Texture* playButtonTexture, SDL_Texture* quitButtonTexture) {
 	if (isPause()) {
 		handlePauseInput(e, playButtonTexture, quitButtonTexture);
 		return;
-	} else {
+	}
+	else {
 
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
 			int x = e.button.x;
 			int y = e.button.y;
 
 			if (x >= shovelButtonRect.x && x <= shovelButtonRect.x + BUTTON_WIDTH &&
-			        y >= shovelButtonRect.y && y <= shovelButtonRect.y + BUTTON_HEIGHT) {
+				y >= shovelButtonRect.y && y <= shovelButtonRect.y + BUTTON_HEIGHT) {
 				currentTool = SHOVEL;
-			} else if (x >= flagButtonRect.x && x <= flagButtonRect.x + BUTTON_WIDTH &&
-			           y >= flagButtonRect.y && y <= flagButtonRect.y + BUTTON_HEIGHT) {
+			}
+			else if (x >= flagButtonRect.x && x <= flagButtonRect.x + BUTTON_WIDTH &&
+				y >= flagButtonRect.y && y <= flagButtonRect.y + BUTTON_HEIGHT) {
 				currentTool = FLAG;
-			} else if (x >= soundButtonRect.x && x <= soundButtonRect.x + BUTTON_WIDTH &&
-			           y >= soundButtonRect.y && y <= soundButtonRect.y + BUTTON_HEIGHT) {
+			}
+			else if (x >= soundButtonRect.x && x <= soundButtonRect.x + BUTTON_WIDTH &&
+				y >= soundButtonRect.y && y <= soundButtonRect.y + BUTTON_HEIGHT) {
 				isSoundOn = !isSoundOn;
 				return;
-			} else if (x >= pauseButtonRect.x && x <= pauseButtonRect.x + BUTTON_WIDTH &&
-			           y >= pauseButtonRect.y && y <= pauseButtonRect.y + BUTTON_HEIGHT) {
+			}
+			else if (x >= pauseButtonRect.x && x <= pauseButtonRect.x + BUTTON_WIDTH &&
+				y >= pauseButtonRect.y && y <= pauseButtonRect.y + BUTTON_HEIGHT) {
 				isPaused = !isPaused;
 				isPause(); // Toggle pause state
 				return;
@@ -255,7 +276,8 @@ void Minesweeper::handleInput(SDL_Event& e, SDL_Rect& shovelButtonRect, SDL_Rect
 				if (currentTool == SHOVEL) {
 					revealCell(x, y);
 					if (clickSound && isSoundOn) Mix_PlayChannel(-1, clickSound, 0);
-				} else if (currentTool == FLAG) {
+				}
+				else if (currentTool == FLAG) {
 					flagCell(x, y);
 					// toggleFlag(x, y);
 				}
@@ -271,13 +293,13 @@ void Minesweeper::load(GameState* game) {
 	this->renderer = game->renderer;
 	const int WINDOW_WIDTH = 1000;
 	const int WINDOW_HEIGHT = 500;
-//	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-//	IMG_Init(IMG_INIT_PNG);
-//	TTF_Init();
+	//	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+	//	IMG_Init(IMG_INIT_PNG);
+	//	TTF_Init();
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
-//	SDL_Window* window = SDL_CreateWindow("Minesweeper", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
-//	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	//	SDL_Window* window = SDL_CreateWindow("Minesweeper", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+	//	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	hiddenTexture = IMG_LoadTexture(renderer, "assets/images/hidden.png");
 	revealedTexture = IMG_LoadTexture(renderer, "assets/images/revealed.png");
@@ -294,8 +316,8 @@ void Minesweeper::load(GameState* game) {
 
 	font = TTF_OpenFont("assets/font/textN.ttf", 24);
 	clickSound = Mix_LoadWAV("assets/audio/click.wav");
-//	Minesweeper minesweeperGame;
-//	minesweeperGame.initGame();
+	//	Minesweeper minesweeperGame;
+	//	minesweeperGame.initGame();
 
 	initGame();
 
@@ -303,17 +325,17 @@ void Minesweeper::load(GameState* game) {
 
 void Minesweeper::handleEvents(SDL_Event e) {
 	bool running = true;
-	SDL_Rect shovelButtonRect = {10, 110, BUTTON_WIDTH, BUTTON_HEIGHT};
-	SDL_Rect flagButtonRect = {70, 110, BUTTON_WIDTH, BUTTON_HEIGHT};
-	SDL_Rect pauseButtonRect = {10, 300, BUTTON_WIDTH, BUTTON_HEIGHT};
-	SDL_Rect soundButtonRect = {10, 200, BUTTON_WIDTH, BUTTON_HEIGHT};
+	SDL_Rect shovelButtonRect = { 10, 110, BUTTON_WIDTH, BUTTON_HEIGHT };
+	SDL_Rect flagButtonRect = { 70, 110, BUTTON_WIDTH, BUTTON_HEIGHT };
+	SDL_Rect pauseButtonRect = { 10, 300, BUTTON_WIDTH, BUTTON_HEIGHT };
+	SDL_Rect soundButtonRect = { 10, 200, BUTTON_WIDTH, BUTTON_HEIGHT };
 
-//	while (running) {
-//		SDL_Event e;
-//		while (SDL_PollEvent(&e)) {
+	//	while (running) {
+	//		SDL_Event e;
+	//		while (SDL_PollEvent(&e)) {
 	if (e.type == SDL_QUIT) running = false;
-	handleInput(e, shovelButtonRect, flagButtonRect, pauseButtonRect,soundButtonRect, clickSound, playButtonTexture, quitButtonTexture);
-//		}
+	handleInput(e, shovelButtonRect, flagButtonRect, pauseButtonRect, soundButtonRect, clickSound, playButtonTexture, quitButtonTexture);
+	//		}
 }
 void Minesweeper::render() {
 	updateTimer();
@@ -322,7 +344,7 @@ void Minesweeper::render() {
 	SDL_RenderClear(renderer);
 
 	renderGrid(renderer, hiddenTexture, revealedTexture, flagTexture, mineTexture, font);
-	renderUI(renderer, font, shovelButton, flagButton, pauseButtonTexture,soundButtonTexture,soundOffButtonTexture,clickSound, playButtonTexture, quitButtonTexture);
+	renderUI(renderer, font, shovelButton, flagButton, pauseButtonTexture, soundButtonTexture, soundOffButtonTexture, clickSound, playButtonTexture, quitButtonTexture);
 
 	SDL_RenderPresent(renderer);
 }
@@ -340,17 +362,17 @@ void Minesweeper::cleanUp() {
 	SDL_DestroyTexture(soundButtonTexture);
 	SDL_DestroyTexture(soundOffButtonTexture);
 
-//	SDL_DestroyRenderer(renderer);
-//	SDL_DestroyWindow(window);
-	TTF_CloseFont(font);
+	//	SDL_DestroyRenderer(renderer);
+	//	SDL_DestroyWindow(window);
+		//TTF_CloseFont(font);
 	Mix_FreeChunk(clickSound);
 
 	Mix_CloseAudio();
-//	TTF_Quit();
-//	IMG_Quit();
-//	SDL_Quit();
+	//	TTF_Quit();
+	//	IMG_Quit();
+	//	SDL_Quit();
 
-//	return 0;
+	//	return 0;
 }
 
 

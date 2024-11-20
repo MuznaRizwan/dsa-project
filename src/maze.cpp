@@ -1,32 +1,33 @@
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_mixer.h"
-#include <iostream>
-#include <vector>
-#include <stack>
-#include <map>
 #include "maze.h"
+#include <iostream>
+#include <map>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
+#include <stack>
+#include <vector>
 
 
 void MazeScreen::load(GameState* game) {
 	this->game = game;
 	this->renderer = game->renderer;
-//			if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
-//				std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
-//				return false;
-//			}
-//
-//			window = SDL_CreateWindow("Maze Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-//			if (!window) {
-//				std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-//				return false;
-//			}
-//
-//			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-//			if (!renderer) {
-//				std::cout << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-//				return false;
-//			}
+	//			if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
+	//				std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
+	//				return false;
+	//			}
+	//
+	//			window = SDL_CreateWindow("Maze Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	//			if (!window) {
+	//				std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+	//				return false;
+	//			}
+	//
+	//			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	//			if (!renderer) {
+	//				std::cout << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+	//				return false;
+	//			}
 
 	backgroundTexture = loadTexture("assets/images/bg1.png");
 	floorTexture = loadTexture("assets/images/floor.png");
@@ -70,10 +71,10 @@ void MazeScreen::cleanUp() {
 	SDL_DestroyTexture(sunTexture);
 	SDL_DestroyTexture(lollipopTexture);
 	Mix_FreeChunk(moveSound);
-//			SDL_DestroyRenderer(renderer);
-//			SDL_DestroyWindow(window);
-//			Mix_Quit();
-//			SDL_Quit();
+	//			SDL_DestroyRenderer(renderer);
+	//			SDL_DestroyWindow(window);
+	//			Mix_Quit();
+	//			SDL_Quit();
 }
 
 SDL_Texture* MazeScreen::loadTexture(const std::string& path) {
@@ -85,23 +86,23 @@ SDL_Texture* MazeScreen::loadTexture(const std::string& path) {
 }
 
 void MazeScreen::defineGraph() {
-	mazeGraph.addEdge({3, 8}, {3, 7});
-	mazeGraph.addEdge({3, 7}, {3, 6});
-	mazeGraph.addEdge({3, 6}, {3, 5});
-	mazeGraph.addEdge({3, 5}, {3, 4});
-//        mazeGraph.addEdge({5, 6}, {5, 5});
-//        mazeGraph.addEdge({5, 5}, {5, 4});
-//        mazeGraph.addEdge({5, 4}, {5, 3});
-//        mazeGraph.addEdge({5, 3}, {5, 2});
-//        mazeGraph.addEdge({5, 2}, {5, 1});
-//        mazeGraph.addEdge({5, 1}, {5, 0});
-//        mazeGraph.addEdge({4, 6}, {3, 6});
-//        mazeGraph.addEdge({5, 4}, {6, 4});
-//        mazeGraph.addEdge({6, 4}, {7, 4});
-//        mazeGraph.addEdge({3, 6}, {3, 5});
-//        mazeGraph.addEdge({3, 5}, {3, 4});
-//        mazeGraph.addEdge({3, 4}, {3, 3});
-//        mazeGraph.addEdge({3, 3}, {3, 2});
+	mazeGraph.addEdge({ 3, 8 }, { 3, 7 });
+	mazeGraph.addEdge({ 3, 7 }, { 3, 6 });
+	mazeGraph.addEdge({ 3, 6 }, { 3, 5 });
+	mazeGraph.addEdge({ 3, 5 }, { 3, 4 });
+	//        mazeGraph.addEdge({5, 6}, {5, 5});
+	//        mazeGraph.addEdge({5, 5}, {5, 4});
+	//        mazeGraph.addEdge({5, 4}, {5, 3});
+	//        mazeGraph.addEdge({5, 3}, {5, 2});
+	//        mazeGraph.addEdge({5, 2}, {5, 1});
+	//        mazeGraph.addEdge({5, 1}, {5, 0});
+	//        mazeGraph.addEdge({4, 6}, {3, 6});
+	//        mazeGraph.addEdge({5, 4}, {6, 4});
+	//        mazeGraph.addEdge({6, 4}, {7, 4});
+	//        mazeGraph.addEdge({3, 6}, {3, 5});
+	//        mazeGraph.addEdge({3, 5}, {3, 4});
+	//        mazeGraph.addEdge({3, 4}, {3, 3});
+	//        mazeGraph.addEdge({3, 3}, {3, 2});
 }
 
 void MazeScreen::handleEvents(SDL_Event event) {
@@ -110,21 +111,21 @@ void MazeScreen::handleEvents(SDL_Event event) {
 	}
 	if (event.type == SDL_KEYDOWN) {
 		switch (event.key.keysym.sym) {
-			case SDLK_UP:
-				player.move(0, -1, mazeGraph, moveSound);
-				break;
-			case SDLK_DOWN:
-				player.move(0, 1, mazeGraph, moveSound);
-				break;
-			case SDLK_LEFT:
-				player.move(-1, 0, mazeGraph, moveSound);
-				break;
-			case SDLK_RIGHT:
-				player.move(1, 0, mazeGraph, moveSound);
-				break;
-			case SDLK_q:
-				isRunning = false;
-				break;
+		case SDLK_UP:
+			player.move(0, -1, mazeGraph, moveSound);
+			break;
+		case SDLK_DOWN:
+			player.move(0, 1, mazeGraph, moveSound);
+			break;
+		case SDLK_LEFT:
+			player.move(-1, 0, mazeGraph, moveSound);
+			break;
+		case SDLK_RIGHT:
+			player.move(1, 0, mazeGraph, moveSound);
+			break;
+		case SDLK_q:
+			isRunning = false;
+			break;
 		}
 	}
 
@@ -182,20 +183,20 @@ void MazeScreen::render() {
 	SDL_RenderCopy(renderer, sunTexture, nullptr, &sunRect);
 
 	//CURVE
-	SDL_Rect bg4Rect1 = { bg4X1, SCREEN_HEIGHT/3, SCREEN_WIDTH, 130 };
-	SDL_Rect bg4Rect2 = { bg4X2, SCREEN_HEIGHT/3, SCREEN_WIDTH, 130 };
+	SDL_Rect bg4Rect1 = { bg4X1, SCREEN_HEIGHT / 3, SCREEN_WIDTH, 130 };
+	SDL_Rect bg4Rect2 = { bg4X2, SCREEN_HEIGHT / 3, SCREEN_WIDTH, 130 };
 	SDL_RenderCopy(renderer, backgroundTexture4, nullptr, &bg4Rect1);
 	SDL_RenderCopy(renderer, backgroundTexture4, nullptr, &bg4Rect2);
 
 	// Render the second background (scrolling) LIGHT ORANGE
-	SDL_Rect bg2Rect1 = { bg2X1, SCREEN_HEIGHT/4, SCREEN_WIDTH, 300 };
-	SDL_Rect bg2Rect2 = { bg2X2, SCREEN_HEIGHT/4, SCREEN_WIDTH, 300 };
+	SDL_Rect bg2Rect1 = { bg2X1, SCREEN_HEIGHT / 4, SCREEN_WIDTH, 300 };
+	SDL_Rect bg2Rect2 = { bg2X2, SCREEN_HEIGHT / 4, SCREEN_WIDTH, 300 };
 	SDL_RenderCopy(renderer, backgroundTexture2, nullptr, &bg2Rect1);
 	SDL_RenderCopy(renderer, backgroundTexture2, nullptr, &bg2Rect2);
 
 	// Render the third background (scrolling) ORANGE
-	SDL_Rect bg3Rect1 = { bg3X1, SCREEN_HEIGHT/4, SCREEN_WIDTH, 350 };
-	SDL_Rect bg3Rect2 = { bg3X2, SCREEN_HEIGHT/4, SCREEN_WIDTH, 350 };
+	SDL_Rect bg3Rect1 = { bg3X1, SCREEN_HEIGHT / 4, SCREEN_WIDTH, 350 };
+	SDL_Rect bg3Rect2 = { bg3X2, SCREEN_HEIGHT / 4, SCREEN_WIDTH, 350 };
 	SDL_RenderCopy(renderer, backgroundTexture3, nullptr, &bg3Rect1);
 	SDL_RenderCopy(renderer, backgroundTexture3, nullptr, &bg3Rect2);
 

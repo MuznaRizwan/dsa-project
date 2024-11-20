@@ -3,7 +3,8 @@
 bool Button::isClicked(int x, int y) {//function of
 	if (x >= 0 && x <= 900 && y >= 0 && y <= 500) {
 		return x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h;
-	} else {
+	}
+	else {
 		return 0;
 	}
 }

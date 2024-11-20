@@ -1,29 +1,26 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_mixer.h>
+#include "animation.h"
+#include "credits.h"
 #include <iostream>
-#include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
-#include "credits.h"
-#include "animation.h"
+#include <vector>
 
 using namespace std;
 
 void Credits::load(GameState* game) {
 	this->game = game;
 	this->renderer = game->renderer;
-//	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+	//	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 
-// Function prototypes
+	// Function prototypes
 
-//	SDL_Window* window = SDL_CreateWindow("Win Screen", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-//	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	//	SDL_Window* window = SDL_CreateWindow("Win Screen", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	//	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 
-	this->renderer=renderer;
+	this->renderer = renderer;
 
 	// Initialize SDL_mixer
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
@@ -41,21 +38,23 @@ void Credits::load(GameState* game) {
 }
 
 void Credits::handleEvents(SDL_Event event) {
-//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png"));
-//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png"));
+	//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png"));
+	//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png"));
 
-	// Button states
+		// Button states
 	bool running = true;
 	bool resume = false;
 
 	int bg1Y = 0, bg2Y = -SCREEN_HEIGHT; // Starting positions for scrolling backgrounds
-	float gx=0.0;
+	float gx = 0.0;
 	if (event.type == SDL_QUIT) {
 		running = false;
-	} else if (event.type == SDL_KEYDOWN) {
+	}
+	else if (event.type == SDL_KEYDOWN) {
 		if (event.key.keysym.sym == SDLK_ESCAPE) {
 			running = false;
-		} else if (event.key.keysym.sym == SDLK_r) { // Press 'R' to resume
+		}
+		else if (event.key.keysym.sym == SDLK_r) { // Press 'R' to resume
 			resume = true;
 		}
 
@@ -76,14 +75,14 @@ void Credits::handleEvents(SDL_Event event) {
 
 void Credits::render() {
 
-//	girlAnimation.update();
+	//	girlAnimation.update();
 
-	// Clear screen
+		// Clear screen
 	SDL_RenderClear(renderer);
 
 	// Render backgrounds
 	SDL_Rect bgRect1 = { 0, bg1Y, SCREEN_WIDTH, SCREEN_HEIGHT };
-//        SDL_Rect bgRect2 = { 0, bg2Y, SCREEN_WIDTH, SCREEN_HEIGHT };
+	//        SDL_Rect bgRect2 = { 0, bg2Y, SCREEN_WIDTH, SCREEN_HEIGHT };
 	SDL_RenderCopy(renderer, bg1, NULL, &bgRect1);
 	//SDL_RenderCopy(renderer, bg2, NULL, &bgRect2);
 
@@ -104,11 +103,11 @@ void Credits::render() {
 }
 
 void Credits::renderText(TTF_Font* font, const char* text,
-                     int x, int y, SDL_Color color) {
+	int x, int y, SDL_Color color) {
 	SDL_Surface* surface = TTF_RenderText_Blended(font, text, color);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 
-	SDL_Rect rect = {x, y, surface->w, surface->h};
+	SDL_Rect rect = { x, y, surface->w, surface->h };
 	SDL_RenderCopy(renderer, texture, NULL, &rect);
 
 	SDL_FreeSurface(surface);
@@ -121,11 +120,11 @@ void Credits::cleanUp() {
 	// Clean up resources
 //	girlAnimation.cleanUp();
 	SDL_DestroyTexture(bg1);
-//    SDL_DestroyTexture(bg2);
-//	Mix_FreeMusic(music);
+	//    SDL_DestroyTexture(bg2);
+	//	Mix_FreeMusic(music);
 	Mix_CloseAudio();
-//	SDL_DestroyRenderer(renderer);
-//	SDL_DestroyWindow(window);
-//	SDL_Quit();
-//	return 0;
+	//	SDL_DestroyRenderer(renderer);
+	//	SDL_DestroyWindow(window);
+	//	SDL_Quit();
+	//	return 0;
 }

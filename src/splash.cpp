@@ -1,19 +1,16 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_mixer.h>
+#include "splash.h"
 #include <iostream>
-#include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
-#include "splash.h"
+#include <vector>
 
 using namespace std;
 void Splash::load(GameState* game) {
-	this->game=game;
-	this->renderer=game->renderer;
-// Function prototypes
+	this->game = game;
+	this->renderer = game->renderer;
+	// Function prototypes
 	SDL_Surface* surface;
 	surface = IMG_Load("assets/images/splash.png");
 
@@ -40,22 +37,24 @@ void Splash::load(GameState* game) {
 }
 
 void Splash::handleEvents(SDL_Event event) {
-//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png"));
-//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png"));
+	//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png"));
+	//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png"));
 
-	// Button states
+		// Button states
 	bool running = true;
 	bool resume = false;
 
 
 	int bg1Y = 0, bg2Y = -SCREEN_HEIGHT; // Starting positions for scrolling backgrounds
-	float gx=0.0;
+	float gx = 0.0;
 	if (event.type == SDL_QUIT) {
 		running = false;
-	} else if (event.type == SDL_KEYDOWN) {
+	}
+	else if (event.type == SDL_KEYDOWN) {
 		if (event.key.keysym.sym == SDLK_ESCAPE) {
 			running = false;
-		} else if (event.key.keysym.sym == SDLK_r) { // Press 'R' to resume
+		}
+		else if (event.key.keysym.sym == SDLK_r) { // Press 'R' to resume
 			resume = true;
 		}
 	}
@@ -64,10 +63,9 @@ void Splash::handleEvents(SDL_Event event) {
 
 void Splash::render() {
 	SDL_RenderClear(renderer);
-	SDL_Texture* splashScreenTexture;
 	// Render backgrounds
 	SDL_Rect bgRect1 = { 0, bg1Y, SCREEN_WIDTH, SCREEN_HEIGHT };
-//        SDL_Rect bgRect2 = { 0, bg2Y, SCREEN_WIDTH, SCREEN_HEIGHT };
+	//        SDL_Rect bgRect2 = { 0, bg2Y, SCREEN_WIDTH, SCREEN_HEIGHT };
 	SDL_RenderCopy(renderer, bg1, NULL, &bgRect1);
 	//SDL_RenderCopy(renderer, bg2, NULL, &bgRect2);
 
@@ -78,15 +76,14 @@ void Splash::render() {
 	renderText(font, "Press 'R' to Resume or ESC to Quit", SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2, white);
 
 
-	SDL_Color textColor = {255, 255, 255, 255};
+	SDL_Color textColor = { 255, 255, 255, 255 };
 
-	SDL_Rect fullRect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+	SDL_Rect fullRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
-	SDL_RenderCopy(renderer, splashScreenTexture,
-	               NULL, &fullRect);
+	SDL_RenderCopy(renderer, bg1, NULL, &fullRect);
 	// Render back button
 	SDL_SetRenderDrawColor(renderer, 40, 40, 50, 255);
-	SDL_Rect backButton = {20, 20, 100, 40};
+	SDL_Rect backButton = { 20, 20, 100, 40 };
 	DrawRoundedRect(backButton.x, backButton.y, backButton.w, backButton.h);
 	renderText(font, "Back", 35, 25, textColor);
 	SDL_RenderPresent(renderer);
@@ -94,9 +91,9 @@ void Splash::render() {
 
 }
 // Helper function to draw rounded rectangle
-void Splash::DrawRoundedRect( int x, int y, int w, int h) {
+void Splash::DrawRoundedRect(int x, int y, int w, int h) {
 	// Draw the middle rectangle
-	SDL_Rect rect = {x, y, w, h};
+	SDL_Rect rect = { x, y, w, h };
 	SDL_RenderFillRect(renderer, &rect);
 }
 
@@ -104,7 +101,7 @@ void Splash::renderText(TTF_Font* font, const char* text, int x, int y, SDL_Colo
 	SDL_Surface* surface = TTF_RenderText_Blended(font, text, color);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 
-	SDL_Rect rect = {x, y, surface->w, surface->h};
+	SDL_Rect rect = { x, y, surface->w, surface->h };
 	SDL_RenderCopy(renderer, texture, NULL, &rect);
 
 	SDL_FreeSurface(surface);
@@ -114,8 +111,8 @@ void Splash::cleanUp() {
 
 	// Clean up resources
 	SDL_DestroyTexture(bg1);
-//    SDL_DestroyTexture(bg2);
-//	Mix_FreeMusic(music);
+	//    SDL_DestroyTexture(bg2);
+	//	Mix_FreeMusic(music);
 	Mix_CloseAudio();
-//	return 0;
+	//	return 0;
 }

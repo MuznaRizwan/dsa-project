@@ -1,8 +1,8 @@
+#include "menu.h"
+#include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include <iostream>
-#include "menu.h"
 
 using namespace std;
 
@@ -25,32 +25,32 @@ void Menu::load(GameState* game) {
 
 	SDL_Color buttonColor = { 255, 0, 0, 255 }; // Red
 
-//	Button b(0,0,100,30,"Hello World",(SDL_Color){ 0, 255, 0, 255 });
-//	buttons.push_back(b);
-//	buttons.push_back(make_shared<Button>(0,0,100,30,"Hello World",(SDL_Color){ 0, 255, 0, 255 }));
-//	buttons[0] = b;
-//	buttons[1] = b;
-//	buttons[2] = b;
-	/*{			}
-	Button(0,  0,100,50,"B-001",(SDL_Color){ 0, 255, 0, 255 }),
-	Button(0,100,100,50,"B-002",(SDL_Color){ 0, 255, 0, 255 }),
-	Button(0,200,100,50,"B-003",(SDL_Color){ 0, 255, 0, 255 })
-	};*/
+	//	Button b(0,0,100,30,"Hello World",(SDL_Color){ 0, 255, 0, 255 });
+	//	buttons.push_back(b);
+	//	buttons.push_back(make_shared<Button>(0,0,100,30,"Hello World",(SDL_Color){ 0, 255, 0, 255 }));
+	//	buttons[0] = b;
+	//	buttons[1] = b;
+	//	buttons[2] = b;
+		/*{			}
+		Button(0,  0,100,50,"B-001",(SDL_Color){ 0, 255, 0, 255 }),
+		Button(0,100,100,50,"B-002",(SDL_Color){ 0, 255, 0, 255 }),
+		Button(0,200,100,50,"B-003",(SDL_Color){ 0, 255, 0, 255 })
+		};*/
 
-//	buttons.emplace_back(b);
-//	buttons[0] = b;
-//	buttons.emplace_back(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 25, 100, 50, "Play", buttonColor);
-//	buttons.emplace_back(SCREEN_WIDTH - 100, 10, 80, 30, "Credits", (SDL_Color){ 0, 255, 0, 255 }); // Green
-//	buttons.emplace_back(SCREEN_WIDTH - 60, 50, 80, 30, "Menu", (SDL_Color){ 0, 0, 255, 255 }); // Blue
+		//	buttons.emplace_back(b);
+		//	buttons[0] = b;
+		//	buttons.emplace_back(SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 25, 100, 50, "Play", buttonColor);
+		//	buttons.emplace_back(SCREEN_WIDTH - 100, 10, 80, 30, "Credits", (SDL_Color){ 0, 255, 0, 255 }); // Green
+		//	buttons.emplace_back(SCREEN_WIDTH - 60, 50, 80, 30, "Menu", (SDL_Color){ 0, 0, 255, 255 }); // Blue
 
-	Button b(0,0,90,50,"Game-0",(SDL_Color) {
-		0, 255, 0, 255
-	});
+	SDL_Color c = { 0, 255, 0, 255 };
 
-	int i=0;
-	string bLabels[6] = {"Play","Credits","Menu","Maze","Minesweeper","Zombie"};
+	Button b(0, 0, 90, 50, "Game-0", c);
+
+	int i = 0;
+	string bLabels[6] = { "Play","Credits","Menu","Maze","Minesweeper","Zombie" };
 	for (auto& button : buttons) {
-		b.rect.x+=100;
+		b.rect.x += 100;
 		b.label = bLabels[i++];
 		button = Button(b);
 	}
@@ -60,8 +60,9 @@ void Menu::handleEvents(SDL_Event event) {
 	bool running = true;
 	if (event.type == SDL_QUIT) {
 		running = false;
-	} else if (event.type == SDL_MOUSEBUTTONDOWN) {
-		int mouseX=0, mouseY=0;
+	}
+	else if (event.type == SDL_MOUSEBUTTONDOWN) {
+		int mouseX = 0, mouseY = 0;
 		SDL_GetMouseState(&mouseX, &mouseY);
 		handleButtonClicks(/*buttons,*/ mouseX, mouseY);
 	}
@@ -112,7 +113,7 @@ int Menu::getTextWidth(TTF_Font* font, const char* text) {
 //void Menu::handleButtonClicks(const vector<Button>& buttons, int mouseX, int mouseY) {
 //void Menu::handleButtonClicks(vector<Button>& buttons, int mouseX, int mouseY) {
 void Menu::handleButtonClicks(/*Button buttons[],*/ int mouseX, int mouseY) {
-//	for (const auto& button : buttons) {
+	//	for (const auto& button : buttons) {
 	for (auto& button : buttons) {
 		if (button.isClicked(mouseX, mouseY)) {
 			cout << button.label << " button clicked!" << endl;
@@ -120,22 +121,27 @@ void Menu::handleButtonClicks(/*Button buttons[],*/ int mouseX, int mouseY) {
 				cout << "Play" << "Play button clicked!" << endl;
 				// HERE YOU HAVE TO CHANGE / SET game->currentScreen = ...
 				// Implement game start logic here
-			} else if (button.label == "Credits") {
+			}
+			else if (button.label == "Credits") {
 				cout << "Credits button clicked!" << endl;
 				game->currentScreen = CREDITS_SCREEN;
 				// Implement credits display logic here
-			} else if (button.label == "Menu") {
+			}
+			else if (button.label == "Menu") {
 				cout << "Menu button clicked!" << endl;
 				// Implement menu logic here
-			} else if (button.label == "Maze") {
+			}
+			else if (button.label == "Maze") {
 				cout << "Maze button clicked!" << endl;
 				// Implement menu logic here
 				game->currentScreen = MAZE_SCREEN;
-			} else if (button.label == "Minesweeper") {
+			}
+			else if (button.label == "Minesweeper") {
 				cout << "Minesweeper button clicked!" << endl;
 				// Implement menu logic here
 				game->currentScreen = MINESWEEPER_SCREEN;
-			} else if (button.label == "Zombie") {
+			}
+			else if (button.label == "Zombie") {
 				cout << "Zombie button clicked!" << endl;
 				// Implement menu logic here
 				game->currentScreen = ZOMBIE_SCREEN;

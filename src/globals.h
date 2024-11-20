@@ -36,27 +36,27 @@ enum GameScreen {
 //load mein load krwana he
 //load render screen condition lagegi 5ou screen render krde
 struct GameState {
-	SDL_Window* window;
-	SDL_Renderer* renderer;
-	TTF_Font* font;
-	Mix_Music* bgMusic;
-	Mix_Chunk* hoverSound;
-	Mix_Chunk* selectSound;
+	SDL_Window* window=nullptr;
+	SDL_Renderer* renderer=nullptr;
+	TTF_Font* font=nullptr;
+	Mix_Music* bgMusic=nullptr;
+	Mix_Chunk* hoverSound = nullptr;
+	Mix_Chunk* selectSound = nullptr;
 //	Game games[GAME_COUNT];
 	GameScreen currentScreen;
-	int selectedGame;
+	int selectedGame=0;
 	GameScreen previousScreen;
-	int hoveredGame;
-	string backgrounds[8] = {"assets/images/maze.png","assets/images/minesweeper.png","assets/images/zombie.png","assets/images/menu.png","assets/images/loose.png","assets/images/win.png","assets/images/credits.png"};
-	SDL_Texture* creditsScreenTexture;
-	SDL_Texture* menuScreenTexture;
+	int hoveredGame=-1;
+	//string backgrounds[8] = {"assets/images/maze.png","assets/images/minesweeper.png","assets/images/zombie.png","assets/images/menu.png","assets/images/loose.png","assets/images/win.png","assets/images/credits.png"};
+	//SDL_Texture* creditsScreenTexture;
+	//SDL_Texture* menuScreenTexture;
 //	SDL_Texture* looseScreenTexture;
 //	SDL_Texture* winScreenTexture;
 //
 //	SDL_Texture* zombieScreenTexture;
 //	SDL_Texture* mazeScreenTexture;
-	SDL_Texture* minesweeperScreenTexture;
-	BaseScreen* cScreen;
+	//SDL_Texture* minesweeperScreenTexture;
+	BaseScreen* cScreen=nullptr;
 	//Loose* looseScreen = new ;
 };
 
