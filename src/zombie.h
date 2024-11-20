@@ -49,153 +49,153 @@ struct Boss {
 
 	Boss(int _x, int _y, int _health, Uint32 _moveInterval)
 		: x(_x), y(_y), health(_health), moveInterval(_moveInterval), lastShotTime(SDL_GetTicks()),
-		lastMoveTime(SDL_GetTicks()), movingDown(true) {}
+		  lastMoveTime(SDL_GetTicks()), movingDown(true) {}
 };
 
 class Zombie {
-public:
-	//		SDL_Renderer* renderer;
-	//		TTF_Font* font;
-	//
-	//		SDL_Texture* playButtonTexture = nullptr;
-	//		SDL_Texture* pauseButtonTexture = nullptr;
-	//		SDL_Texture* quitButtonTexture = nullptr;
-	//		SDL_Texture* soundButtonTexture = nullptr;
-	//		SDL_Texture* musicButtonTexture = nullptr;
-	//		SDL_Texture* blackTexture = nullptr;
-	//
-	//		SDL_Rect playRect;
-	//		SDL_Rect pauseRect;
-	//		SDL_Rect quitRect;
-	//		SDL_Rect musicRect;
-	//		SDL_Rect soundRect;
-	//
-	//		std::list<Bullet> bullets;
-	//		std::list<Bullet> bossBullets;
-	//		std::priority_queue<Zombie> zombies;  // Priority queue for zombie movement
-	//		std::list<SDL_Rect> bulletDrops;
-	//		Boss* boss = nullptr;
-	//
-	//		Uint32 levelTransitionStartTime = 0;
-	//		bool waitingForNextLevel = false;
-	//		ZombieGameState zombieGameState = PLAYING;
-	//		int playerX = 50, playerY = GAME_HEIGHT / 2, playerHealth = 5;
-	//		int bulletCooldown = 0;
-	//		bool quit = false;
-	//		Uint32 lastMovementTime = 0;
-	//		int currentLevel = 1;
-	//		int currentWave = 1;
-	//		int totalWavesInLevel = 2;
-	//		bool bossWave = false;
-	//		int playerBulletCount = 10; // Initial bullet count
-	//		int maxBullets = 20; // Maximum bullets player can have
-	//		Uint32 lastBulletDropSpawnTime = 0; // To control bullet drop spawn interval
-	//
-	int x, y;
-	Uint32 nextMoveTime;
-	Uint32 moveInterval;
-	ZombieType type;  // Add a type to distinguish between fast and slow zombies
+	public:
+		//		SDL_Renderer* renderer;
+		//		TTF_Font* font;
+		//
+		//		SDL_Texture* playButtonTexture = nullptr;
+		//		SDL_Texture* pauseButtonTexture = nullptr;
+		//		SDL_Texture* quitButtonTexture = nullptr;
+		//		SDL_Texture* soundButtonTexture = nullptr;
+		//		SDL_Texture* musicButtonTexture = nullptr;
+		//		SDL_Texture* blackTexture = nullptr;
+		//
+		//		SDL_Rect playRect;
+		//		SDL_Rect pauseRect;
+		//		SDL_Rect quitRect;
+		//		SDL_Rect musicRect;
+		//		SDL_Rect soundRect;
+		//
+		//		std::list<Bullet> bullets;
+		//		std::list<Bullet> bossBullets;
+		//		std::priority_queue<Zombie> zombies;  // Priority queue for zombie movement
+		//		std::list<SDL_Rect> bulletDrops;
+		//		Boss* boss = nullptr;
+		//
+		//		Uint32 levelTransitionStartTime = 0;
+		//		bool waitingForNextLevel = false;
+		//		ZombieGameState zombieGameState = PLAYING;
+		//		int playerX = 50, playerY = GAME_HEIGHT / 2, playerHealth = 5;
+		//		int bulletCooldown = 0;
+		//		bool quit = false;
+		//		Uint32 lastMovementTime = 0;
+		//		int currentLevel = 1;
+		//		int currentWave = 1;
+		//		int totalWavesInLevel = 2;
+		//		bool bossWave = false;
+		//		int playerBulletCount = 10; // Initial bullet count
+		//		int maxBullets = 20; // Maximum bullets player can have
+		//		Uint32 lastBulletDropSpawnTime = 0; // To control bullet drop spawn interval
+		//
+		int x, y;
+		Uint32 nextMoveTime;
+		Uint32 moveInterval;
+		ZombieType type;  // Add a type to distinguish between fast and slow zombies
 
-	Zombie(int _x, int _y, Uint32 _moveInterval, ZombieType _type)
-		: x(_x), y(_y), moveInterval(_moveInterval), type(_type) {
-		nextMoveTime = SDL_GetTicks();
-	};
+		Zombie(int _x, int _y, Uint32 _moveInterval, ZombieType _type)
+			: x(_x), y(_y), moveInterval(_moveInterval), type(_type) {
+			nextMoveTime = SDL_GetTicks();
+		};
 
-	bool operator<(const Zombie& other) const {
-		return nextMoveTime > other.nextMoveTime;
-	};
+		bool operator<(const Zombie& other) const {
+			return nextMoveTime > other.nextMoveTime;
+		};
 
-	//		void renderText(TTF_Font* font, const char* text,
-	//		                int x, int y, SDL_Color color);
-	//
-	//		void movePlayer();
-	//		void moveZombies();
-	//		void moveBullets();
-	//		void moveBoss();
-	//		void moveBossBullets();
-	//		void checkCollisions();
-	//		void renderGame();
-	//		void spawnZombiesForWave();
-	//		void spawnBoss();
-	//		void spawnBulletDrop();
-	//		void nextWave();
-	//		void nextLevel();
-	//		void gameOver();
-	//		void renderPauseScreen();
-	//		void bossShoot();
-	//		SDL_Texture* loadTexture(const char* path);
-	//		bool isWithinRect(int x, int y, SDL_Rect rect);
+		//		void renderText(TTF_Font* font, const char* text,
+		//		                int x, int y, SDL_Color color);
+		//
+		//		void movePlayer();
+		//		void moveZombies();
+		//		void moveBullets();
+		//		void moveBoss();
+		//		void moveBossBullets();
+		//		void checkCollisions();
+		//		void renderGame();
+		//		void spawnZombiesForWave();
+		//		void spawnBoss();
+		//		void spawnBulletDrop();
+		//		void nextWave();
+		//		void nextLevel();
+		//		void gameOver();
+		//		void renderPauseScreen();
+		//		void bossShoot();
+		//		SDL_Texture* loadTexture(const char* path);
+		//		bool isWithinRect(int x, int y, SDL_Rect rect);
 
 };
 
 class ZombieScreen : public BaseScreen {
-public:
-	GameState* game = nullptr;
-	SDL_Renderer* renderer = nullptr;
-	TTF_Font* font = nullptr;
+	public:
+		GameState* game = nullptr;
+		SDL_Renderer* renderer = nullptr;
+		TTF_Font* font = nullptr;
 
-	SDL_Texture* playButtonTexture = nullptr;
-	SDL_Texture* pauseButtonTexture = nullptr;
-	SDL_Texture* quitButtonTexture = nullptr;
-	SDL_Texture* soundButtonTexture = nullptr;
-	SDL_Texture* musicButtonTexture = nullptr;
-	SDL_Texture* blackTexture = nullptr;
+		SDL_Texture* playButtonTexture = nullptr;
+		SDL_Texture* pauseButtonTexture = nullptr;
+		SDL_Texture* quitButtonTexture = nullptr;
+		SDL_Texture* soundButtonTexture = nullptr;
+		SDL_Texture* musicButtonTexture = nullptr;
+		SDL_Texture* blackTexture = nullptr;
 
-	SDL_Rect playRect = { 0,0,1,1 };
-	SDL_Rect pauseRect = { 0,0,1,1 };
-	SDL_Rect quitRect = { 0,0,1,1 };
-	SDL_Rect musicRect = { 0,0,1,1 };
-	SDL_Rect soundRect = { 0,0,1,1 };
+		SDL_Rect playRect = { 0,0,1,1 };
+		SDL_Rect pauseRect = { 0,0,1,1 };
+		SDL_Rect quitRect = { 0,0,1,1 };
+		SDL_Rect musicRect = { 0,0,1,1 };
+		SDL_Rect soundRect = { 0,0,1,1 };
 
-	std::list<Bullet> bullets;
-	std::list<Bullet> bossBullets;
-	std::priority_queue<Zombie> zombies;  // Priority queue for zombie movement
-	std::list<SDL_Rect> bulletDrops;
-	Boss* boss = nullptr;
+		std::list<Bullet> bullets;
+		std::list<Bullet> bossBullets;
+		std::priority_queue<Zombie> zombies;  // Priority queue for zombie movement
+		std::list<SDL_Rect> bulletDrops;
+		Boss* boss = nullptr;
 
-	Uint32 levelTransitionStartTime = 0;
-	bool waitingForNextLevel = false;
-	ZombieGameState zombieGameState = PLAYING;
-	int playerX = 50, playerY = GAME_HEIGHT / 2, playerHealth = 5;
-	int bulletCooldown = 0;
-	bool quit = false;
-	Uint32 lastMovementTime = 0;
-	int currentLevel = 1;
-	int currentWave = 1;
-	int totalWavesInLevel = 2;
-	bool bossWave = false;
-	int playerBulletCount = 10; // Initial bullet count
-	int maxBullets = 20; // Maximum bullets player can have
-	Uint32 lastBulletDropSpawnTime = 0; // To control bullet drop spawn interval
+		Uint32 levelTransitionStartTime = 0;
+		bool waitingForNextLevel = false;
+		ZombieGameState zombieGameState = PLAYING;
+		int playerX = 50, playerY = GAME_HEIGHT / 2, playerHealth = 5;
+		int bulletCooldown = 0;
+		bool quit = false;
+		Uint32 lastMovementTime = 0;
+		int currentLevel = 1;
+		int currentWave = 1;
+		int totalWavesInLevel = 2;
+		bool bossWave = false;
+		int playerBulletCount = 10; // Initial bullet count
+		int maxBullets = 20; // Maximum bullets player can have
+		Uint32 lastBulletDropSpawnTime = 0; // To control bullet drop spawn interval
 
-	int x = 0, y = 0;
-	Uint32 nextMoveTime = 0;
-	Uint32 moveInterval = 0;
-	ZombieType type = SLOW;  // Add a type to distinguish between fast and slow zombies
+		int x = 0, y = 0;
+		Uint32 nextMoveTime = 0;
+		Uint32 moveInterval = 0;
+		ZombieType type = SLOW;  // Add a type to distinguish between fast and slow zombies
 
-	void load(GameState* game);
-	void handleEvents(SDL_Event event);
-	void render();
-	void renderText(TTF_Font* font, const char* text,
-		int x, int y, SDL_Color color);
-	void cleanUp();
+		void load(GameState* game);
+		void handleEvents(SDL_Event event);
+		void render();
+		void renderText(TTF_Font* font, const char* text,
+		                int x, int y, SDL_Color color);
+		void cleanUp();
 
-	SDL_Texture* loadTexture(const char* path) const;
-	void spawnZombiesForWave();
-	void renderGame();
-	void spawnBulletDrop();
-	void nextLevel();
-	void moveBullets();
-	void moveBossBullets();
-	void moveZombies();
-	void checkCollisions();
-	void nextWave();
-	void moveBoss();
-	void renderPauseScreen();
-	void gameOver();
-	void gameWin();
-	void spawnBoss();
-	void movePlayer();
-	void bossShoot();
+		SDL_Texture* loadTexture(const char* path) const;
+		void spawnZombiesForWave();
+		void renderGame();
+		void spawnBulletDrop();
+		void nextLevel();
+		void moveBullets();
+		void moveBossBullets();
+		void moveZombies();
+		void checkCollisions();
+		void nextWave();
+		void moveBoss();
+		void renderPauseScreen();
+		void gameOver();
+		void gameWin();
+		void spawnBoss();
+		void movePlayer();
+		void bossShoot();
 };
 #endif
