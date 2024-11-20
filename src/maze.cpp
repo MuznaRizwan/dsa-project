@@ -75,7 +75,7 @@ void MazeScreen::load(GameState* game) {
 	pauseButtonTexture = loadTexture("assets/images/pause.png");
 	playButtonTexture = loadTexture("assets/images/play.png");
 	quitButtonTexture = loadTexture("assets/images/quit.png");
-	soundOnButtonTexture = loadTexture("assets/images/sound on.png");
+	soundOnButtonTexture = loadTexture("assets/images/sound_on.png");
 	soundOffButtonTexture = loadTexture("assets/images/volumeoff.png"); //need to vhnage
 	cellTexture1 = loadTexture("assets/images/cell.png");
 	cellTexture2 = loadTexture("assets/images/cell2.png");
@@ -88,7 +88,7 @@ void MazeScreen::load(GameState* game) {
 	backgroundTexture = loadTexture("assets/images/bg1.png");
 	cellTexture = loadTexture("assets/images/cell.png");
 
-	font = TTF_OpenFont("assets/font/path_to_font.ttf", 28);
+	font = TTF_OpenFont("assets/font/arial.ttf", 28);
 	if (!font) {
 		cout << "Failed to load font! SDL_ttf Error: " << TTF_GetError() << endl;
 		return;

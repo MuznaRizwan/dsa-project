@@ -19,10 +19,10 @@ const int SCREEN_WIDTH = 1000;
 const int SCREEN_HEIGHT = 500;
 const int TILE_SIZE = 100;
 
-int cameraX = 0;
-int cameraY = 0;
-
-bool isSoundOn = true;
+//int cameraX = 0;
+//int cameraY = 0;
+//
+//bool isSoundOn = true;
 
 // Custom graph structure for the irregular maze
 class Graph {
@@ -160,6 +160,10 @@ class Player {
 
 	private:
 		int animationFrame;
+		int cameraX = 0;
+		int cameraY = 0;
+
+		bool isSoundOn = true;
 };
 
 class MazeScreen : public BaseScreen {
@@ -240,6 +244,10 @@ class MazeScreen : public BaseScreen {
 		Graph levelGraphs[3];
 		Maze* maze;
 		Maze* levelMazes[3];
+		int cameraX = 0;
+		int cameraY = 0;
+
+		bool isSoundOn = true;
 
 	public:
 		MazeScreen() : renderer(nullptr), player(3, 8), isRunning(true) {}

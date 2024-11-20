@@ -14,7 +14,7 @@ void ZombieScreen::load(GameState* game) {
 	this->renderer = game->renderer;
 	srand(static_cast<unsigned int>(time(0)));
 
-	font = TTF_OpenFont("assets/font/path_to_font.ttf", 28);
+	font = TTF_OpenFont("assets/font/arial.ttf", 28);
 	if (!font) {
 		printf("Failed to load font! TTF_Error: %s", TTF_GetError());
 		return; // -1;
