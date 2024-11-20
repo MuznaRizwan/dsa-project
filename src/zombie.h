@@ -33,11 +33,11 @@ enum ZombieGameState { PLAYING, PAUSED, GAME_OVER, WINNING };
 enum ZombieType { SLOW, FAST };  // Define zombie types
 
 struct Bullet {
-	int x, y, strength;
+	int x, y;
 	int speedX, speedY;
 
-	Bullet(int _x, int _y, int _speedX, int _speedY, int _strength)
-		: x(_x), y(_y), speedX(_speedX), speedY(_speedY), strength(0) {}
+	Bullet(int _x, int _y, int _speedX, int _speedY)
+		: x(_x), y(_y), speedX(_speedX), speedY(_speedY) {}
 };
 
 struct Boss {
@@ -193,6 +193,7 @@ public:
 	void moveBoss();
 	void renderPauseScreen();
 	void gameOver();
+	void gameWin();
 	void spawnBoss();
 	void movePlayer();
 	void bossShoot();
