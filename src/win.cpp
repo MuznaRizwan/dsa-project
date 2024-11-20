@@ -26,7 +26,7 @@ void Win::load(GameState* game) {
 
 	// Load background images
 	SDL_Texture* bg1 = IMG_LoadTexture(renderer, "assets/images/win.png"); // Replace with your image file
-	//SDL_Texture* bg2 = IMG_LoadTexture(renderer, "background1.png");
+	//SDL_Texture* bg2 = IMG_LoadTexture(renderer, "assets/images/background1.png");
 
 	// Load girl animation frames
 	girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "assets/images/girlchar.png")); // Replace with your images
@@ -35,8 +35,8 @@ void Win::load(GameState* game) {
 }
 
 void Win::handleEvents(SDL_Event event) {
-	//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png"));
-	//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png"));
+	//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "assets/images/girlchar.png"));
+	//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "assets/images/girlchar.png"));
 
 		// Button states
 	bool running = true;

@@ -189,9 +189,8 @@ class MazeScreen : public BaseScreen {
 		SDL_Rect soundButtonRect = { 0, 0, 0, 0};
 		SDL_Rect overlayRect = { 0, 0, 0, 0};
 		SDL_Rect scoreRect = { 0, 0, 0, 0};
-		SDL_Rect timerRect = { 0, 0, 0, 0};
-		SDL_Rect replayButtonRect = { 0, 0, 0, 0};
-		SDL_Rect winBannerRect = { 0, 0, 0, 0};
+		SDL_Rect timerRect = {80, 285, 80, 80};
+		SDL_Rect winBannerRect = {250, 50, 500, 100};
 
 		Mix_Chunk* moveSound = nullptr;
 		TTF_Font* font = nullptr;

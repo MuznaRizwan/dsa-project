@@ -64,21 +64,21 @@ bool initGame(GameState* game) {
 
     // Load textures
     // Note: Replace paths with actual image files
-    SDL_Surface* tempSurface = IMG_Load("selection_bg.png");
+    SDL_Surface* tempSurface = IMG_Load("assets/images/selection_bg.png");
     game->backgrounds[0] = SDL_CreateTextureFromSurface(game->renderer, tempSurface);
     SDL_FreeSurface(tempSurface);
 
-    tempSurface = IMG_Load("details_bg.png");
+    tempSurface = IMG_Load("assets/images/details_bg.png");
     game->backgrounds[1] = SDL_CreateTextureFromSurface(game->renderer, tempSurface);
     SDL_FreeSurface(tempSurface);
 
-    tempSurface = IMG_Load("loading_bg.png");
+    tempSurface = IMG_Load("assets/images/loading_bg.png");
     game->backgrounds[2] = SDL_CreateTextureFromSurface(game->renderer, tempSurface);
     SDL_FreeSurface(tempSurface);
 
     // Load music and sound effects
-    game->bgMusic = Mix_LoadMUS("background_music.mp3");
-    game->clickSound = Mix_LoadWAV("click.wav");
+    game->bgMusic = Mix_LoadMUS("assets/audio/background_music.mp3");
+    game->clickSound = Mix_LoadWAV("assets/audio/click.wav");
 
     game->currentScreen = SELECTION_SCREEN;
     game->selectedOption = 0;

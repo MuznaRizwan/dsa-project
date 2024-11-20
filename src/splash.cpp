@@ -27,7 +27,7 @@ void Splash::load(GameState* game) {
 
 	// Load background images
 	SDL_Texture* bg1 = IMG_LoadTexture(renderer, "assets/images/splash.png"); // Replace with your image file
-	//SDL_Texture* bg2 = IMG_LoadTexture(renderer, "background1.png");
+	//SDL_Texture* bg2 = IMG_LoadTexture(renderer, "assets/images/background1.png");
 
 	TTF_Font* font = TTF_OpenFont("assets/font/arial.ttf", 24);
 	if (!font) {
@@ -37,8 +37,8 @@ void Splash::load(GameState* game) {
 }
 
 void Splash::handleEvents(SDL_Event event) {
-	//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png"));
-	//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "girlchar.png"));
+	//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "assets/images/girlchar.png"));
+	//    girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "assets/images/girlchar.png"));
 
 		// Button states
 	bool running = true;

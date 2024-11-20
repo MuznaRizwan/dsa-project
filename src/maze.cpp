@@ -26,9 +26,9 @@ void MazeScreen::load(GameState* game) {
 	soundButtonRect = {375, 225, 80, 80};
 	win = false;
 	lose = false;
-	replayButtonRect = {275, 225, 80, 80};
 	winBannerRect = {250, 50, 500, 100};
 	timerRect = {80, 285, 80, 80};
+	winBannerRect = {250, 50, 500, 100};
 	scoreRect = {80, 185, 80, 80};
 	mazeGraph = levelGraphs[0];
 	gameDuration = levelTimers[0];
@@ -58,37 +58,37 @@ void MazeScreen::load(GameState* game) {
 	Maze* maze;
 	Maze* levelMazes[3];
 
-	levelBackgrounds[0] = loadTexture("pinkbg.png");
-	levelBackgrounds[1] = loadTexture("skybluebg.png");
-	levelBackgrounds[2] = loadTexture("darkbluebg.png");
+	levelBackgrounds[0] = loadTexture("assets/images/pinkbg.png");
+	levelBackgrounds[1] = loadTexture("assets/images/skybluebg.png");
+	levelBackgrounds[2] = loadTexture("assets/images/darkbluebg.png");
 
-	floorTexture = loadTexture("floor.png");
-	roofTexture = loadTexture("roof.png");
-	backgroundTexture2 = loadTexture("lightorangebg.png");
-	backgroundTexture3 = loadTexture("orangebg3.png");
-	backgroundTexture4 = loadTexture("curvebg.png");
-	playerTexture1 = loadTexture("pl1.png");
-	playerTexture2 = loadTexture("pl4.png");
-	sunTexture = loadTexture("sun.png");
-	moonTexture = loadTexture("moon.png");
-	lollipopTexture = loadTexture("lollipop.png");
-	pauseButtonTexture = loadTexture("pause.png");
-	playButtonTexture = loadTexture("play.png");
-	quitButtonTexture = loadTexture("quit.png");
-	soundOnButtonTexture = loadTexture("sound on.png");
-	soundOffButtonTexture = loadTexture("volumeoff.png"); //need to vhnage
-	cellTexture1 = loadTexture("cell.png");
-	cellTexture2 = loadTexture("cell2.png");
-	lastNodeTexture = loadTexture("cell3.png");
-	scoreTexture = loadTexture("trophy.png");
-	timerTexture = loadTexture("timer.png");
-	replayButtonTexture = loadTexture("replay.png"); //need to chnge
-	winBannerTexture = loadTexture("heading.png");
+	floorTexture = loadTexture("assets/images/floor.png");
+	roofTexture = loadTexture("assets/images/roof.png");
+	backgroundTexture2 = loadTexture("assets/images/lightorangebg.png");
+	backgroundTexture3 = loadTexture("assets/images/orangebg3.png");
+	backgroundTexture4 = loadTexture("assets/images/curvebg.png");
+	playerTexture1 = loadTexture("assets/images/pl1.png");
+	playerTexture2 = loadTexture("assets/images/pl4.png");
+	sunTexture = loadTexture("assets/images/sun.png");
+	moonTexture = loadTexture("assets/images/moon.png");
+	lollipopTexture = loadTexture("assets/images/lollipop.png");
+	pauseButtonTexture = loadTexture("assets/images/pause.png");
+	playButtonTexture = loadTexture("assets/images/play.png");
+	quitButtonTexture = loadTexture("assets/images/quit.png");
+	soundOnButtonTexture = loadTexture("assets/images/sound on.png");
+	soundOffButtonTexture = loadTexture("assets/images/volumeoff.png"); //need to vhnage
+	cellTexture1 = loadTexture("assets/images/cell.png");
+	cellTexture2 = loadTexture("assets/images/cell2.png");
+	lastNodeTexture = loadTexture("assets/images/cell3.png");
+	scoreTexture = loadTexture("assets/images/trophy.png");
+	timerTexture = loadTexture("assets/images/timer.png");
+	replayButtonTexture = loadTexture("assets/images/replay.png"); //need to chnge
+	winBannerTexture = loadTexture("assets/images/heading.png");
 
 	backgroundTexture = loadTexture("assets/images/bg1.png");
 	cellTexture = loadTexture("assets/images/cell.png");
 
-	font = TTF_OpenFont("path_to_font.ttf", 28);
+	font = TTF_OpenFont("assets/font/path_to_font.ttf", 28);
 	if (!font) {
 		cout << "Failed to load font! SDL_ttf Error: " << TTF_GetError() << endl;
 		return;
@@ -98,7 +98,7 @@ void MazeScreen::load(GameState* game) {
 	        || !backgroundTexture  || !backgroundTexture2
 	        || !backgroundTexture3 || !backgroundTexture4 || !sunTexture || !moonTexture || !lollipopTexture || !floorTexture
 	        || !roofTexture || !pauseButtonTexture || !playButtonTexture || !quitButtonTexture || !soundOnButtonTexture
-	        || !soundOffButtonTexture || !scoreTexture || !timerTexture || !replayButtonTexture || !winBannerTexture) {
+	        || !soundOffButtonTexture || !scoreTexture || !timerTexture || !winBannerTexture) {
 		return;
 	}
 
@@ -114,6 +114,7 @@ void MazeScreen::load(GameState* game) {
 	// Set the initial maze and background
 	maze = levelMazes[0];
 	backgroundTexture = levelBackgrounds[0];
+	gameDuration = levelTimers[0];
 	remainingTime = levelTimers[0];  // Initialize with level 1 timer
 
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
@@ -137,27 +138,29 @@ void MazeScreen::loadNextLevel() {
 		backgroundTexture = levelBackgrounds[currentLevel - 1];  // Update background
 		gameDuration = levelTimers[currentLevel - 1];
 //	        remainingTime = levelTimers[currentLevel - 1];  // Reset timer
+		startTime = SDL_GetTicks();
 		player = Player(startX, startY);  // Reset player
 		cameraX = 0;
 		cameraY = 0;
 		player.resetMoves();
+		optimalPathFollowed = false;
 		win = false;
 	}
 }
 
-void MazeScreen::replayLevel() {
-	maze = levelMazes[currentLevel - 1];
-	mazeGraph = levelGraphs[currentLevel - 1];
-	backgroundTexture = levelBackgrounds[currentLevel - 1];
-	gameDuration = levelTimers[currentLevel - 1];
-//	    remainingTime = levelTimers[currentLevel - 1];  // Reset timer
-	player = Player(startX, startY);
-	cameraX = 0;
-	cameraY = 0;
-	player.resetMoves();
-	score = 0;
-	lose = false;
-}
+// void MazeScreen::replayLevel() {
+// 	maze = levelMazes[currentLevel - 1];
+// 	mazeGraph = levelGraphs[currentLevel - 1];
+// 	backgroundTexture = levelBackgrounds[currentLevel - 1];
+// 	gameDuration = levelTimers[currentLevel - 1];
+// //	    remainingTime = levelTimers[currentLevel - 1];  // Reset timer
+// 	player = Player(startX, startY);
+// 	cameraX = 0;
+// 	cameraY = 0;
+// 	player.resetMoves();
+// 	score = 0;
+// 	lose = false;
+// }
 
 void MazeScreen::run() {
 	startTime = SDL_GetTicks();
@@ -200,7 +203,7 @@ void MazeScreen::cleanUp() {
 	SDL_DestroyTexture(soundOffButtonTexture);
 	SDL_DestroyTexture(scoreTexture);
 	SDL_DestroyTexture(timerTexture);
-	SDL_DestroyTexture(replayButtonTexture);
+	// SDL_DestroyTexture(replayButtonTexture);
 	SDL_DestroyTexture(winBannerTexture);
 	Mix_FreeChunk(moveSound);
 	// TTF_CloseFont(font);
@@ -376,11 +379,12 @@ void MazeScreen::handleEvents(SDL_Event event) {
 		SDL_Point mousePoint = { dx, dy };
 
 		if (isPaused) {
-			if (SDL_PointInRect(&mousePoint, &playButtonRect)) {
-				isPaused = false;
-				// Update pausedTime with the current paused duration
-				pausedTime += SDL_GetTicks() - pauseStartTime;
-			} else if (SDL_PointInRect(&mousePoint, &quitButtonRect)) {
+			// if (SDL_PointInRect(&mousePoint, &playButtonRect)) {
+			// 	isPaused = false;
+			// 	// Update pausedTime with the current paused duration
+			// 	pausedTime += SDL_GetTicks() - pauseStartTime;
+			// } else 
+			if (SDL_PointInRect(&mousePoint, &quitButtonRect)) {
 				isRunning = false;
 			} else if (SDL_PointInRect(&mousePoint, &soundButtonRect)) {
 				isSoundOn = !isSoundOn;
@@ -392,12 +396,13 @@ void MazeScreen::handleEvents(SDL_Event event) {
 				isRunning = false;
 			}
 		} else if (lose) {
-			if (SDL_PointInRect(&mousePoint, &replayButtonRect)) {
-//	            		isRunning = true;
-//	            		lose = false;
-				replayLevel();
-				cout << "replay\n";
-			} else if (SDL_PointInRect(&mousePoint, &quitButtonRect)) {
+// 			if (SDL_PointInRect(&mousePoint, &replayButtonRect)) {
+// //	            		isRunning = true;
+// //	            		lose = false;
+// 				replayLevel();
+// 				cout << "replay\n";
+// 			} else 
+			if (SDL_PointInRect(&mousePoint, &quitButtonRect)) {
 				isRunning = false;
 			}
 		} else {
@@ -523,7 +528,7 @@ void MazeScreen::render() {
 	else if (lose) {
 		SDL_RenderCopy(renderer, backgroundTexture, nullptr, &overlayRect);
 		SDL_RenderCopy(renderer, quitButtonTexture, nullptr, &quitButtonRect);
-		SDL_RenderCopy(renderer, replayButtonTexture, nullptr, &replayButtonRect);
+		// SDL_RenderCopy(renderer, replayButtonTexture, nullptr, &replayButtonRect);
 		renderText("You Lose!", 400, 150);
 	}
 

@@ -252,7 +252,12 @@ void renderMain(GameState* game) {
 	if (game->currentScreen != game->previousScreen) {
 		switch (game->currentScreen) {
 		case MAZE_SCREEN:
-			game->cScreen = new MazeScreen();
+			try {
+				game->cScreen = new MazeScreen();
+			} catch (const exception& e) {
+		        // print the exception
+		        cout << "Exception " << e.what() << endl;
+		    }
 			break;
 		case MINESWEEPER_SCREEN:
 			game->cScreen = new Minesweeper();
