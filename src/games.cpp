@@ -244,44 +244,45 @@ void renderText(SDL_Renderer* renderer, TTF_Font* font, const char* text,
 }
 
 void renderMain(GameState* game) {
+	try {
 	SDL_SetRenderDrawColor(game->renderer, 20, 20, 30, 255);
 	SDL_RenderClear(game->renderer);
 	if (game->cScreen != nullptr && game->currentScreen == game->previousScreen) {
 		game->cScreen->render();
 	}
 	if (game->currentScreen != game->previousScreen) {
+		BaseScreen* newScreen = nullptr;
 		switch (game->currentScreen) {
 		case MAZE_SCREEN:
-			try {
-				game->cScreen = new MazeScreen();
-			} catch (const exception& e) {
-		        // print the exception
-		        cout << "Exception " << e.what() << endl;
-		    }
+			newScreen = new MazeScreen();
 			break;
 		case MINESWEEPER_SCREEN:
-			game->cScreen = new Minesweeper();
+			newScreen = new Minesweeper();
 			break;
 		case ZOMBIE_SCREEN:
-			game->cScreen = new ZombieScreen();
+			newScreen = new ZombieScreen();
 			break;
 		case SPLASH_SCREEN:
-			game->cScreen = new Splash();
+			newScreen = new Splash();
 			break;
 		case MENU_SCREEN:
-			game->cScreen = new Menu();
+			newScreen = new Menu();
 			break;
 		case LOOSE_SCREEN:
-			game->cScreen = new Loose();
+			newScreen = new Loose();
 			break;
 		case WIN_SCREEN:
-			game->cScreen = new Win();
+			newScreen = new Win();
 			break;
 		case CREDITS_SCREEN:
-			game->cScreen = new Credits();
+			newScreen = new Credits();
 			break;
 		}
-		game->cScreen->load(game);
+		newScreen->load(game);
+		if (game->cScreen != nullptr) {
+			game->cScreen->cleanUp();
+		}
+		game->cScreen = newScreen;
 		game->previousScreen = game->currentScreen;
 	}
 	/*	} else if (game->currentScreen == MENU_SCREEN) {
@@ -414,6 +415,11 @@ void renderMain(GameState* game) {
 			// Call the maze game function or code here
 			game->currentScreen = MENU_SCREEN;
 		}*/
+	} catch (const exception& e) {
+        // print the exception
+        cout << "Exception " << e.what() << endl;
+    }
+
 }
 
 
