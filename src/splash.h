@@ -25,9 +25,9 @@ private:
 
 public:
 
-	string background = "assets/images/splash.png";
-	string asset1 = "assets/images/playb.png";
-	string asset2 = "assets/images/creditsb.png";
+	string background = "assets/images/splash/splash.png";
+	string asset1 = "assets/images/pause/play.png";
+	string asset2 = "assets/images/splash/credits.png";
 	void load(GameState* game);
 	void handleEvents(SDL_Event event);
 	void render();

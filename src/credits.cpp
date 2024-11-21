@@ -31,9 +31,6 @@ void Credits::load(GameState* game) {
 	SDL_Texture* bg1 = IMG_LoadTexture(renderer, "assets/images/win.png"); // Replace with your image file
 	//SDL_Texture* bg2 = IMG_LoadTexture(renderer, "assets/images/background1.png");
 
-	// Load girl animation frames
-	girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "assets/images/girlchar.png")); // Replace with your images
-
 
 }
 

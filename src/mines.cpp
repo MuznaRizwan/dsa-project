@@ -301,17 +301,17 @@ void Minesweeper::load(GameState* game) {
 	//	SDL_Window* window = SDL_CreateWindow("Minesweeper", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
 	//	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-	hiddenTexture = IMG_LoadTexture(renderer, "assets/images/hidden.png");
-	revealedTexture = IMG_LoadTexture(renderer, "assets/images/revealed.png");
-	flagTexture = IMG_LoadTexture(renderer, "assets/images/flag_button.png");
-	mineTexture = IMG_LoadTexture(renderer, "assets/images/mine.png");
-	shovelButton = IMG_LoadTexture(renderer, "assets/images/shovel_button.png");
-	flagButton = IMG_LoadTexture(renderer, "assets/images/flag_button.png");
-	pauseButtonTexture = IMG_LoadTexture(renderer, "assets/images/pause.png");
-	playButtonTexture = IMG_LoadTexture(renderer, "assets/images/play_button.png");
-	quitButtonTexture = IMG_LoadTexture(renderer, "assets/images/quit_button.png");
-	soundButtonTexture = IMG_LoadTexture(renderer, "assets/images/sound_button.png");
-	soundOffButtonTexture = IMG_LoadTexture(renderer, "assets/images/volumeoff.png");
+	hiddenTexture = IMG_LoadTexture(renderer, "assets/images/minesweeper/hidden.png");
+	revealedTexture = IMG_LoadTexture(renderer, "assets/images/minesweeper/revealed.png");
+	flagTexture = IMG_LoadTexture(renderer, "assets/images/minesweeper/flag.png");
+	mineTexture = IMG_LoadTexture(renderer, "assets/images/minesweeper/mine.png");
+	shovelButton = IMG_LoadTexture(renderer, "assets/images/minesweeper/shovelcell.png");
+	flagButton = IMG_LoadTexture(renderer, "assets/images/minesweeper/flagcell.png");
+	pauseButtonTexture = IMG_LoadTexture(renderer, "assets/images/minesweeper/pause.png");
+	playButtonTexture = IMG_LoadTexture(renderer, "assets/images/minesweeper/play.png");
+	quitButtonTexture = IMG_LoadTexture(renderer, "assets/images/minesweeper/quit.png");
+	soundButtonTexture = IMG_LoadTexture(renderer, "assets/images/minesweeper/music.png");
+	soundOffButtonTexture = IMG_LoadTexture(renderer, "assets/images/minesweeper/musicoff.png");
 
 
 	font = TTF_OpenFont("assets/font/textN.ttf", 24);

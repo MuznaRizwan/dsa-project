@@ -15,7 +15,7 @@ void Animation::load() {
 
 // Function prototypes
 	SDL_Surface* surface;
-	surface = IMG_Load("assets/images/girlanimation.png");
+	surface = IMG_Load("assets/images/animation/girlanimation.png");
 
 	if (!surface) {
 		printf("Failed to load image %s: %s\n", "assets/images/girlanimation.png", IMG_GetError());

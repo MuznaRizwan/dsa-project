@@ -20,12 +20,12 @@ void ZombieScreen::load(GameState* game) {
 		return; // -1;
 	}
 	// Initialize the textures
-	playButtonTexture = loadTexture("assets/images/play.png");
-	pauseButtonTexture = loadTexture("assets/images/pause.png");
-	quitButtonTexture = loadTexture("assets/images/quit.png");
-	soundButtonTexture = loadTexture("assets/images/sound.png");
-	musicButtonTexture = loadTexture("assets/images/music.png");
-	blackTexture = loadTexture("assets/images/black_screen.png");
+	playButtonTexture = loadTexture("assets/images/zombieshooter/play.png");
+	pauseButtonTexture = loadTexture("assets/images/zombieshooter/pause.png");
+	quitButtonTexture = loadTexture("assets/images/zombieshooter/quit.png");
+	soundButtonTexture = loadTexture("assets/images/zombieshooter/audio.png");
+	musicButtonTexture = loadTexture("assets/images/zombieshooter/music.png");
+	blackTexture = loadTexture("assets/images/zombieshooter/zombieshooter.png");
 
 
 	if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG) {

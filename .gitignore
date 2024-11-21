@@ -35,3 +35,5 @@
 /build
 desktop.ini
 Makefile.win
+*.zip
+*.ai

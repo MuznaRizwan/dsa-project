@@ -18,7 +18,7 @@ void Menu::load(GameState* game) {
 	this->renderer = game->renderer;
 
 	// Load font
-	font = TTF_OpenFont("assets/font/arial.ttf", 28); // Replace with your font file
+	font = TTF_OpenFont("assets/font/path_to_font.ttf", 28); // Replace with your font file
 	if (!font) {
 		cerr << "Failed to load font: " << TTF_GetError() << endl;
 	}

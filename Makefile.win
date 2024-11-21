@@ -8,12 +8,12 @@ RES      = game_private.res
 OBJ      = src/menu.o src/games.o src/basescreen.o src/button.o src/animation.o src/loose.o src/maze.o src/mines.o src/splash.o src/win.o src/zombie.o src/credits.o $(RES)
 LINKOBJ  = src/menu.o src/games.o src/basescreen.o src/button.o src/animation.o src/loose.o src/maze.o src/mines.o src/splash.o src/win.o src/zombie.o src/credits.o $(RES)
 LIBS     = -L"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/lib32" -static-libgcc -L"C:/Users/rzuba/OneDrive/Documents/c/SDL_Window/SDL_Window/SDL2-2.0.16/x86_64-w64-mingw32/lib" -L"C:/Users/MRZUBAIRY/OneDrive/NED/DSAA/DSAA Project/dsa project/dsa project/SDL2/x86_64-w64-mingw32/lib" assets/dll/SDL2.dll assets/dll/SDL2_image.dll assets/dll/SDL2_mixer.dll assets/dll/SDL2_ttf.dll -m32 -g3
-INCS     = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"C:/Users/rzuba/OneDrive/Documents/c/SDL_Window/SDL_Window/SDL2-2.0.16/x86_64-w64-mingw32/include"
-CXXINCS  = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/c++" -I"C:/Users/rzuba/OneDrive/Documents/c/SDL_Window/SDL_Window/SDL2-2.0.16/x86_64-w64-mingw32/include"
+INCS     = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"C:/Users/MRZUBAIRY/OneDrive/NED/DSAA/DSAA Project/dsa project/dsa project/SDL2/x86_64-w64-mingw32/include"
+CXXINCS  = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/c++" -I"C:/Users/MRZUBAIRY/OneDrive/NED/DSAA/DSAA Project/dsa project/dsa project/SDL2/x86_64-w64-mingw32/include"
 BIN      = game.exe
 CXXFLAGS = $(CXXINCS) -m32 -g3
 CFLAGS   = $(INCS) -m32 -g3
-DEL      = C:\Program Files (x86)\Embarcadero\Dev-Cpp\devcpp.exe INTERNAL_DEL
+DEL      = C:\Program Files (x86)\Embarcadero\Dev-Cpp\DevCpp.exe INTERNAL_DEL
 
 .PHONY: all all-before all-after clean clean-custom
 
