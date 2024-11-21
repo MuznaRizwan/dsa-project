@@ -54,7 +54,7 @@ private:
 
 	bool running = true;
 	bool win = false;
-	bool lose = false;
+	bool loose = false;
 	const float G_MOVEMENT_OFFSET = 0.5;
 	const int FRAME_DELAY = 100; // Delay in milliseconds for frame animation
 	SDL_Renderer* renderer = nullptr;

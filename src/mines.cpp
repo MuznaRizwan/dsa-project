@@ -10,7 +10,7 @@
 #include <vector>
 
 void Minesweeper::updateTimer() {
-	if (isPaused || win || lose) return;
+	if (isPaused || win || loose) return;
 	elapsedTime = (SDL_GetTicks() - startTime) / 1000;
 }
 
@@ -111,7 +111,7 @@ void Minesweeper::calculateAdjacentMines() {
 
 void Minesweeper::revealCell(int x, int y, SDL_Renderer* renderer, SDL_Texture* screenTexture, SDL_Texture* orangeTexture, SDL_Texture* headTexture, SDL_Texture* backgroundTexture, TTF_Font* font) {
 	Cell& cell = grid[x][y];
-    if (win || lose || cell.state != HIDDEN) return;
+    if (win || loose || cell.state != HIDDEN) return;
 
 	cell.state = REVEALED;
 	revealedCells++;
@@ -121,7 +121,7 @@ void Minesweeper::revealCell(int x, int y, SDL_Renderer* renderer, SDL_Texture* 
 		win = true;
 	}
 	if (cell.content == MINE) {
-		lose = true;
+		loose = true;
 		return;
 	}
 
@@ -143,7 +143,7 @@ void Minesweeper::revealAdjacentCells(int x, int y, SDL_Renderer* renderer,SDL_T
 }
 
 void Minesweeper::flagCell(int x, int y) {
-    if (win || lose) return;
+    if (win || loose) return;
 
     int idx = x * GRID_HEIGHT + y;
 	Cell& cell = grid[x][y];
@@ -170,7 +170,7 @@ void Minesweeper::handleInput(SDL_Event& e, SDL_Rect& shovelButtonRect, SDL_Rect
 //    if (win) {
 //       renderBackground( renderer, backgroundTexture, screenTexture, orangeTexture, headTexture, font); // Show the game-over overlay
 //        return; // Disable further input
-//    } else if (lose) {
+//    } else if (loose) {
 //       renderBackground( renderer, backgroundTexture, screenTexture, orangeTexture, headTexture, font);
 //	}
 
@@ -189,7 +189,7 @@ void Minesweeper::handleInput(SDL_Event& e, SDL_Rect& shovelButtonRect, SDL_Rect
             currentTool = SHOVEL;
         } else if (x >= flagButtonRect.x && x <= flagButtonRect.x + BUTTON_WIDTH &&
                    y >= flagButtonRect.y && y <= flagButtonRect.y + BUTTON_HEIGHT) {
-            if (!win && !lose) // Allow flag selection only if game is not over
+            if (!win && !loose) // Allow flag selection only if game is not over
                 currentTool = FLAG;
         } else if (x >= soundButtonRect.x && x <= soundButtonRect.x + BUTTON_WIDTH &&
                    y >= soundButtonRect.y && y <= soundButtonRect.y + BUTTON_HEIGHT) {
@@ -273,7 +273,7 @@ SDL_Texture* playButtonTexture, SDL_Texture* quitButtonTexture, SDL_Texture* scr
 	int remainingTime = TIMER_LIMIT - (elapsedTime);
 	if (remainingTime <= 0) {
 		renderText("Time's over!", 300, 20, BLACK, font, renderer);
-		lose = true;
+		loose = true;
 		return;
 	}
 	renderText("Time: " + std::to_string(remainingTime) + "s", 10, 10, BLACK, font, renderer);
@@ -307,8 +307,8 @@ SDL_Texture* playButtonTexture, SDL_Texture* quitButtonTexture, SDL_Texture* scr
 		std::cout << "win\n";
 		renderBackground(renderer, backgroundTexture,screenTexture, orangeTexture, headTexture, font);
 //		return;
-	} else if (lose) {
-		std::cout << "lose\n";
+	} else if (loose) {
+		std::cout << "loose\n";
 		renderBackground(renderer, backgroundTexture,screenTexture, orangeTexture, headTexture, font);
 	}
 }
@@ -421,7 +421,7 @@ void Minesweeper::renderBackground(SDL_Renderer* renderer, SDL_Texture* backgrou
 	    SDL_Rect headTextureRect = {300, 50,300, 50};
 	    SDL_RenderCopy(renderer, headTexture, nullptr, &headTextureRect);
 	    renderText("Score: " + std::to_string(currentScore), 300, 150, BLACK, font, renderer);
-	} else if (lose) {
+	} else if (loose) {
 		SDL_RenderCopy(renderer, screenTexture, nullptr, nullptr);
 	    SDL_RenderCopy(renderer, orangeTexture, nullptr, nullptr);
 	    renderText("YOU LOST!", 200, 150, BLACK, font, renderer);

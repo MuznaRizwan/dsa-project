@@ -25,7 +25,7 @@ void MazeScreen::load(GameState* game) {
 	quitButtonRect = {575, 225, 80, 80};
 	soundButtonRect = {375, 225, 80, 80};
 	win = false;
-	lose = false;
+	loose = false;
 	winBannerRect = {250, 50, 500, 100};
 	timerRect = {80, 285, 80, 80};
 	winBannerRect = {250, 50, 500, 100};
@@ -153,7 +153,7 @@ void MazeScreen::loadNextLevel() {
 // 	cameraY = 0;
 // 	player.resetMoves();
 // 	score = 0;
-// 	lose = false;
+// 	loose = false;
 // }
 
 void MazeScreen::run() {
@@ -162,7 +162,7 @@ void MazeScreen::run() {
 		SDL_Event event;
 		handleEvents(event);
 		render();
-		if (win || lose) {
+		if (win || loose) {
 			player.resetMoves();
 		}
 	}
@@ -389,10 +389,10 @@ void MazeScreen::handleEvents(SDL_Event event) {
 			} else if (SDL_PointInRect(&mousePoint, &quitButtonRect)) {
 				isRunning = false;
 			}
-		} else if (lose) {
+		} else if (loose) {
 // 			if (SDL_PointInRect(&mousePoint, &replayButtonRect)) {
 // //	            		isRunning = true;
-// //	            		lose = false;
+// //	            		loose = false;
 // 				replayLevel();
 // 				cout << "replay\n";
 // 			} else 
@@ -407,7 +407,7 @@ void MazeScreen::handleEvents(SDL_Event event) {
 		}
 	}
 
-	if (event.type == SDL_KEYDOWN && !isPaused && !win && !lose) {
+	if (event.type == SDL_KEYDOWN && !isPaused && !win && !loose) {
 		switch (event.key.keysym.sym) {
 			case SDLK_UP:
 				dy = -1;
@@ -496,7 +496,7 @@ void MazeScreen::render() {
 	remainingTime = gameDuration - elapsedTime;
 	if (remainingTime <= 0 && !win) {
 		remainingTime = 0;
-		lose = true;
+		loose = true;
 	}
 	// Render maze and player
 	if (win) {
@@ -519,11 +519,11 @@ void MazeScreen::render() {
 		}
 	}
 
-	else if (lose) {
+	else if (loose) {
 		SDL_RenderCopy(renderer, backgroundTexture, nullptr, &overlayRect);
 		SDL_RenderCopy(renderer, quitButtonTexture, nullptr, &quitButtonRect);
 		// SDL_RenderCopy(renderer, replayButtonTexture, nullptr, &replayButtonRect);
-		renderText("You Lose!", 400, 150);
+		renderText("You Loose!", 400, 150);
 	}
 
 	else if (isPaused) {

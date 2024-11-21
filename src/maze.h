@@ -239,7 +239,7 @@ class MazeScreen : public BaseScreen {
 
 		bool isRunning;
 		bool win;
-		bool lose;
+		bool loose;
 		bool isPaused;
 
 		int currentLevel = 1;
