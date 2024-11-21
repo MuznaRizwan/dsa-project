@@ -156,17 +156,17 @@ void MazeScreen::loadNextLevel() {
 // 	loose = false;
 // }
 
-void MazeScreen::run() {
-	startTime = SDL_GetTicks();
-	while (isRunning) {
-		SDL_Event event;
-		handleEvents(event);
-		render();
-		if (win || loose) {
-			player.resetMoves();
-		}
-	}
-}
+//void MazeScreen::run() {
+//	startTime = SDL_GetTicks();
+//	while (isRunning) {
+//		SDL_Event event;
+//		handleEvents(event);
+//		render();
+//		if (win || loose) {
+//			player.resetMoves();
+//		}
+//	}
+//}
 
 
 
@@ -373,12 +373,11 @@ void MazeScreen::handleEvents(SDL_Event event) {
 		SDL_Point mousePoint = { dx, dy };
 
 		if (isPaused) {
-			// if (SDL_PointInRect(&mousePoint, &playButtonRect)) {
-			// 	isPaused = false;
-			// 	// Update pausedTime with the current paused duration
-			// 	pausedTime += SDL_GetTicks() - pauseStartTime;
-			// } else 
-			if (SDL_PointInRect(&mousePoint, &quitButtonRect)) {
+			 if (SDL_PointInRect(&mousePoint, &playButtonRect)) {
+			 	isPaused = false;
+			 	// Update pausedTime with the current paused duration
+			 	pausedTime += SDL_GetTicks() - pauseStartTime;
+			 } else if (SDL_PointInRect(&mousePoint, &quitButtonRect)) {
 				isRunning = false;
 			} else if (SDL_PointInRect(&mousePoint, &soundButtonRect)) {
 				isSoundOn = !isSoundOn;
