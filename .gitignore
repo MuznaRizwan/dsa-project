@@ -35,3 +35,10 @@
 /build
 desktop.ini
 Makefile.win
+Maze4.cpp
+Maze4b.cpp
+mineDSA.cpp
+Project1.dev
+Project1.layout
+/src/.vs
+/src/out

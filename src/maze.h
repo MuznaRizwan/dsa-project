@@ -122,6 +122,7 @@ class Player {
 	public:
 		std::pair<int, int> currentPos;
 		vector<pair<int, int>> moves;
+
 		Player(int startX, int startY) : currentPos({ startX, startY }), animationFrame(0) {
 			moves.push_back(currentPos);
 		}
@@ -135,8 +136,10 @@ class Player {
 				animationFrame = (animationFrame + 1) % 2;
 				std::cout << "Player moved to: (" << currentPos.first << ", " << currentPos.second << ")" << std::endl;
 				if (isSoundOn) Mix_PlayChannel(-1, moveSound, 0);  // Play movement sound
+
 				cameraX = currentPos.first * TILE_SIZE - SCREEN_WIDTH / 2;
 				cameraY = currentPos.second * TILE_SIZE - SCREEN_HEIGHT / 2;
+
 			}
 		}
 
@@ -187,20 +190,8 @@ class MazeScreen : public BaseScreen {
 		int remainingTime;
 		int time = 0;
 
-		SDL_Rect pauseButtonRect = { 0, 0, 0, 0};
-		SDL_Rect playButtonRect = { 0, 0, 0, 0};
-		SDL_Rect quitButtonRect = { 0, 0, 0, 0};
-		SDL_Rect soundButtonRect = { 0, 0, 0, 0};
-		SDL_Rect overlayRect = { 0, 0, 0, 0};
-		SDL_Rect scoreRect = { 0, 0, 0, 0};
-		SDL_Rect timerRect = {80, 285, 80, 80};
-		SDL_Rect winBannerRect = {250, 50, 500, 100};
-
-		Mix_Chunk* moveSound = nullptr;
-		TTF_Font* font = nullptr;
-
-		SDL_Renderer* renderer = nullptr;
 		GameState* game = nullptr;
+		SDL_Renderer* renderer = nullptr;
 		SDL_Texture* backgroundTexture = nullptr;
 		SDL_Texture* backgroundTexture2 = nullptr;
 		SDL_Texture* backgroundTexture3 = nullptr;
@@ -223,8 +214,21 @@ class MazeScreen : public BaseScreen {
 		SDL_Texture* lastNodeTexture = nullptr;
 		SDL_Texture* scoreTexture = nullptr;
 		SDL_Texture* timerTexture = nullptr;
-		SDL_Texture* replayButtonTexture = nullptr;
+//		SDL_Texture* replayButtonTexture = nullptr;
 		SDL_Texture* winBannerTexture = nullptr;
+
+		SDL_Rect pauseButtonRect = { 0, 0, 0, 0};
+		SDL_Rect playButtonRect = { 0, 0, 0, 0};
+		SDL_Rect quitButtonRect = { 0, 0, 0, 0};
+		SDL_Rect soundButtonRect = { 0, 0, 0, 0};
+		SDL_Rect overlayRect = { 0, 0, 0, 0};
+		SDL_Rect scoreRect = { 0, 0, 0, 0};
+		SDL_Rect timerRect = {80, 285, 80, 80};
+//		SDL_Rect replayButtonRect = { 0, 0, 0, 0};
+		SDL_Rect winBannerRect = {250, 50, 500, 100};
+		Mix_Chunk* moveSound = nullptr;
+		TTF_Font* font = nullptr;
+
 
 		Uint32 startTime;
 		Uint32 elapsedTime;
