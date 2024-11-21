@@ -229,7 +229,6 @@ class MazeScreen : public BaseScreen {
 		Mix_Chunk* moveSound = nullptr;
 		TTF_Font* font = nullptr;
 
-
 		Uint32 startTime;
 		Uint32 elapsedTime;
 		Uint32 pausedTime;

@@ -52,12 +52,6 @@ void MazeScreen::load(GameState* game) {
 	//				return false;
 	//			}
 
-	int currentLevel = 1;
-	SDL_Texture* levelBackgrounds[3];
-	Graph levelGraphs[3];
-	Maze* maze;
-	Maze* levelMazes[3];
-
 	levelBackgrounds[0] = loadTexture("assets/images/pinkbg.png");
 	levelBackgrounds[1] = loadTexture("assets/images/skybluebg.png");
 	levelBackgrounds[2] = loadTexture("assets/images/darkbluebg.png");

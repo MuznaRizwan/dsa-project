@@ -1,4 +1,4 @@
-﻿// Games2.h : Include file for standard system include files,
+﻿// Gamess.h : Include file for standard system include files,
 // or project specific include files.
 
 #pragma once
@@ -7,8 +7,8 @@
 
 // TODO: Reference additional headers your program requires here.
 
-#ifndef GAMES2_H
-#define GAMES2_H
+#ifndef GAMES_H
+#define GAMES_H
 
 struct GameState;
 
