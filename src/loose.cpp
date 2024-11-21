@@ -18,11 +18,14 @@ void Loose::load(GameState* game) {
 	Mix_PlayMusic(music, -1); // Loop the music
 
 	// Load background images
-	SDL_Texture* bg1 = IMG_LoadTexture(renderer, "assets/images/loose.png"); // Replace with your image file
+	SDL_Texture* bg1 = IMG_LoadTexture(renderer, "assets/images/loose/loose.png"); // Replace with your image file
 	//SDL_Texture* bg2 = IMG_LoadTexture(renderer, "assets/images/background1.png");
 
 	// Load girl animation frames
-	girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "assets/images/girlchar.png")); // Replace with your images
+	girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "assets/images/girlanimationf1.png")); // Replace with your images
+	girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "assets/images/girlanimationf2.png")); // Replace with your images
+	girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "assets/images/girlanimationf3.png")); // Replace with your images
+	girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "assets/images/girlanimationf4.png")); // Replace with your images
 
 	font = TTF_OpenFont("assets/font/arial.ttf", 24);
 	if (!font) {

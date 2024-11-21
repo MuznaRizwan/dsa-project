@@ -22,12 +22,13 @@ private:
 	GameState* game = nullptr;
 	SDL_Texture* bg1 = nullptr;
 	int bg1X = 0, bg1Y = 0, gx = 0;
+	int startTime = SDL_GetTicks();
 
 public:
 
-	string background = "assets/images/splash.png";
-	string asset1 = "assets/images/playb.png";
-	string asset2 = "assets/images/creditsb.png";
+	string background = "assets/images/splash/splashbg.png";
+//	string asset1 = "assets/images/playb.png";
+//	string asset2 = "assets/images/creditsb.png";
 	void load(GameState* game);
 	void handleEvents(SDL_Event event);
 	void render();

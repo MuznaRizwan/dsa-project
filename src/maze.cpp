@@ -52,35 +52,35 @@ void MazeScreen::load(GameState* game) {
 	//				return false;
 	//			}
 
-	levelBackgrounds[0] = loadTexture("assets/images/pinkbg.png");
-	levelBackgrounds[1] = loadTexture("assets/images/skybluebg.png");
-	levelBackgrounds[2] = loadTexture("assets/images/darkbluebg.png");
+	levelBackgrounds[0] = loadTexture("assets/images/chocomaze/chocomazebgpink.png");
+	levelBackgrounds[1] = loadTexture("assets/images/chocomaze/chocomazebgblue.png");
+	levelBackgrounds[2] = loadTexture("assets/images/chocomaze/chocomazebgdarkblue.png");
 
-	floorTexture = loadTexture("assets/images/floor.png");
-	roofTexture = loadTexture("assets/images/roof.png");
-	backgroundTexture2 = loadTexture("assets/images/lightorangebg.png");
-	backgroundTexture3 = loadTexture("assets/images/orangebg3.png");
-	backgroundTexture4 = loadTexture("assets/images/curvebg.png");
-	playerTexture1 = loadTexture("assets/images/pl1.png");
-	playerTexture2 = loadTexture("assets/images/pl4.png");
-	sunTexture = loadTexture("assets/images/sun.png");
-	moonTexture = loadTexture("assets/images/moon.png");
-	lollipopTexture = loadTexture("assets/images/lollipop.png");
-	pauseButtonTexture = loadTexture("assets/images/pause.png");
-	playButtonTexture = loadTexture("assets/images/play.png");
-	quitButtonTexture = loadTexture("assets/images/quit.png");
-	soundOnButtonTexture = loadTexture("assets/images/sound_on.png");
-	soundOffButtonTexture = loadTexture("assets/images/volumeoff.png"); //need to vhnage
-	cellTexture1 = loadTexture("assets/images/cell.png");
-	cellTexture2 = loadTexture("assets/images/cell2.png");
-	lastNodeTexture = loadTexture("assets/images/cell3.png");
-	scoreTexture = loadTexture("assets/images/trophy.png");
-	timerTexture = loadTexture("assets/images/timer.png");
+	floorTexture = loadTexture("assets/images/chocomaze/floor.png");
+	roofTexture = loadTexture("assets/images/chocomaze/ceiling.png");
+	backgroundTexture2 = loadTexture("assets/images/chocomaze/bgwafer.png");
+	backgroundTexture3 = loadTexture("assets/images/chocomaze/bglollipop.png");
+	backgroundTexture4 = loadTexture("assets/images/chocomaze/curvebg.png");
+	playerTexture1 = loadTexture("assets/images/chocomaze/girlanimation1.png");
+	playerTexture2 = loadTexture("assets/images/chocomaze/girlanimation2.png");
+	sunTexture = loadTexture("assets/images/chocomaze/sun.png");
+	moonTexture = loadTexture("assets/images/chocomaze/moon.png");
+	lollipopTexture = loadTexture("assets/images/chocomaze/lollipop.png");
+	pauseButtonTexture = loadTexture("assets/images/chocomaze/pause.png");
+	playButtonTexture = loadTexture("assets/images/chocomaze/play.png");
+	quitButtonTexture = loadTexture("assets/images/chocomaze/quit.png");
+	soundOnButtonTexture = loadTexture("assets/images/chocomaze/audio.png");
+	soundOffButtonTexture = loadTexture("assets/images/chocomaze/audiooff.png"); //need to vhnage
+	cellTexture1 = loadTexture("assets/images/chocomaze/cell1.png");
+	cellTexture2 = loadTexture("assets/images/chocomaze/cell2.png");
+	lastNodeTexture = loadTexture("assets/images/chocomaze/cell3.png");
+	scoreTexture = loadTexture("assets/images/chocomaze/trophy.png");
+	timerTexture = loadTexture("assets/images/chocomaze/timer.png");
 	// replayButtonTexture = loadTexture("assets/images/replay.png"); //need to chnge
-	winBannerTexture = loadTexture("assets/images/heading.png");
+	winBannerTexture = loadTexture("assets/images/chocomaze/heading.png");
 
-	backgroundTexture = loadTexture("assets/images/bg1.png");
-	cellTexture = loadTexture("assets/images/cell.png");
+	backgroundTexture = loadTexture("assets/images/chocomaze/bgwafer.png");
+	cellTexture = loadTexture("assets/images/chocomaze/cell1.png");
 
 	font = TTF_OpenFont("assets/font/arial.ttf", 28);
 	if (!font) {

@@ -66,7 +66,7 @@ bool initGame(GameState* game) {
 
 	// Initialize games array
 	const char* gameNames[GAME_COUNT] = { "Mines Sweeper", "Sugar Rush", "Zombies World" };
-	const char* gameImages[GAME_COUNT] = { "assets/images/icon1.png", "assets/images/icon2.png", "assets/images/icon3.png" };
+	const char* gameImages[GAME_COUNT] = { "assets/images/menu/chocomazei.png", "assets/images/menu/minesweeperi.png", "assets/images/menu/zombieshooteri.png" };
 
 	for (int i = 0; i < GAME_COUNT; i++) {
 		SDL_Surface* surface = IMG_Load(gameImages[i]);
@@ -84,8 +84,8 @@ bool initGame(GameState* game) {
 	game->hoverSound = Mix_LoadWAV("assets/audio/hover.wav");
 	game->selectSound = Mix_LoadWAV("assets/audio/select.wav");
 
-	game->previousScreen = SPLASH_SCREEN;
-	game->currentScreen = MENU_SCREEN;
+	game->previousScreen = NO_SCREEN;
+	game->currentScreen = SPLASH_SCREEN;
 	game->selectedGame = 0;
 	game->hoveredGame = -1;
 
@@ -268,12 +268,12 @@ void renderMain(GameState* game) {
 		case MENU_SCREEN:
 			newScreen = new Menu();
 			break;
-		case LOOSE_SCREEN:
-			newScreen = new Loose();
-			break;
-		case WIN_SCREEN:
-			newScreen = new Win();
-			break;
+//		case LOOSE_SCREEN:
+//			newScreen = new Loose();
+//			break;
+//		case WIN_SCREEN:
+//			newScreen = new Win();
+//			break;
 		case CREDITS_SCREEN:
 			newScreen = new Credits();
 			break;

@@ -1,4 +1,4 @@
-﻿// Gamess.h : Include file for standard system include files,
+﻿// Games.h : Include file for standard system include files,
 // or project specific include files.
 
 #pragma once

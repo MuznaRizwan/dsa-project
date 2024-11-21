@@ -14,6 +14,8 @@ using namespace std;
 class BaseScreen;
 
 enum GameScreen {
+	NO_SCREEN,
+	
 	MAZE_SCREEN,
 	MINESWEEPER_SCREEN,
 	ZOMBIE_SCREEN,

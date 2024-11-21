@@ -20,17 +20,16 @@ void ZombieScreen::load(GameState* game) {
 		return; // -1;
 	}
 	// Initialize the textures
-	playButtonTexture = loadTexture("assets/images/play.png");
-	pauseButtonTexture = loadTexture("assets/images/pause.png");
-	quitButtonTexture = loadTexture("assets/images/quit.png");
-	soundButtonTexture = loadTexture("assets/images/sound.png");
-	musicButtonTexture = loadTexture("assets/images/music.png");
-	blackTexture = loadTexture("assets/images/black_screen.png");
-	bgTexture = loadTexture("assets/images/ZOMBIEBG.png");
-	p1Texture = loadTexture("assets/images/pl1.png");
-	p2Texture = loadTexture("assets/images/pl2.png");
-	p3Texture = loadTexture("assets/images/pl3.png");
-	p4Texture = loadTexture("assets/images/pl4.png");
+	playButtonTexture = loadTexture("assets/images/zombieshooter/play.png");
+	pauseButtonTexture = loadTexture("assets/images/zombieshooter/pause.png");
+	quitButtonTexture = loadTexture("assets/images/zombieshooter/quit.png");
+	soundButtonTexture = loadTexture("assets/images/zombieshooter/audio.png");
+	musicButtonTexture = loadTexture("assets/images/zombieshooter/music.png");
+	bgTexture = loadTexture("assets/images/zombieshooter/zombieshooter.png");
+ 	p1Texture = loadTexture("assets/images/zombieshooter/zombiebossf1.png");
+	p2Texture = loadTexture("assets/images/zombieshooter/zombiebossf2.png");
+	p3Texture = loadTexture("assets/images/zombieshooter/zombiebossf3.png");
+	p4Texture = loadTexture("assets/images/zombieshooter/zombiebossf4.png");
 
 
 	if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG) {

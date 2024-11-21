@@ -6,35 +6,27 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include <vector>
+#include <string>
+#include <thread>  // For using sleep_for
 
 using namespace std;
 
 void Credits::load(GameState* game) {
 	this->game = game;
 	this->renderer = game->renderer;
-	//	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 
-	// Function prototypes
-
-	//	SDL_Window* window = SDL_CreateWindow("Win Screen", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	//	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-
-	this->renderer = renderer;
-
+//    font = TTF_OpenFont("assets/font/arial.ttf", 24);
 	// Initialize SDL_mixer
-	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-	Mix_Music* music = Mix_LoadMUS("assets/audio/background_music.mp3"); // Replace with your music file
-	Mix_PlayMusic(music, -1); // Loop the music
+//	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+//	music = Mix_LoadMUS("assets/audio/background_music.mp3"); // Replace with your music file
+//	Mix_PlayMusic(music, -1); // Loop the music
 
 	// Load background images
-	SDL_Texture* bg1 = IMG_LoadTexture(renderer, "assets/images/win.png"); // Replace with your image file
+	bg1 = IMG_LoadTexture(renderer, "assets/images/credits/credits.png"); // Replace with your image file
 	//SDL_Texture* bg2 = IMG_LoadTexture(renderer, "assets/images/background1.png");
 
-	// Load girl animation frames
-	girlAnimation.frames.push_back(IMG_LoadTexture(renderer, "assets/images/girlchar.png")); // Replace with your images
-
-
+//	credits.init(renderer);
+//	credits.run();
 }
 
 void Credits::handleEvents(SDL_Event event) {
@@ -75,31 +67,120 @@ void Credits::handleEvents(SDL_Event event) {
 
 void Credits::render() {
 
-	//	girlAnimation.update();
+//		// Clear screen
+//	SDL_RenderClear(renderer);
+//
+//	// Render backgrounds
+//	SDL_Rect bgRect1 = { 0, bg1Y, SCREEN_WIDTH, SCREEN_HEIGHT };
+//	//        SDL_Rect bgRect2 = { 0, bg2Y, SCREEN_WIDTH, SCREEN_HEIGHT };
+//	SDL_RenderCopy(renderer, bg1, NULL, &bgRect1);
+//	//SDL_RenderCopy(renderer, bg2, NULL, &bgRect2);
+//
+//	// Render girl animation
+////	girlAnimation.render(renderer, gx /*(SCREEN_WIDTH - 100) / 2*/, SCREEN_HEIGHT - 200);
+//
+//	// Render text
+//	SDL_Color white = { 255, 255, 255 };
+//	TTF_Font* font = TTF_OpenFont("assets/font/arial.ttf", 24);
+//	if (!font) {
+//		printf("Font loading failed: %s\n", TTF_GetError());
+//		return;
+//	}
+//	renderText(font, "Press 'R' to Resume or ESC to Quit", SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2, white);
+//
+//	// Present the rendered frame
+//	SDL_RenderPresent(renderer);
 
-		// Clear screen
-	SDL_RenderClear(renderer);
+    // Create a circular queue and add roles
+//    RoleQueue roleQueue(9);  // Queue with capacity for 9 roles
+//
+//    // Create roles and add names
+//    Role producer("Producer");
+//    producer.addPerson("Mashal Zehra (GA-005)");
+//    roleQueue.push(&producer);
+//
+//    Role technicalDirector("Technical Director");
+//    technicalDirector.addPerson("Aasiya Asadullah (GA-001)");
+//    roleQueue.push(&technicalDirector);
+//
+//    Role programmers("Programmers");
+//    programmers.addPerson("Aasiya Asadullah (GA-001)");
+//    programmers.addPerson("Rafia Gull (GA-002)");
+//    programmers.addPerson("Mashal Zehra (GA-005)");
+//    programmers.addPerson("Muzna Rizwan Zubairy (GA-007)");
+//    programmers.sortPeople();
+//    roleQueue.push(&programmers);
+//
+//    Role artDirector("Art Director");
+//    artDirector.addPerson("Muzna Rizwan Zubairy (GA-007)");
+//    roleQueue.push(&artDirector);
+//
+//    Role gameDesigner("Game Designer");
+//    gameDesigner.addPerson("Muzna Rizwan Zubairy (GA-007)");
+//    roleQueue.push(&gameDesigner);
+//
+//    Role gameArtist("Game Artist");
+//    gameArtist.addPerson("Muzna Rizwan Zubairy (GA-007)");
+//    roleQueue.push(&gameArtist);
+//
+//    Role tester("Tester");
+//    tester.addPerson("Aasiya Asadullah (GA-001)");
+//    roleQueue.push(&tester);
+//
+//    Role composer("Composer");
+//    composer.addPerson("Rafia Gull (GA-002)");
+//    roleQueue.push(&composer);
+//
+//    Role soundDesigner("Sound Designer");
+//    soundDesigner.addPerson("Rafia Gull (GA-002)");
+//    roleQueue.push(&soundDesigner);
+//
+//    // Start scrolling
+//    int offsetY = 0;
+//    bool running = true;
+//    while (running)
+//{
+//        SDL_RenderClear(renderer);
+//
+//        // Render and display roles one by one
+//        Role* currentRole = roleQueue.pop();
+//        if (currentRole) {
+//            currentRole->display(renderer, font, offsetY);
+//            roleQueue.push(currentRole);  // Push the role back to the queue after display
+//        }
+//
+//        // Handle input and update offsetY for scrolling
+////        SDL_Event e;
+////        while (SDL_PollEvent(&e)) {
+////            if (e.type == SDL_QUIT) {
+////                running = false;
+////            }
+////        }
+//
+//        offsetY -= 2;  // Scroll speed
+//
+//        // If all roles have been shown, introduce a slight pause before starting again
+//        if (roleQueue.isEmpty()) {
+//            std::this_thread::sleep_for(std::chrono::seconds(2));  // Pause for 2 seconds
+////             Push the roles back into the queue to restart
+//            roleQueue.push(&producer);
+//            roleQueue.push(&programmers);
+//        }
+//
+//        SDL_RenderPresent(renderer);
+//        SDL_Delay(16);  // Delay to control frame rate
+//    }
 
-	// Render backgrounds
-	SDL_Rect bgRect1 = { 0, bg1Y, SCREEN_WIDTH, SCREEN_HEIGHT };
-	//        SDL_Rect bgRect2 = { 0, bg2Y, SCREEN_WIDTH, SCREEN_HEIGHT };
-	SDL_RenderCopy(renderer, bg1, NULL, &bgRect1);
-	//SDL_RenderCopy(renderer, bg2, NULL, &bgRect2);
+//	credits.run();
 
-	// Render girl animation
-//	girlAnimation.render(renderer, gx /*(SCREEN_WIDTH - 100) / 2*/, SCREEN_HEIGHT - 200);
+	SDL_Rect fullRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
-	// Render text
-	SDL_Color white = { 255, 255, 255 };
-	TTF_Font* font = TTF_OpenFont("assets/font/arial.ttf", 24);
-	if (!font) {
-		printf("Font loading failed: %s\n", TTF_GetError());
-		return;
-	}
-	renderText(font, "Press 'R' to Resume or ESC to Quit", SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2, white);
+	SDL_RenderCopy(renderer, bg1, NULL, &fullRect);
 
-	// Present the rendered frame
 	SDL_RenderPresent(renderer);
+
+	SDL_Delay(2 * 1000);
+	game->currentScreen = MENU_SCREEN;
 }
 
 void Credits::renderText(TTF_Font* font, const char* text,
@@ -127,4 +208,11 @@ void Credits::cleanUp() {
 	//	SDL_DestroyWindow(window);
 	//	SDL_Quit();
 	//	return 0;
+
+  // Clean up
+    TTF_CloseFont(font);
+//    SDL_DestroyRenderer(renderer);
+//    SDL_DestroyWindow(window);
+//    TTF_Quit();
+//    SDL_Quit();
 }

@@ -22,11 +22,20 @@ private:
 	SDL_Renderer* renderer = nullptr;
 	GameState* game = nullptr;
 	SDL_Texture* bg1 = nullptr;
+	SDL_Texture* btn1a = nullptr;
+	SDL_Texture* btn2a = nullptr;
+	SDL_Texture* btn3a = nullptr;
+	SDL_Texture* btn1l = nullptr;
+	SDL_Texture* btn2l = nullptr;
+	SDL_Texture* btn3l = nullptr;
+	SDL_Texture* btn1u = nullptr;
+	SDL_Texture* btn2u = nullptr;
+	SDL_Texture* btn3u = nullptr;
 	int bg1X = 0, bg1Y = 0, gx = 0;
 	// const vector<Button>& buttons;
 //		vector<Button>& buttons;
 //		vector<shared_ptr<Button>> buttons;
-	Button buttons[6] = { Button(), Button(), Button(),Button(), Button(), Button() };
+	Button buttons[3] = { Button(), Button(), Button() }; //,Button(), Button(), Button() };
 
 	//		std::array<Button, 3> buttons;
 	TTF_Font* font = nullptr;

@@ -23,7 +23,7 @@ void Menu::load(GameState* game) {
 		cerr << "Failed to load font: " << TTF_GetError() << endl;
 	}
 
-	SDL_Color buttonColor = { 255, 0, 0, 255 }; // Red
+	// SDL_Color buttonColor = { 255, 0, 0, 255 }; // Red
 
 	//	Button b(0,0,100,30,"Hello World",(SDL_Color){ 0, 255, 0, 255 });
 	//	buttons.push_back(b);
@@ -43,17 +43,37 @@ void Menu::load(GameState* game) {
 		//	buttons.emplace_back(SCREEN_WIDTH - 100, 10, 80, 30, "Credits", (SDL_Color){ 0, 255, 0, 255 }); // Green
 		//	buttons.emplace_back(SCREEN_WIDTH - 60, 50, 80, 30, "Menu", (SDL_Color){ 0, 0, 255, 255 }); // Blue
 
-	SDL_Color c = { 0, 255, 0, 255 };
+	SDL_Color c = { 0, 0, 0, 100 };
 
-	Button b(0, 0, 90, 50, "Game-0", c);
+	Button b(104, 145, 200, 200, "Game-0", c);
 
 	int i = 0;
-	string bLabels[6] = { "Play","Credits","Menu","Maze","Minesweeper","Zombie" };
+	string bLabels[3] = { /*"Play","Credits","Menu",*/"Maze","Minesweeper","Zombie" };
+
 	for (auto& button : buttons) {
-		b.rect.x += 100;
+		b.rect.x += 150;
 		b.label = bLabels[i++];
 		button = Button(b);
 	}
+
+	// Load background images
+//	bg1 = IMG_LoadTexture(renderer, "assets/images/menu_bg.png"); // Replace with your image file
+
+	// locked
+	btn1l = IMG_LoadTexture(renderer, "assets/images/menu/chocomazei.png"); // Replace with your image file
+	btn2l = IMG_LoadTexture(renderer, "assets/images/menu/zombieshooterlockedi.png"); // Replace with your image file
+	btn3l = IMG_LoadTexture(renderer, "assets/images/menu/cherrysweeperlockedi.png"); // Replace with your image file
+
+	// unlocked
+	btn1u = IMG_LoadTexture(renderer, "assets/images/menu/chocomazei.png"); // Replace with your image file
+	btn2u = IMG_LoadTexture(renderer, "assets/images/menu/zombiesweeperunlockedi.png"); // Replace with your image file
+	btn3u = IMG_LoadTexture(renderer, "assets/images/menu/cherrysweeperunlocked.png"); // Replace with your image file
+
+	// active
+	btn1a = IMG_LoadTexture(renderer, "assets/images/menu/chocomazei.png"); // Replace with your image file
+	btn2a = IMG_LoadTexture(renderer, "assets/images/menu/zombieshooteri.png"); // Replace with your image file
+	btn3a = IMG_LoadTexture(renderer, "assets/images/menu/chocomazei.png"); // Replace with your image file
+
 }
 
 void Menu::handleEvents(SDL_Event event) {
@@ -81,9 +101,17 @@ void Menu::render() {
 //	Button b(0,0,100,30,"Hello World",(SDL_Color){ 0, 255, 0, 255 });
 //	b.render(renderer, font);
 
-	for (auto& button : buttons) {
-		button.render(renderer, font);
-	}
+	SDL_Rect fullRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+
+	SDL_RenderCopy(renderer, bg1, NULL, &fullRect);
+
+	SDL_RenderCopy(renderer, btn1a, NULL, &buttons[0].rect);
+	SDL_RenderCopy(renderer, btn2a, NULL, &buttons[1].rect);
+	SDL_RenderCopy(renderer, btn3a, NULL, &buttons[2].rect);
+
+//	for (auto& button : buttons) {
+//		button.render(renderer, font);
+//	}
 
 	// Present the rendered frame
 	SDL_RenderPresent(renderer);

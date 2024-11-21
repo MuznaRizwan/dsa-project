@@ -11,25 +11,25 @@ void Splash::load(GameState* game) {
 	this->game = game;
 	this->renderer = game->renderer;
 	// Function prototypes
-	SDL_Surface* surface;
-	surface = IMG_Load("assets/images/splash.png");
-
-	if (!surface) {
-		printf("Failed to load image %s: %s\n", "assets/images/splash.png", IMG_GetError());
-	}
-	SDL_Texture* splashScreenTexture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+//	SDL_Surface* surface;
+//	surface = IMG_Load("assets/images/splash.png");
+//
+//	if (!surface) {
+//		printf("Failed to load image %s: %s\n", "assets/images/splash.png", IMG_GetError());
+//	}
+//	SDL_Texture* splashScreenTexture = SDL_CreateTextureFromSurface(renderer, surface);
+//	SDL_FreeSurface(surface);
 
 	// Initialize SDL_mixer
-	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-	Mix_Music* music = Mix_LoadMUS("assets/audio/background_music.mp3"); // Replace with your music file
-	Mix_PlayMusic(music, -1); // Loop the music
+//	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+//	Mix_Music* music = Mix_LoadMUS("assets/audio/background_music.mp3"); // Replace with your music file
+//	Mix_PlayMusic(music, -1); // Loop the music
 
 	// Load background images
-	SDL_Texture* bg1 = IMG_LoadTexture(renderer, "assets/images/splash.png"); // Replace with your image file
+	bg1 = IMG_LoadTexture(renderer, "assets/images/splash/splashbg.png"); // Replace with your image file
 	//SDL_Texture* bg2 = IMG_LoadTexture(renderer, "assets/images/background1.png");
 
-	TTF_Font* font = TTF_OpenFont("assets/font/arial.ttf", 24);
+	font = TTF_OpenFont("assets/font/arial.ttf", 24);
 	if (!font) {
 		printf("Font loading failed: %s\n", TTF_GetError());
 		return;
@@ -64,30 +64,34 @@ void Splash::handleEvents(SDL_Event event) {
 void Splash::render() {
 	SDL_RenderClear(renderer);
 	// Render backgrounds
-	SDL_Rect bgRect1 = { 0, bg1Y, SCREEN_WIDTH, SCREEN_HEIGHT };
-	//        SDL_Rect bgRect2 = { 0, bg2Y, SCREEN_WIDTH, SCREEN_HEIGHT };
-	SDL_RenderCopy(renderer, bg1, NULL, &bgRect1);
+//	SDL_Rect bgRect1 = { 0, bg1Y, SCREEN_WIDTH, SCREEN_HEIGHT };
+//	//        SDL_Rect bgRect2 = { 0, bg2Y, SCREEN_WIDTH, SCREEN_HEIGHT };
+//	SDL_RenderCopy(renderer, bg1, NULL, &bgRect1);
 	//SDL_RenderCopy(renderer, bg2, NULL, &bgRect2);
 
 
 	// Render text
+//	SDL_Color white = { 255, 255, 255 };
+//	renderText(font, "Game Over", SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 50, white);
+//	renderText(font, "Press 'R' to Resume or ESC to Quit", SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2, white);
+
 	SDL_Color white = { 255, 255, 255 };
-	renderText(font, "Game Over", SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 50, white);
-	renderText(font, "Press 'R' to Resume or ESC to Quit", SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2, white);
+	renderText(font, "Tiny Triads", SCREEN_WIDTH - (SDL_GetTicks() - startTime), SCREEN_HEIGHT / 2 - 50, white);
 
-
-	SDL_Color textColor = { 255, 255, 255, 255 };
+//	SDL_Color textColor = { 255, 255, 255, 255 };
 
 	SDL_Rect fullRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
 	SDL_RenderCopy(renderer, bg1, NULL, &fullRect);
 	// Render back button
-	SDL_SetRenderDrawColor(renderer, 40, 40, 50, 255);
-	SDL_Rect backButton = { 20, 20, 100, 40 };
-	DrawRoundedRect(backButton.x, backButton.y, backButton.w, backButton.h);
-	renderText(font, "Back", 35, 25, textColor);
+//	SDL_SetRenderDrawColor(renderer, 40, 40, 50, 255);
+//	SDL_Rect backButton = { 20, 20, 100, 40 };
+//	DrawRoundedRect(backButton.x, backButton.y, backButton.w, backButton.h);
+//	renderText(font, "Back", 35, 25, textColor);
 	SDL_RenderPresent(renderer);
 
+	SDL_Delay(2 * 1000);
+	game->currentScreen = CREDITS_SCREEN;
 
 }
 // Helper function to draw rounded rectangle
@@ -107,6 +111,7 @@ void Splash::renderText(TTF_Font* font, const char* text, int x, int y, SDL_Colo
 	SDL_FreeSurface(surface);
 	SDL_DestroyTexture(texture);
 }
+
 void Splash::cleanUp() {
 
 	// Clean up resources

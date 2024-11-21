@@ -15,10 +15,10 @@ void Animation::load() {
 
 // Function prototypes
 	SDL_Surface* surface;
-	surface = IMG_Load("assets/images/girlanimation.png");
+	surface = IMG_Load("assets/images/animation/girlanimation.png");
 
 	if (!surface) {
-		printf("Failed to load image %s: %s\n", "assets/images/girlanimation.png", IMG_GetError());
+		printf("Failed to load image %s: %s\n", "assets/images/animation/girlanimation.png", IMG_GetError());
 	}
 	//game->splashScreenTexture = SDL_CreateTextureFromSurface(game->renderer, surface);
 	SDL_FreeSurface(surface);

@@ -1,9 +1,17 @@
 #ifndef CREDITS_H
 #define CREDITS_H
 
-#include "animation.h"
 #include "basescreen.h"
+#include "creditscroll.h"
 #include <string>
+#include <iostream>
+#include <string>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <vector>
+#include <queue>
+#include <algorithm>
+#include <thread>
 
 using namespace std;
 
@@ -20,9 +28,11 @@ private:
 	SDL_Renderer* renderer = nullptr;
 	GameState* game = nullptr;
 	SDL_Texture* bg1 = nullptr;
+	TTF_Font* font = nullptr;
+	Mix_Music* music = nullptr;
 	int bg1X = 0, bg1Y = 0, gx = 0;
-	Animation girlAnimation;
-
+//	RoleQueue roleQueue;
+    CreditScroll credits;
 
 public:
 	void load(GameState* game);
