@@ -9,13 +9,13 @@
 const int WINDOW_WIDTH = 1000;
 const int WINDOW_HEIGHT = 500;
 const int GAME_HEIGHT = 450;
-const int PLAYER_WIDTH = 50;
-const int PLAYER_HEIGHT = 50;
-const int ZOMBIE_WIDTH = 40;
-const int ZOMBIE_HEIGHT = 40;
+const int ZPLAYER_WIDTH = 50;
+const int ZPLAYER_HEIGHT = 120;
+const int ZOMBIE_WIDTH = 50;
+const int ZOMBIE_HEIGHT = 120;
 const int BOSS_WIDTH = 80;
-const int BOSS_HEIGHT = 80;
-const int PLAYER_MOVE_SPEED = 5;
+const int BOSS_HEIGHT = 150;
+const int ZPLAYER_MOVE_SPEED = 5;
 const int BULLET_COOLDOWN_TIME = 100;
 const int MOVEMENT_INTERVAL = 10;
 const int BOSS_MOVE_SPEED = 3;
@@ -29,7 +29,7 @@ const int buttonHeight = 50;
 const int startX = WINDOW_WIDTH / 2 - 115;
 const int startY = GAME_HEIGHT;
 
-enum ZombieGameState { PLAYING, PAUSED, GAME_OVER, WINNING };
+enum GState { PLAYING, PAUSED, GAME_OVER, WINNING };
 enum ZombieType { SLOW, FAST };  // Define zombie types
 
 struct Bullet {
@@ -140,6 +140,11 @@ class ZombieScreen : public BaseScreen {
 		SDL_Texture* soundButtonTexture = nullptr;
 		SDL_Texture* musicButtonTexture = nullptr;
 		SDL_Texture* blackTexture = nullptr;
+		SDL_Texture* bgTexture = nullptr;
+		SDL_Texture* p1Texture = nullptr;
+		SDL_Texture* p2Texture = nullptr;
+		SDL_Texture* p3Texture = nullptr;
+		SDL_Texture* p4Texture = nullptr;
 
 		SDL_Rect playRect = { 0,0,1,1 };
 		SDL_Rect pauseRect = { 0,0,1,1 };
@@ -155,8 +160,8 @@ class ZombieScreen : public BaseScreen {
 
 		Uint32 levelTransitionStartTime = 0;
 		bool waitingForNextLevel = false;
-		ZombieGameState zombieGameState = PLAYING;
-		int playerX = 50, playerY = GAME_HEIGHT / 2, playerHealth = 5;
+		GState state = PLAYING;
+		int zplayerX = 50, zplayerY = GAME_HEIGHT / 2, zplayerHealth = 5;
 		int bulletCooldown = 0;
 		bool quit = false;
 		Uint32 lastMovementTime = 0;
@@ -164,9 +169,10 @@ class ZombieScreen : public BaseScreen {
 		int currentWave = 1;
 		int totalWavesInLevel = 2;
 		bool bossWave = false;
-		int playerBulletCount = 10; // Initial bullet count
-		int maxBullets = 20; // Maximum bullets player can have
+		int zplayerBulletCount = 10; // Initial bullet count
+		int maxBullets = 20; // Maximum bullets zplayer can have
 		Uint32 lastBulletDropSpawnTime = 0; // To control bullet drop spawn interval
+		Uint32 currentTime;
 
 		int x = 0, y = 0;
 		Uint32 nextMoveTime = 0;

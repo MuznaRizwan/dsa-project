@@ -82,7 +82,7 @@ void MazeScreen::load(GameState* game) {
 	lastNodeTexture = loadTexture("assets/images/cell3.png");
 	scoreTexture = loadTexture("assets/images/trophy.png");
 	timerTexture = loadTexture("assets/images/timer.png");
-	replayButtonTexture = loadTexture("assets/images/replay.png"); //need to chnge
+	// replayButtonTexture = loadTexture("assets/images/replay.png"); //need to chnge
 	winBannerTexture = loadTexture("assets/images/heading.png");
 
 	backgroundTexture = loadTexture("assets/images/bg1.png");
