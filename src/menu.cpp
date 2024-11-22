@@ -103,7 +103,7 @@ void Menu::render() {
 
 	SDL_Rect fullRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
-	SDL_RenderCopy(renderer, bg1, NULL, &fullRect);
+	// SDL_RenderCopy(renderer, bg1, NULL, &fullRect);
 
 	SDL_RenderCopy(renderer, btn1a, NULL, &buttons[0].rect);
 	SDL_RenderCopy(renderer, btn2a, NULL, &buttons[1].rect);
