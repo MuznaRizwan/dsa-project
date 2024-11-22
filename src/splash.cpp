@@ -29,7 +29,7 @@ void Splash::load(GameState* game) {
 	bg1 = IMG_LoadTexture(renderer, "assets/images/splash/splashbg.png"); // Replace with your image file
 	//SDL_Texture* bg2 = IMG_LoadTexture(renderer, "assets/images/background1.png");
 
-	font = TTF_OpenFont("assets/font/arial.ttf", 24);
+	font = TTF_OpenFont("assets/font/arial.ttf", 96);
 	if (!font) {
 		printf("Font loading failed: %s\n", TTF_GetError());
 		return;
@@ -75,14 +75,21 @@ void Splash::render() {
 //	renderText(font, "Game Over", SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 50, white);
 //	renderText(font, "Press 'R' to Resume or ESC to Quit", SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2, white);
 
-	SDL_Color white = { 255, 255, 255 };
-	renderText(font, "Tiny Triads", SCREEN_WIDTH - (SDL_GetTicks() - startTime), SCREEN_HEIGHT / 2 - 50, white);
-
-//	SDL_Color textColor = { 255, 255, 255, 255 };
-
 	SDL_Rect fullRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
 	SDL_RenderCopy(renderer, bg1, NULL, &fullRect);
+
+	int TEXT_WIDTH = 460;
+	int TEXT_HEIGHT = 90;
+
+	SDL_Color black = { 0, 0, 0 };
+	renderText(font, "Tiny Triads", SCREEN_WIDTH / 2 - /*(SDL_GetTicks() - startTime)*/ TEXT_WIDTH / 2, SCREEN_HEIGHT / 2 - TEXT_HEIGHT / 2, black);
+
+	SDL_Color white = { 255, 255, 255 };
+	renderText(font, "Tiny Triads", SCREEN_WIDTH / 2 - /*(SDL_GetTicks() - startTime)*/ TEXT_WIDTH / 2 - 2, SCREEN_HEIGHT / 2 - TEXT_HEIGHT / 2 - 2, white);
+
+//	SDL_Color textColor = { 255, 255, 255, 255 };
+
 	// Render back button
 //	SDL_SetRenderDrawColor(renderer, 40, 40, 50, 255);
 //	SDL_Rect backButton = { 20, 20, 100, 40 };

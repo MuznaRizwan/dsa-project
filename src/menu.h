@@ -35,7 +35,8 @@ private:
 	// const vector<Button>& buttons;
 //		vector<Button>& buttons;
 //		vector<shared_ptr<Button>> buttons;
-	Button buttons[3] = { Button(), Button(), Button() }; //,Button(), Button(), Button() };
+	string bLabels[6] = { /*"Play","Credits","Menu",*/ "Maze","Minesweeper","Zombie" };
+	Button buttons[6] = { Button(), Button(), Button() /*,Button(), Button(), Button()*/ };
 
 	//		std::array<Button, 3> buttons;
 	TTF_Font* font = nullptr;

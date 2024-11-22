@@ -2,7 +2,7 @@
 #define CREDITS_H
 
 #include "basescreen.h"
-#include "creditscroll.h"
+// #include "creditscroll.h"
 #include <string>
 #include <iostream>
 #include <string>
@@ -32,7 +32,7 @@ private:
 	Mix_Music* music = nullptr;
 	int bg1X = 0, bg1Y = 0, gx = 0;
 //	RoleQueue roleQueue;
-    CreditScroll credits;
+//    CreditScroll credits;
 
 public:
 	void load(GameState* game);

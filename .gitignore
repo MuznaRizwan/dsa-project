@@ -42,3 +42,8 @@ Project1.dev
 Project1.layout
 /src/.vs
 /src/out
+*.ai
+*.zip
+*.pdf
+*.txt
+*.psd

@@ -48,11 +48,11 @@ void Menu::load(GameState* game) {
 	Button b(104, 145, 200, 200, "Game-0", c);
 
 	int i = 0;
-	string bLabels[3] = { /*"Play","Credits","Menu",*/"Maze","Minesweeper","Zombie" };
 
 	for (auto& button : buttons) {
 		b.rect.x += 150;
-		b.label = bLabels[i++];
+		b.label = bLabels[i];
+		i++;
 		button = Button(b);
 	}
 
@@ -90,7 +90,7 @@ void Menu::handleEvents(SDL_Event event) {
 
 void Menu::render() {
 	// Clear the screen
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black background
+	SDL_SetRenderDrawColor(renderer, 255, 207, 135, 255); // Black background
 	SDL_RenderClear(renderer);
 
 	// Render buttons
